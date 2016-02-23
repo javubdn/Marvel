@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="14F27" minimumToolsVersion="Xcode 7.0">
+    <entity name="Character" syncable="YES">
+        <attribute name="descriptionCharacter" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="resourceURI" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="comics" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Comic" inverseName="characters" inverseEntity="Comic" syncable="YES"/>
+        <relationship name="events" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="characters" inverseEntity="Event" syncable="YES"/>
+        <relationship name="series" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Serie" inverseName="character" inverseEntity="Serie" syncable="YES"/>
+        <relationship name="stories" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Story" inverseName="characters" inverseEntity="Story" syncable="YES"/>
+        <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" syncable="YES"/>
+        <relationship name="urls" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="URLImage" syncable="YES"/>
+    </entity>
+    <entity name="Comic" syncable="YES">
+        <attribute name="descriptionComic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="diamondCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="digitalId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="ean" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="format" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="isbn" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="issn" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="issueNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="pageCount" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="resourceURI" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="upc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="variantDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="characters" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Character" inverseName="comics" inverseEntity="Character" syncable="YES"/>
+        <relationship name="creators" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Creator" inverseName="comics" inverseEntity="Creator" syncable="YES"/>
+        <relationship name="events" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="comics" inverseEntity="Event" syncable="YES"/>
+        <relationship name="series" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Serie" inverseName="comics" inverseEntity="Serie" syncable="YES"/>
+        <relationship name="stories" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Story" inverseName="comics" inverseEntity="Story" syncable="YES"/>
+        <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" syncable="YES"/>
+        <relationship name="urls" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="URLImage" syncable="YES"/>
+    </entity>
+    <entity name="Creator" syncable="YES">
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fullName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="middleName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="modified" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="resourceURI" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="suffix" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="comics" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Comic" inverseName="creators" inverseEntity="Comic" syncable="YES"/>
+        <relationship name="events" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="creators" inverseEntity="Event" syncable="YES"/>
+        <relationship name="series" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Serie" inverseName="creators" inverseEntity="Serie" syncable="YES"/>
+        <relationship name="stories" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Story" inverseName="creators" inverseEntity="Story" syncable="YES"/>
+        <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" syncable="YES"/>
+        <relationship name="urls" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="URLImage" syncable="YES"/>
+    </entity>
+    <entity name="Event" syncable="YES">
+        <attribute name="descriptionEvent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="end" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="resourceURI" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="start" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="characters" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Character" inverseName="events" inverseEntity="Character" syncable="YES"/>
+        <relationship name="comics" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Comic" inverseName="events" inverseEntity="Comic" syncable="YES"/>
+        <relationship name="creators" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Creator" inverseName="events" inverseEntity="Creator" syncable="YES"/>
+        <relationship name="next" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="previous" inverseEntity="Event" syncable="YES"/>
+        <relationship name="previous" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="next" inverseEntity="Event" syncable="YES"/>
+        <relationship name="series" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Serie" inverseName="events" inverseEntity="Serie" syncable="YES"/>
+        <relationship name="stories" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Story" inverseName="events" inverseEntity="Story" syncable="YES"/>
+        <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" syncable="YES"/>
+        <relationship name="urls" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="URLImage" syncable="YES"/>
+    </entity>
+    <entity name="Image" syncable="YES">
+        <attribute name="extensionImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pathImage" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Serie" syncable="YES">
+        <attribute name="descriptionSerie" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endYear" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="resourceURI" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="startYear" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="character" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Character" inverseName="series" inverseEntity="Character" syncable="YES"/>
+        <relationship name="comics" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Comic" inverseName="series" inverseEntity="Comic" syncable="YES"/>
+        <relationship name="creators" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Creator" inverseName="series" inverseEntity="Creator" syncable="YES"/>
+        <relationship name="events" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="series" inverseEntity="Event" syncable="YES"/>
+        <relationship name="next" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Serie" inverseName="previous" inverseEntity="Serie" syncable="YES"/>
+        <relationship name="previous" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Serie" inverseName="next" inverseEntity="Serie" syncable="YES"/>
+        <relationship name="stories" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Story" inverseName="series" inverseEntity="Story" syncable="YES"/>
+        <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" syncable="YES"/>
+        <relationship name="urls" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="URLImage" syncable="YES"/>
+    </entity>
+    <entity name="Story" syncable="YES">
+        <attribute name="descriptionStory" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="resourceURI" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="characters" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Character" inverseName="stories" inverseEntity="Character" syncable="YES"/>
+        <relationship name="comics" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Comic" inverseName="stories" inverseEntity="Comic" syncable="YES"/>
+        <relationship name="creators" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Creator" inverseName="stories" inverseEntity="Creator" syncable="YES"/>
+        <relationship name="events" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="stories" inverseEntity="Event" syncable="YES"/>
+        <relationship name="series" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Serie" inverseName="stories" inverseEntity="Serie" syncable="YES"/>
+        <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" syncable="YES"/>
+    </entity>
+    <entity name="URLImage" syncable="YES">
+        <attribute name="pathImage" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Character" positionX="-137" positionY="-0" width="128" height="208"/>
+        <element name="URLImage" positionX="180" positionY="18" width="128" height="58"/>
+        <element name="Comic" positionX="-135" positionY="245" width="128" height="373"/>
+        <element name="Creator" positionX="475" positionY="144" width="128" height="253"/>
+        <element name="Event" positionX="493" positionY="-223" width="128" height="283"/>
+        <element name="Serie" positionX="295" positionY="597" width="128" height="298"/>
+        <element name="Story" positionX="673" positionY="249" width="128" height="223"/>
+        <element name="Image" positionX="297" positionY="231" width="128" height="73"/>
+    </elements>
+</model>
