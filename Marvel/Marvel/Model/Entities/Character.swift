@@ -83,7 +83,7 @@ class Character {
 			
 			newCharacter.id = Int64(currentObject["id"] as! Int)
 			newCharacter.name = (currentObject["name"] as? String)!
-			newCharacter.descriptionCharacter = (currentObject["name"] as? String)!
+			newCharacter.descriptionCharacter = (currentObject["description"] as? String)!
 			newCharacter.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!)
 			newCharacter.resourceURI = (currentObject["resourceURI"] as? String)!
 			

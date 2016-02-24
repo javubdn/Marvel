@@ -13,6 +13,11 @@ class CharacterDetailViewController: UIViewController {
     
     var character:Character = Character()
     @IBOutlet weak var nameCharacter: UILabel!
+    @IBOutlet weak var descriptionCharacter: UILabel!
     
+    override func viewDidLoad() {
+        self.nameCharacter.text = character.name
+        self.descriptionCharacter.text = character.descriptionCharacter
+    }
     
 }

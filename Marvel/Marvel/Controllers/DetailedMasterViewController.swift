@@ -119,7 +119,28 @@ class DetailedMasterViewController: UITableViewController {
         
         return cell
     }
-
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        switch(self.category) {
+        case .Characters:
+            performSegueWithIdentifier("showCharacter", sender: self)
+            break
+        default:
+            break
+        }
+    }
+
+    // MARK: - Segues
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showCharacter" {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                
+                let viewController:CharacterDetailViewController = segue.destinationViewController as! CharacterDetailViewController
+                viewController.character = items[indexPath.row] as! Character
+                
+            }
+        }
+    }
     
 }
