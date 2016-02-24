@@ -21,8 +21,7 @@ class DownloadManager {
     var offset:CLong            // We store here the current offset, we use it to know in what point we have the current request
     var numberOfItems:CLong     // We store here the number of items that must be downloaded (we use it to know when the download is completed)
     var count:CLong             // Indicates the number of items downloaded in this moment (we use it to know if we have finished)
-    var collectedResults:NSMutableArray;    //Stores the data received in every download
-    var collectedIDs:NSMutableArray;    //Stores teh ids received in every download
+    var category:Constants.TypeData //It keeps the type of category to update the number of items if it's necessary
 
     //Data received in every call
     var attributionText:String
@@ -42,8 +41,7 @@ class DownloadManager {
         numberOfItems = 0
         count = 0
         url = NSURL()
-        collectedIDs = NSMutableArray()
-        collectedResults = NSMutableArray()
+        category = Constants.TypeData.NoValue
     }
     
     /*
@@ -73,14 +71,13 @@ class DownloadManager {
     }
     
     
-    func downloadData(url:NSURL) {
+    func downloadData(url:NSURL, offset:Int, category:Constants.TypeData) {
         
         self.url = url              // We update the url with the given in the function
-        self.offset = 0             // We put the offset to 0
+        self.offset = offset        // We init the offset with value that give us the function
         self.numberOfItems = 20     // We put 20 because is the number of items that can be loaded in every call, this number will be updated in the first request if the total is bigger than 20
-        self.count = 0              //We put the counter to 0
-        self.collectedIDs = NSMutableArray()
-        self.collectedResults = NSMutableArray()
+        self.count = offset         //We init the counter with the same value that the offset
+        self.category = category    //We save the category to use it to update the number of items of the category
         self.continueDownloading()  //We make the call to continueDownloading to init the download (the first time the offset is 0)
 		
     }
@@ -114,8 +111,6 @@ class DownloadManager {
 				
                 //We have here the data downloaded, we use it
                 
-                
-                
                 do {
                     if let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
                         
@@ -130,14 +125,16 @@ class DownloadManager {
                         if(json["data"] != nil) {
                             self.numberOfItems = (json["data"]!["total"] as? CLong)!
                             
-                            let chunkResults = (json["data"]!["results"] as? NSArray)
+                            //Once we have the number of items, we can update it with the StorageManager
+                            StorageManager.sharedInstance.updateNumberItems(self.category, numItems: self.numberOfItems)
                             
-                            //self.collectedResults.addObjectsFromArray((chunkResults! as NSArray) as [AnyObject])
+                            let chunkResults = (json["data"]!["results"] as? NSArray)
+
                             self.count += chunkResults!.count;
                             
                             NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_UPDATE_DATA, object: chunkResults)
                         }
-                        return
+                        
                         if (self.count < self.numberOfItems) {
                             //If the count until this point is less than the number of items that we are expecting, we update the offset and continue with the downloading
                             self.offset = self.count;

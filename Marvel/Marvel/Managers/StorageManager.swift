@@ -91,12 +91,62 @@ class StorageManager {
     }
     
     func updateNumberItems(category:Constants.TypeData, numItems:Int) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
         switch(category) {
         case .Characters:
+            userDefaults.setInteger(numItems, forKey: "numberCharacters")
+            userDefaults.synchronize()
+            break;
+        case .Comics:
+            userDefaults.setInteger(numItems, forKey: "numberComics")
+            userDefaults.synchronize()
+            break;
+        case .Creators:
+            userDefaults.setInteger(numItems, forKey: "numberCreators")
+            userDefaults.synchronize()
+            break;
+        case .Events:
+            userDefaults.setInteger(numItems, forKey: "numberEvents")
+            userDefaults.synchronize()
+            break;
+        case .Series:
+            userDefaults.setInteger(numItems, forKey: "numberSeries")
+            userDefaults.synchronize()
+            break;
+        case .Stories:
+            userDefaults.setInteger(numItems, forKey: "numberStories")
+            userDefaults.synchronize()
             break;
         default:
             break;
         }
+    }
+    
+    func getNumberItems(category:Constants.TypeData)->Int {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        switch(category) {
+        case .Characters:
+            let numberCharacters = userDefaults.integerForKey("numberCharacters")
+            return numberCharacters
+        case .Comics:
+            let numberComics = userDefaults.integerForKey("numberComics")
+            return numberComics
+        case .Creators:
+            let numberCreators = userDefaults.integerForKey("numberCreators")
+            return numberCreators
+        case .Events:
+            let numberEvents = userDefaults.integerForKey("numberEvents")
+            return numberEvents
+        case .Series:
+            let numberSeries = userDefaults.integerForKey("numberSeries")
+            return numberSeries
+        case .Stories:
+            let numberStories = userDefaults.integerForKey("numberStories")
+            return numberStories
+        default:
+            break;
+        }
+        return 0
     }
     
 }

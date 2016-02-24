@@ -24,22 +24,26 @@ class DetailedMasterViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+        //WE prepare the notifications of the view
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "imageDownloaded:", name:Constants.NOTIFICATION_IMAGE_DOWNLOADED, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTable:", name:Constants.NOTIFICATION_UPDATE_DATA, object: nil)
 		
         let elementsDB = StorageManager.sharedInstance.getItems(self.category)
         self.items.addObjectsFromArray(elementsDB as [AnyObject])
         itemsTableView.reloadData()
+        
+        let count = self.items.count //We have here the number of items that we have stored
+        let total = StorageManager.sharedInstance.getNumberItems(self.category) // We have here the number of items that we should have
+        
+        if(total == 0 || count < total) {
+            //In this case we don't have elements, we init the download
+            
+            let url = self.getUrl()
+            let manager = DownloadManager.sharedInstance
+            manager.downloadData(NSURL(fileURLWithPath: url), offset:count, category: self.category )
+            
+        }
       	
-		return
-		
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTable:", name:Constants.NOTIFICATION_UPDATE_DATA, object: nil)
-    
-        let url = self.getUrl()
-        let manager = DownloadManager.sharedInstance
-        manager.downloadData(NSURL(fileURLWithPath: url))
-    
-        return
-    
 	}
     
     // MARK: - Private methods

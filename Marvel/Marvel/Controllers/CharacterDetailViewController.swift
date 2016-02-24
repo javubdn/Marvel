@@ -18,7 +18,12 @@ class CharacterDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         nameCharacter.text = self.character.name
-        descriptionCharacter.text = self.character.descriptionCharacter
+        if(self.character.descriptionCharacter.isEmpty) {
+            descriptionCharacter.text = "Description not available"
+        }
+        else {
+            descriptionCharacter.text = self.character.descriptionCharacter
+        }
         imageCharacter.image = character.imageThumbnail
     }
     

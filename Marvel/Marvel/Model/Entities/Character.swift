@@ -94,11 +94,12 @@ class Character {
             let path = (currentObject["thumbnail"]!!["path"] as? String)!
             let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!
             newCharacter.thumbnail = "\(path).\(extensionImage)"
-			
+			DownloadManager.downloadImage(newCharacter)
+            
 			characters.insert(newCharacter, atIndex: i)
 		}
 		
 		return characters
 	}
-	
+    
 }
