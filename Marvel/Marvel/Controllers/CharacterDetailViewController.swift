@@ -14,10 +14,12 @@ class CharacterDetailViewController: UIViewController {
     var character:Character = Character()
     @IBOutlet weak var nameCharacter: UILabel!
     @IBOutlet weak var descriptionCharacter: UILabel!
+    @IBOutlet weak var imageCharacter: UIImageView!
     
     override func viewDidLoad() {
-        self.nameCharacter.text = character.name
-        self.descriptionCharacter.text = character.descriptionCharacter
+        nameCharacter.text = self.character.name
+        descriptionCharacter.text = self.character.descriptionCharacter
+        imageCharacter.image = character.imageThumbnail
     }
     
 }

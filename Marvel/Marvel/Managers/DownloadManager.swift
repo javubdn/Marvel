@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class DownloadManager {
     
@@ -134,7 +135,7 @@ class DownloadManager {
                             //self.collectedResults.addObjectsFromArray((chunkResults! as NSArray) as [AnyObject])
                             self.count += chunkResults!.count;
                             
-                            NSNotificationCenter.defaultCenter().postNotificationName("updateData", object: chunkResults)
+                            NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_UPDATE_DATA, object: chunkResults)
                         }
                         return
                         if (self.count < self.numberOfItems) {
@@ -165,6 +166,23 @@ class DownloadManager {
         }
         
         task.resume()
+        
+    }
+    
+    /**
+     *   This function is used to download the images of the thumbnails from the urls
+     */
+    static func downloadImage(character:Character) {
+        
+        let url = NSURL(string: character.thumbnail)
+        
+        NSURLSession.sharedSession().dataTaskWithURL(url!) { (data, response, error) in
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                guard let data = data where error == nil else { return }
+                character.imageThumbnail = UIImage(data: data)!
+                NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_IMAGE_DOWNLOADED, object: nil)
+            }
+            }.resume()
         
     }
     

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="14F27" minimumToolsVersion="Xcode 7.0">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="14F1605" minimumToolsVersion="Xcode 7.0">
     <entity name="Character" syncable="YES">
         <attribute name="descriptionCharacter" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="modified" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="resourceURI" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnail" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="comics" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Comic" inverseName="characters" inverseEntity="Comic" syncable="YES"/>
         <relationship name="events" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="characters" inverseEntity="Event" syncable="YES"/>
         <relationship name="series" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Serie" inverseName="character" inverseEntity="Serie" syncable="YES"/>
         <relationship name="stories" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Story" inverseName="characters" inverseEntity="Story" syncable="YES"/>
-        <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" syncable="YES"/>
         <relationship name="urls" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="URLImage" syncable="YES"/>
     </entity>
     <entity name="Comic" syncable="YES">
@@ -112,13 +112,13 @@
         <attribute name="pathImage" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Character" positionX="-137" positionY="-0" width="128" height="208"/>
-        <element name="URLImage" positionX="180" positionY="18" width="128" height="58"/>
+        <element name="Character" positionX="-137" positionY="-0" width="128" height="210"/>
         <element name="Comic" positionX="-135" positionY="245" width="128" height="373"/>
         <element name="Creator" positionX="475" positionY="144" width="128" height="253"/>
         <element name="Event" positionX="493" positionY="-223" width="128" height="283"/>
+        <element name="Image" positionX="297" positionY="231" width="128" height="73"/>
         <element name="Serie" positionX="295" positionY="597" width="128" height="298"/>
         <element name="Story" positionX="673" positionY="249" width="128" height="223"/>
-        <element name="Image" positionX="297" positionY="231" width="128" height="73"/>
+        <element name="URLImage" positionX="180" positionY="18" width="128" height="58"/>
     </elements>
 </model>

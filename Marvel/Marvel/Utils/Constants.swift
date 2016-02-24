@@ -9,7 +9,8 @@
 import Foundation
 
 struct Constants {
-    static let myConstant = 5
+    
+    // MARK: - Type data
     
     enum TypeData : Int {
         case    NoValue = 0
@@ -74,6 +75,8 @@ struct Constants {
         
     }
 	
+    // MARK: - Functions
+    
 	static func convertDateFormater(date: String) -> NSDate {
 	
 		let dateFormatter = NSDateFormatter()
@@ -84,6 +87,11 @@ struct Constants {
 		return dateD
 		
 	}
+    
+    // MARK: - Notifications
+    
+    static let NOTIFICATION_UPDATE_DATA = "updateData"
+    static let NOTIFICATION_IMAGE_DOWNLOADED = "imageDownloaded"
 
 }
 

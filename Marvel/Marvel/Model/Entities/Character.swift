@@ -16,13 +16,17 @@ class Character {
 	var descriptionCharacter:String
 	var modified:NSDate
 	var resourceURI:String
-	
+    var thumbnail:String
+    var imageThumbnail:UIImage
+    
 	init() {
 		id = 0
 		name = ""
 		descriptionCharacter = ""
 		modified = NSDate()
 		resourceURI = ""
+        thumbnail = ""
+        imageThumbnail = UIImage()
 	}
 	
 	/**
@@ -35,7 +39,7 @@ class Character {
         character.descriptionCharacter = (object.valueForKey("descriptionCharacter") as? String)!
         character.modified = (object.valueForKey("modified") as? NSDate)!
         character.resourceURI = (object.valueForKey("resourceURI") as? String)!
-        
+        character.thumbnail = (object.valueForKey("thumbnail") as? String)!
         return character
     }
 	
@@ -69,6 +73,7 @@ class Character {
 		object.setValue(character.descriptionCharacter, forKey: "descriptionCharacter")
 		object.setValue(character.modified, forKey: "modified")
 		object.setValue(character.resourceURI, forKey: "resourceURI")
+        object.setValue(character.thumbnail, forKey: "thumbnail")
 		
 		return object
 		
@@ -86,6 +91,9 @@ class Character {
 			newCharacter.descriptionCharacter = (currentObject["description"] as? String)!
 			newCharacter.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!)
 			newCharacter.resourceURI = (currentObject["resourceURI"] as? String)!
+            let path = (currentObject["thumbnail"]!!["path"] as? String)!
+            let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!
+            newCharacter.thumbnail = "\(path).\(extensionImage)"
 			
 			characters.insert(newCharacter, atIndex: i)
 		}

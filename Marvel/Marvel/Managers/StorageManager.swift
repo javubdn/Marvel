@@ -65,9 +65,15 @@ class StorageManager {
 	
     func getItems(category:Constants.TypeData)->NSArray {
 		
+        var items:NSArray
+        
         switch(category) {
         case .Characters:
-            return Character.getCharactersWithObjects(self.getData(category) as! [NSManagedObject])
+            items = Character.getCharactersWithObjects(self.getData(category) as! [NSManagedObject])
+            for character in items {
+                DownloadManager.downloadImage(character as! Character)
+            }
+            return items
         case .Comics:
             return Comic.getComicsWithObjects(self.getData(category) as! [NSManagedObject])
         case .Creators:
@@ -81,6 +87,15 @@ class StorageManager {
         default:
             return NSArray()
             
+        }
+    }
+    
+    func updateNumberItems(category:Constants.TypeData, numItems:Int) {
+        switch(category) {
+        case .Characters:
+            break;
+        default:
+            break;
         }
     }
     

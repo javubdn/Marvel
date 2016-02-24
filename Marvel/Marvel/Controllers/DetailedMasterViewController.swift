@@ -24,28 +24,22 @@ class DetailedMasterViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		/*
-		var prueba = StorageManager()
-		prueba.saveName("")
-		
-		let characters = prueba.getCharacters()
-        */
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "imageDownloaded:", name:Constants.NOTIFICATION_IMAGE_DOWNLOADED, object: nil)
 		
         let elementsDB = StorageManager.sharedInstance.getItems(self.category)
-        
         self.items.addObjectsFromArray(elementsDB as [AnyObject])
         itemsTableView.reloadData()
-		
+      	
 		return
 		
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTable:", name:"updateData", object: nil)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTable:", name:Constants.NOTIFICATION_UPDATE_DATA, object: nil)
+    
         let url = self.getUrl()
         let manager = DownloadManager.sharedInstance
         manager.downloadData(NSURL(fileURLWithPath: url))
-        
+    
         return
-        
+    
 	}
     
     // MARK: - Private methods
@@ -74,8 +68,14 @@ class DetailedMasterViewController: UITableViewController {
 		//We add the items to the list of items
         //self.items.addObjectsFromArray((chunkResults! as NSArray) as [AnyObject])
 		self.items.addObjectsFromArray(characters)
-        itemsTableView.reloadData()
+        self.itemsTableView.reloadData()
         
+    }
+    
+    func imageDownloaded(notification: NSNotification) {
+        
+        //We need update the tableView
+        self.itemsTableView.reloadData()
     }
     
     // MARK: - Table View
@@ -97,6 +97,7 @@ class DetailedMasterViewController: UITableViewController {
         switch(self.category) {
         case .Characters:
             (cell.contentView.viewWithTag(1) as! UILabel).text = (object as! Character).name
+            (cell.contentView.viewWithTag(2) as! UIImageView).image = (object as! Character).imageThumbnail
             break
         case .Comics:
             (cell.contentView.viewWithTag(1) as! UILabel).text = (object as! Comic).title
@@ -121,15 +122,9 @@ class DetailedMasterViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        switch(self.category) {
-        case .Characters:
-            performSegueWithIdentifier("showCharacter", sender: self)
-            break
-        default:
-            break
-        }
+        performSegueWithIdentifier("showCharacter", sender: self)
     }
-
+    
     // MARK: - Segues
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -137,10 +132,12 @@ class DetailedMasterViewController: UITableViewController {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 
                 let viewController:CharacterDetailViewController = segue.destinationViewController as! CharacterDetailViewController
-                viewController.character = items[indexPath.row] as! Character
+                let character = items[indexPath.row] as! Character
+                viewController.character = character
                 
             }
         }
     }
+    
     
 }
