@@ -110,17 +110,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="my0-8D-gqJ">
-                                <rect key="frame" x="30" y="81" width="114" height="42"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="my0-8D-gqJ">
+                                <rect key="frame" x="30" y="82" width="114" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="114" id="EIa-d5-Ktj"/>
+                                    <constraint firstAttribute="height" constant="42" id="VxF-XD-WtU"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jnP-Mo-5SS" userLabel="descriptionCharacter">
-                                <rect key="frame" x="154" y="141" width="416" height="42"/>
+                                <rect key="frame" x="154" y="142" width="416" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -128,14 +129,17 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QhC-HH-RFu">
                                 <rect key="frame" x="124" y="260" width="353" height="237"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WMu-9W-Udn" userLabel="nameCharacter">
-                                <rect key="frame" x="154" y="81" width="416" height="42"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WMu-9W-Udn" userLabel="nameCharacter">
+                                <rect key="frame" x="154" y="82" width="416" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="aWt-6D-1q3"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Description:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r3I-Eb-ccy" userLabel="Description:">
-                                <rect key="frame" x="30" y="141" width="114" height="42"/>
+                                <rect key="frame" x="30" y="142" width="114" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="114" id="X1c-6l-UCt"/>
                                 </constraints>
@@ -155,9 +159,9 @@
                             <constraint firstItem="my0-8D-gqJ" firstAttribute="leading" secondItem="nfc-NQ-Lrf" secondAttribute="leadingMargin" constant="10" id="Rc3-M4-r5D"/>
                             <constraint firstItem="jnP-Mo-5SS" firstAttribute="top" secondItem="r3I-Eb-ccy" secondAttribute="top" id="WSO-vK-c2I"/>
                             <constraint firstItem="QhC-HH-RFu" firstAttribute="top" secondItem="jnP-Mo-5SS" secondAttribute="bottom" constant="20" id="Zk3-LE-hb7"/>
+                            <constraint firstItem="my0-8D-gqJ" firstAttribute="top" secondItem="lhu-bh-K4T" secondAttribute="bottom" constant="18" id="aqD-PT-iOe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="QhC-HH-RFu" secondAttribute="trailing" constant="20" id="eTC-EE-1zW"/>
                             <constraint firstItem="QhC-HH-RFu" firstAttribute="leading" secondItem="nfc-NQ-Lrf" secondAttribute="leadingMargin" constant="20" id="iEl-Vi-het"/>
-                            <constraint firstItem="my0-8D-gqJ" firstAttribute="top" secondItem="lhu-bh-K4T" secondAttribute="bottom" constant="17" id="ixd-eN-BBl"/>
                             <constraint firstItem="r3I-Eb-ccy" firstAttribute="leading" secondItem="nfc-NQ-Lrf" secondAttribute="leadingMargin" constant="10" id="nSa-Yr-qDQ"/>
                             <constraint firstItem="r3I-Eb-ccy" firstAttribute="top" secondItem="my0-8D-gqJ" secondAttribute="bottom" constant="18" id="nm9-Ta-aYa"/>
                         </constraints>
