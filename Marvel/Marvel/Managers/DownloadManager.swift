@@ -169,19 +169,64 @@ class DownloadManager {
     /**
      *   This function is used to download the images of the thumbnails from the urls
      */
-    static func downloadImage(character:Character) {
+    static func downloadImage(item:AnyObject, category:Constants.TypeData) {
         
-        let url = NSURL(string: character.thumbnail)
+        let url:NSURL
         
-        NSURLSession.sharedSession().dataTaskWithURL(url!) { (data, response, error) in
+        switch(category) {
+        case .Characters:
+            url = NSURL(string: (item as! Character).thumbnail)!
+            break
+        case .Comics:
+            url = NSURL(string: (item as! Comic).thumbnail)!
+            break
+        case .Creators:
+            url = NSURL(string: (item as! Creator).thumbnail)!
+            break
+        case .Events:
+            url = NSURL(string: (item as! Event).thumbnail)!
+            break
+        case .Series:
+            url = NSURL(string: (item as! Serie).thumbnail)!
+            break
+        case .Stories:
+            url = NSURL(string: (item as! Story).thumbnail)!
+            break
+        default:
+            return
+        }
+        
+        NSURLSession.sharedSession().dataTaskWithURL(url) { (data, response, error) in
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
                 guard let data = data where error == nil else { return }
-                character.imageThumbnail = UIImage(data: data)!
+                
+                switch(category) {
+                case .Characters:
+                    (item as! Character).imageThumbnail = UIImage(data: data)!
+                    break
+                case .Comics:
+                    (item as! Comic).imageThumbnail = UIImage(data: data)!
+                    break
+                case .Creators:
+                    (item as! Creator).imageThumbnail = UIImage(data: data)!
+                    break
+                case .Events:
+                    (item as! Event).imageThumbnail = UIImage(data: data)!
+                    break
+                case .Series:
+                    (item as! Serie).imageThumbnail = UIImage(data: data)!
+                    break
+                case .Stories:
+                    (item as! Story).imageThumbnail = UIImage(data: data)!
+                    break
+                default:
+                    return
+                }
+                
                 NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_IMAGE_DOWNLOADED, object: nil)
             }
             }.resume()
         
-    }
-    
+    }    
     
 }

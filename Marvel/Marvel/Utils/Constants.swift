@@ -77,11 +77,11 @@ struct Constants {
 	
     // MARK: - Functions
     
-	static func convertDateFormater(date: String) -> NSDate {
+    static func convertDateFormater(date: String, format: String) -> NSDate {
 	
 		let dateFormatter = NSDateFormatter()
 		dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss-SSSS"
+		dateFormatter.dateFormat = format
 		let dateD:NSDate = dateFormatter.dateFromString(date)!
 
 		return dateD

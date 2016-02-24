@@ -57,6 +57,9 @@ class Character {
         return characters
     }
 	
+    /**
+     *	This method gets an NSManagedObject from a Character
+     */
 	static func managedObjectWithCharacter(character:Character)->NSManagedObject {
 		
 		//We need the managedContext
@@ -79,6 +82,9 @@ class Character {
 		
 	}
 	
+    /**
+     *	This method an array of Characters from a dictionary (the one that comes from the Marvel's API)
+     */
 	static func getCharactersWithArrayDictionaries(objects:NSArray)->[Character] {
 		var characters:[Character] = []
 		
@@ -89,12 +95,12 @@ class Character {
 			newCharacter.id = Int64(currentObject["id"] as! Int)
 			newCharacter.name = (currentObject["name"] as? String)!
 			newCharacter.descriptionCharacter = (currentObject["description"] as? String)!
-			newCharacter.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!)
+			newCharacter.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
 			newCharacter.resourceURI = (currentObject["resourceURI"] as? String)!
             let path = (currentObject["thumbnail"]!!["path"] as? String)!
             let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!
             newCharacter.thumbnail = "\(path).\(extensionImage)"
-			DownloadManager.downloadImage(newCharacter)
+            DownloadManager.downloadImage(newCharacter, category: Constants.TypeData.Characters)
             
 			characters.insert(newCharacter, atIndex: i)
 		}

@@ -19,6 +19,9 @@ class Serie {
 	var rating:String
 	var resourceURI:String
 	var title:String
+    var type:String
+    var thumbnail:String
+    var imageThumbnail:UIImage
 	
 	init() {
 		id = 0
@@ -29,8 +32,14 @@ class Serie {
 		rating = ""
 		resourceURI = ""
 		title = ""
+        type = ""
+        thumbnail = ""
+        imageThumbnail = UIImage()
 	}
     
+    /**
+     *	This method gets a Serie from a NSManagedObject
+     */
     static func serieWithManagedObject(object:NSManagedObject)->Serie {
         let serie = Serie()
 		serie.id = Int64((object.valueForKey("id") as! Int))
@@ -41,10 +50,15 @@ class Serie {
         serie.rating = (object.valueForKey("rating") as? String)!
         serie.resourceURI = (object.valueForKey("resourceURI") as? String)!
         serie.title = (object.valueForKey("title") as? String)!
+        serie.type = (object.valueForKey("type") as? String)!
+        serie.thumbnail = (object.valueForKey("thumbnail") as? String)!
         
         return serie
     }
     
+    /**
+     *	This method gets an array of Series from an array of NSManagedObject
+     */
     static func getSeriesWithObjects(objects:[NSManagedObject])->[Serie] {
         var series:[Serie] = []
         
@@ -56,6 +70,9 @@ class Serie {
         return series
     }
 	
+    /**
+     *	This method gets an NSManagedObject from a Serie
+     */
 	static func managedObjectWithSerie(serie:Serie)->NSManagedObject {
 		
 		//We need the managedContext
@@ -75,8 +92,46 @@ class Serie {
 		object.setValue(serie.rating, forKey: "rating")
 		object.setValue(serie.resourceURI, forKey: "resourceURI")
 		object.setValue(serie.title, forKey: "title")
+        object.setValue(serie.type, forKey: "type")
+        object.setValue(serie.thumbnail, forKey: "thumbnail")
 		
 		return object
 		
 	}
+    
+    /**
+     *	This method an array of Series from a dictionary (the one that comes from the Marvel's API)
+     */
+    static func getSeriesWithArrayDictionaries(objects:NSArray)->[Serie] {
+        var series:[Serie] = []
+        
+        for(var i=0; i < objects.count; i++) {
+            let currentObject = objects[i]
+            let newSerie = Serie()
+            
+            newSerie.id = Int64(currentObject["id"] as! Int)
+            if(currentObject["description"] != nil) {
+                newSerie.descriptionSerie = (currentObject["description"] as? String)!
+            }
+            else {
+                newSerie.descriptionSerie = ""
+            }
+            newSerie.title = (currentObject["title"] as? String)!
+            newSerie.resourceURI = (currentObject["resourceURI"] as? String)!
+            newSerie.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
+            newSerie.rating = (currentObject["rating"] as? String)!
+            newSerie.type = (currentObject["type"] as? String)!
+            newSerie.startYear = Int64(currentObject["startYear"] as! Int)
+            newSerie.endYear = Int64(currentObject["endYear"] as! Int)
+            
+            let path = (currentObject["thumbnail"]!!["path"] as? String)!
+            let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!
+            newSerie.thumbnail = "\(path).\(extensionImage)"
+            DownloadManager.downloadImage(newSerie, category: Constants.TypeData.Series)
+            
+            series.insert(newSerie, atIndex: i)
+        }
+        
+        return series
+    }
 }

@@ -20,6 +20,8 @@ class Creator {
 	var modified:NSDate
 	var resourceURI:String
 	var suffix:String
+    var thumbnail:String
+    var imageThumbnail:UIImage
 	
 	init() {
 		id = 0
@@ -30,8 +32,13 @@ class Creator {
 		modified = NSDate()
 		resourceURI = ""
 		suffix = ""
+        thumbnail = ""
+        imageThumbnail = UIImage()
 	}
     
+    /**
+     *	This method gets a Creator from a NSManagedObject
+     */
     static func creatorWithManagedObject(object:NSManagedObject)->Creator {
         let creator = Creator()
 		creator.id = Int64((object.valueForKey("id") as! Int))
@@ -42,10 +49,14 @@ class Creator {
         creator.modified = (object.valueForKey("modified") as? NSDate)!
         creator.resourceURI = (object.valueForKey("resourceURI") as? String)!
         creator.suffix = (object.valueForKey("suffix") as? String)!
+        creator.thumbnail = (object.valueForKey("thumbnail") as? String)!
         
         return creator
     }
     
+    /**
+     *	This method gets an array of Creators from an array of NSManagedObject
+     */
     static func getCreatorsWithObjects(objects:[NSManagedObject])->[Creator] {
         var creators:[Creator] = []
         
@@ -57,6 +68,9 @@ class Creator {
         return creators
     }
 	
+    /**
+     *	This method gets an NSManagedObject from a Creator
+     */
 	static func managedObjectWithCreator(creator:Creator)->NSManagedObject {
 		
 		//We need the managedContext
@@ -76,9 +90,40 @@ class Creator {
 		object.setValue(creator.modified, forKey: "modified")
 		object.setValue(creator.resourceURI, forKey: "resourceURI")
 		object.setValue(creator.suffix, forKey: "suffix")
+        object.setValue(creator.thumbnail, forKey: "thumbnail")
 		
 		return object
 		
 	}
+    
+    /**
+     *	This method an array of Creators from a dictionary (the one that comes from the Marvel's API)
+     */
+    static func getCreatorsWithArrayDictionaries(objects:NSArray)->[Creator] {
+        var creators:[Creator] = []
+        
+        for(var i=0; i < objects.count; i++) {
+            let currentObject = objects[i]
+            let newCreator = Creator()
+            
+            newCreator.id = Int64(currentObject["id"] as! Int)
+            newCreator.firstName = (currentObject["firstName"] as? String)!
+            newCreator.fullName = (currentObject["fullName"] as? String)!
+            newCreator.lastName = (currentObject["lastName"] as? String)!
+            newCreator.middleName = (currentObject["middleName"] as? String)!
+            newCreator.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
+            newCreator.resourceURI = (currentObject["resourceURI"] as? String)!
+            newCreator.suffix = (currentObject["suffix"] as? String)!
+            
+            let path = (currentObject["thumbnail"]!!["path"] as? String)!
+            let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!
+            newCreator.thumbnail = "\(path).\(extensionImage)"
+            DownloadManager.downloadImage(newCreator, category: Constants.TypeData.Creators)
+            
+            creators.insert(newCreator, atIndex: i)
+        }
+        
+        return creators
+    }
 	
 }

@@ -17,6 +17,8 @@ class Story {
 	var resourceURI:String
 	var title:String
 	var type:String
+    var thumbnail:String
+    var imageThumbnail:UIImage
 	
 	init() {
 		id = 0
@@ -25,8 +27,13 @@ class Story {
 		resourceURI = ""
 		title = ""
 		type = ""
+        thumbnail = ""
+        imageThumbnail = UIImage()
 	}
     
+    /**
+     *	This method gets a Story from a NSManagedObject
+     */
     static func storyWithManagedObject(object:NSManagedObject)->Story {
         let story = Story()
         story.id = Int64((object.valueForKey("id") as! Int))
@@ -35,10 +42,14 @@ class Story {
         story.resourceURI = (object.valueForKey("resourceURI") as? String)!
         story.title = (object.valueForKey("title") as? String)!
         story.type = (object.valueForKey("type") as? String)!
+        story.thumbnail = (object.valueForKey("thumbnail") as? String)!
         
         return story
     }
     
+    /**
+     *	This method gets an array of Stories from an array of NSManagedObject
+     */
     static func getStoriesWithObjects(objects:[NSManagedObject])->[Story] {
         var stories:[Story] = []
         
@@ -50,6 +61,9 @@ class Story {
         return stories
     }
 	
+    /**
+     *	This method gets an NSManagedObject from a Story
+     */
 	static func managedObjectWithStory(story:Story)->NSManagedObject {
 		
 		//We need the managedContext
@@ -67,8 +81,47 @@ class Story {
 		object.setValue(story.resourceURI, forKey: "resourceURI")
 		object.setValue(story.title, forKey: "title")
 		object.setValue(story.type, forKey: "type")
+        object.setValue(story.thumbnail, forKey: "thumbnail")
 		
 		return object
 		
 	}
+    
+    /**
+     *	This method an array of Stories from a dictionary (the one that comes from the Marvel's API)
+     */
+    static func getStoriesWithArrayDictionaries(objects:NSArray)->[Story] {
+        var stories:[Story] = []
+        
+        for(var i=0; i < objects.count; i++) {
+            let currentObject = objects[i]
+            let newStory = Story()
+            
+            newStory.id = Int64(currentObject["id"] as! Int)
+            if(currentObject["description"] != nil) {
+                newStory.descriptionStory = (currentObject["description"] as? String)!
+            }
+            else {
+                newStory.descriptionStory = ""
+            }
+            newStory.title = (currentObject["title"] as? String)!
+            newStory.resourceURI = (currentObject["resourceURI"] as? String)!
+            newStory.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
+            newStory.type = (currentObject["type"] as? String)!
+
+            if(currentObject["thumbnail"] != nil){
+                let path = (currentObject["thumbnail"]!!["path"] as? String)!
+                let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!
+                newStory.thumbnail = "\(path).\(extensionImage)"
+                DownloadManager.downloadImage(newStory, category: Constants.TypeData.Stories)
+            }
+            else {
+                newStory.thumbnail = ""
+            }
+            stories.insert(newStory, atIndex: i)
+        }
+        
+        return stories
+    }
+    
 }
