@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11B9F1B71C7E0EEE00DEA048 /* List.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11B9F1B61C7E0EEE00DEA048 /* List.xcassets */; };
 		593C34151C7B214400F1BF20 /* Marvel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 593C34131C7B214400F1BF20 /* Marvel.xcdatamodeld */; };
 		593C34181C7B4CC200F1BF20 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593C34171C7B4CC200F1BF20 /* StorageManager.swift */; };
 		593C343D1C7B6AE400F1BF20 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593C343C1C7B6AE400F1BF20 /* Character.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		11B9F1B61C7E0EEE00DEA048 /* List.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = List.xcassets; path = ../List.xcassets; sourceTree = "<group>"; };
 		593C34141C7B214400F1BF20 /* Marvel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Marvel.xcdatamodel; sourceTree = "<group>"; };
 		593C34171C7B4CC200F1BF20 /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StorageManager.swift; path = Managers/StorageManager.swift; sourceTree = "<group>"; };
 		593C343C1C7B6AE400F1BF20 /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Character.swift; path = Model/Entities/Character.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				BCDA90F91C78CDC8001AF2F1 /* AppDelegate.swift */,
 				BCDA90FF1C78CDC8001AF2F1 /* Main.storyboard */,
 				BCDA91021C78CDC8001AF2F1 /* Assets.xcassets */,
+				11B9F1B61C7E0EEE00DEA048 /* List.xcassets */,
 				BCDA91041C78CDC8001AF2F1 /* LaunchScreen.storyboard */,
 				BCDA91071C78CDC8001AF2F1 /* Info.plist */,
 			);
@@ -332,6 +335,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCDA91061C78CDC8001AF2F1 /* LaunchScreen.storyboard in Resources */,
+				11B9F1B71C7E0EEE00DEA048 /* List.xcassets in Resources */,
 				BCDA91031C78CDC8001AF2F1 /* Assets.xcassets in Resources */,
 				BCDA91011C78CDC8001AF2F1 /* Main.storyboard in Resources */,
 			);
