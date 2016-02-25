@@ -99,32 +99,32 @@ class DetailedMasterViewController: UITableViewController, UISearchResultsUpdati
 		//We store the items
         switch(self.category) {
         case .Characters:
-            let itemsDownloaded = Character.getCharactersWithArrayDictionaries(chunkResults!)
+            let itemsDownloaded = CharactersFactory.getCharactersWithArrayDictionaries(chunkResults!)
             StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
             self.items.addObjectsFromArray(itemsDownloaded)
             break
         case .Comics:
-            let itemsDownloaded = Comic.getComicsWithArrayDictionaries(chunkResults!)
+            let itemsDownloaded = ComicsFactory.getComicsWithArrayDictionaries(chunkResults!)
             StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
             self.items.addObjectsFromArray(itemsDownloaded)
             break
         case .Creators:
-            let itemsDownloaded = Creator.getCreatorsWithArrayDictionaries(chunkResults!)
+            let itemsDownloaded = CreatorsFactory.getCreatorsWithArrayDictionaries(chunkResults!)
             StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
             self.items.addObjectsFromArray(itemsDownloaded)
             break
         case .Events:
-            let itemsDownloaded = Event.getEventsWithArrayDictionaries(chunkResults!)
+            let itemsDownloaded = EventsFactory.getEventsWithArrayDictionaries(chunkResults!)
             StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
             self.items.addObjectsFromArray(itemsDownloaded)
             break
         case .Series:
-            let itemsDownloaded = Serie.getSeriesWithArrayDictionaries(chunkResults!)
+            let itemsDownloaded = SeriesFactory.getSeriesWithArrayDictionaries(chunkResults!)
             StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
             self.items.addObjectsFromArray(itemsDownloaded)
             break
         case .Stories:
-            let itemsDownloaded = Story.getStoriesWithArrayDictionaries(chunkResults!)
+            let itemsDownloaded = StoriesFactory.getStoriesWithArrayDictionaries(chunkResults!)
             StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
             self.items.addObjectsFromArray(itemsDownloaded)
             break
