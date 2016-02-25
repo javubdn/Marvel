@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class Creator {
+class Creator:NSObject {
 
 	var id:Int64
 	var firstName:String
@@ -23,7 +23,7 @@ class Creator {
     var thumbnail:String
     var imageThumbnail:UIImage
 	
-	init() {
+	override init() {
 		id = 0
 		firstName = ""
 		fullName = ""
@@ -111,7 +111,9 @@ class Creator {
             newCreator.fullName = (currentObject["fullName"] as? String)!
             newCreator.lastName = (currentObject["lastName"] as? String)!
             newCreator.middleName = (currentObject["middleName"] as? String)!
-            newCreator.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
+            if(currentObject["modified"] != nil) {
+                newCreator.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
+            }
             newCreator.resourceURI = (currentObject["resourceURI"] as? String)!
             newCreator.suffix = (currentObject["suffix"] as? String)!
             

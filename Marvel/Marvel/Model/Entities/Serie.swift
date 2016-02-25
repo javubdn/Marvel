@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class Serie {
+class Serie:NSObject {
 	var id:Int64
 	var descriptionSerie:String
 	var startYear:Int64
@@ -23,7 +23,7 @@ class Serie {
     var thumbnail:String
     var imageThumbnail:UIImage
 	
-	init() {
+	override init() {
 		id = 0
 		descriptionSerie = ""
 		startYear = 0
@@ -110,7 +110,8 @@ class Serie {
             let newSerie = Serie()
             
             newSerie.id = Int64(currentObject["id"] as! Int)
-            if(currentObject["description"] != nil) {
+
+            if let _ = currentObject["description"] as? String {
                 newSerie.descriptionSerie = (currentObject["description"] as? String)!
             }
             else {

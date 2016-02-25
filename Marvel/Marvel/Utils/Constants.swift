@@ -82,8 +82,13 @@ struct Constants {
 		let dateFormatter = NSDateFormatter()
 		dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
 		dateFormatter.dateFormat = format
-		let dateD:NSDate = dateFormatter.dateFromString(date)!
-
+        let dateD:NSDate
+        if(date.hasPrefix("-")){
+            dateD = NSDate()
+        }
+        else {
+            dateD = dateFormatter.dateFromString(date)!
+        }
 		return dateD
 		
 	}

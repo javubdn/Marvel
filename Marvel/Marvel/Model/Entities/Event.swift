@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class Event {
+class Event:NSObject {
 	var id:Int64
 	var descriptionEvent:String
 	var end:NSDate
@@ -21,7 +21,7 @@ class Event {
     var thumbnail:String
     var imageThumbnail:UIImage
 	
-	init() {
+	override init() {
 		id = 0
 		descriptionEvent = ""
 		start = NSDate()
@@ -106,8 +106,18 @@ class Event {
             newEvent.resourceURI = (currentObject["resourceURI"] as? String)!
             newEvent.title = (currentObject["title"] as? String)!
             newEvent.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
-            newEvent.start = Constants.convertDateFormater((currentObject["start"] as? String)!, format: "yyyy-MM-dd HH:mm:ss")
-            newEvent.end = Constants.convertDateFormater((currentObject["end"] as? String)!, format: "yyyy-MM-dd HH:mm:ss")
+            if let _ = currentObject["start"] as? String {
+                newEvent.start = Constants.convertDateFormater((currentObject["start"] as? String)!, format: "yyyy-MM-dd HH:mm:ss")
+            }
+            else {
+                newEvent.start = NSDate()
+            }
+            if let _ = currentObject["end"] as? String {
+                newEvent.end = Constants.convertDateFormater((currentObject["end"] as? String)!, format: "yyyy-MM-dd HH:mm:ss")
+            }
+            else {
+                newEvent.end = NSDate()
+            }
             
             let path = (currentObject["thumbnail"]!!["path"] as? String)!
             let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!

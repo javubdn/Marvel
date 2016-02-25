@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class Story {
+class Story:NSObject {
 	var id:Int64
 	var descriptionStory:String
 	var modified:NSDate
@@ -20,7 +20,7 @@ class Story {
     var thumbnail:String
     var imageThumbnail:UIImage
 	
-	init() {
+	override init() {
 		id = 0
 		descriptionStory = ""
 		modified = NSDate()
@@ -98,7 +98,7 @@ class Story {
             let newStory = Story()
             
             newStory.id = Int64(currentObject["id"] as! Int)
-            if(currentObject["description"] != nil) {
+            if let _ = currentObject["description"] as? String {
                 newStory.descriptionStory = (currentObject["description"] as? String)!
             }
             else {
@@ -109,7 +109,7 @@ class Story {
             newStory.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
             newStory.type = (currentObject["type"] as? String)!
 
-            if(currentObject["thumbnail"] != nil){
+            if let _ = currentObject["thumbnail"] as? NSDictionary {
                 let path = (currentObject["thumbnail"]!!["path"] as? String)!
                 let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!
                 newStory.thumbnail = "\(path).\(extensionImage)"

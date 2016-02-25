@@ -14,34 +14,104 @@ class StorageManager {
 	
 	//This will be the instance for StorageManager, this is a Singleton class
 	static let sharedInstance = StorageManager()
+    let storageManagerSerialQueue = dispatch_queue_create("com.jcr.StorageManager", DISPATCH_QUEUE_SERIAL)
 	
 	// MARK: - Store methods
 	
-	func saveCharacter(character:Character) {
-		
-		//We need the managedContext
-		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-		let managedContext = appDelegate.managedObjectContext
-		
-		let item = Character.managedObjectWithCharacter(character)
-		var items = [NSManagedObject]()
-		
-		do {
-			try managedContext.save()
-			items.append(item)
-		} catch let error as NSError  {
-			print("Could not save \(error), \(error.userInfo)")
-		}
-		
-	}
-	
-	func saveCharactersList(characters:[Character]) {
-		
-		for character in characters {
-			saveCharacter(character)
-		}
-	}
-	
+//	func saveData(data:AnyObject, category:Constants.TypeData) {
+//        
+//        //We need the managedContext
+//        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//        let managedContext = appDelegate.managedObjectContext
+//        
+//        var item:NSManagedObject //= NSManagedObject()
+//        
+//        switch(category) {
+//        case .Characters:
+//            item = Character.managedObjectWithCharacter(data as! Character)
+//            break
+//        case .Comics:
+//            item = Comic.managedObjectWithComic(data as! Comic)
+//            break
+//        case .Creators:
+//            item = Creator.managedObjectWithCreator(data as! Creator)
+//            break
+//        case .Events:
+//            item = Event.managedObjectWithEvent(data as! Event)
+//            break
+//        case .Series:
+//            item = Serie.managedObjectWithSerie(data as! Serie)
+//            break
+//        case .Stories:
+//            item = Story.managedObjectWithStory(data as! Story)
+//            break
+//            
+//        default:
+//            return
+//        }
+//        
+//        var items = [NSManagedObject]()
+//        
+//        do {
+//            try managedContext.save()
+//            items.append(item)
+//        } catch let error as NSError  {
+//            print("Could not save \(error), \(error.userInfo)")
+//        }
+//        
+//    }
+//    
+//    func saveListItems(items:[AnyObject], category:Constants.TypeData) {
+//        dispatch_async(self.storageManagerSerialQueue, {
+//            for item in items {
+//                self.saveData(item, category: category)
+//            }
+//        })
+//        
+//    }
+    
+    func saveListItems(elements:[AnyObject], category:Constants.TypeData) {
+        dispatch_async(self.storageManagerSerialQueue, {
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let managedContext = appDelegate.managedObjectContext
+            var items = [NSManagedObject]()
+            for element in elements {
+                var item:NSManagedObject //= NSManagedObject()
+                
+                switch(category) {
+                case .Characters:
+                    item = Character.managedObjectWithCharacter(element as! Character)
+                    break
+                case .Comics:
+                    item = Comic.managedObjectWithComic(element as! Comic)
+                    break
+                case .Creators:
+                    item = Creator.managedObjectWithCreator(element as! Creator)
+                    break
+                case .Events:
+                    item = Event.managedObjectWithEvent(element as! Event)
+                    break
+                case .Series:
+                    item = Serie.managedObjectWithSerie(element as! Serie)
+                    break
+                case .Stories:
+                    item = Story.managedObjectWithStory(element as! Story)
+                    break
+                    
+                default:
+                    continue
+                }
+                items.append(item)
+                
+            }
+            do {
+                try managedContext.save()
+            } catch let error as NSError  {
+                print("Could not save \(error), \(error.userInfo)")
+            }
+        })
+        
+    }
 	// MARK: - Load methods
 	
 	func getData(category:Constants.TypeData)->NSArray {
@@ -71,7 +141,7 @@ class StorageManager {
         case .Characters:
             items = Character.getCharactersWithObjects(self.getData(category) as! [NSManagedObject])
             for character in items {
-                DownloadManager.downloadImage(character as! Character)
+                DownloadManager.downloadImage(character as! Character, category: Constants.TypeData.Characters)
             }
             return items
         case .Comics:

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class Comic {
+class Comic:NSObject {
 	var id:Int64
 	var descriptionComic:String
 	var diamondCode:String
@@ -29,7 +29,7 @@ class Comic {
     var thumbnail:String
     var imageThumbnail:UIImage
 	
-	init() {
+	override init() {
 		id = 0
 		descriptionComic = ""
 		diamondCode = ""
@@ -134,13 +134,19 @@ class Comic {
             let newComic = Comic()
             
             newComic.id = Int64(currentObject["id"] as! Int)
-            if(currentObject["description"] != nil) {
+            if let _ = currentObject["description"] as? String {
                 newComic.descriptionComic = (currentObject["description"] as? String)!
             }
             else {
                 newComic.descriptionComic = ""
             }
-            newComic.diamondCode = (currentObject["diamondCode"] as? String)!
+            if let _ = currentObject["diamondCode"] as? String {
+                newComic.diamondCode = (currentObject["diamondCode"] as? String)!
+            }
+            else {
+                newComic.diamondCode = ""
+            }
+
             newComic.digitalId = Int64(currentObject["digitalId"] as! Int)
             newComic.ean = (currentObject["ean"] as? String)!
             newComic.format = (currentObject["format"] as? String)!

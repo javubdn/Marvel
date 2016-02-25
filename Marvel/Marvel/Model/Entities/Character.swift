@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class Character {
+class Character:NSObject {
 	var id:Int64
 	var name:String
 	var descriptionCharacter:String
@@ -19,7 +19,7 @@ class Character {
     var thumbnail:String
     var imageThumbnail:UIImage
     
-	init() {
+	override init() {
 		id = 0
 		name = ""
 		descriptionCharacter = ""

@@ -11,18 +11,27 @@ import CryptoSwift
 
 class FirstMasterViewController: UITableViewController {
 
-    var objects = [AnyObject]()
+    var names = [AnyObject]()
+    var images = [AnyObject]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //We create an array with the main options to show in the first list
-        objects.insert("Characters", atIndex: 0)
-        objects.insert("Comics", atIndex: 1)
-        objects.insert("Creators", atIndex: 2)
-        objects.insert("Events", atIndex: 3)
-        objects.insert("Series", atIndex: 4)
-        objects.insert("Stories", atIndex: 5)
+        names.insert("Characters", atIndex: 0)
+        names.insert("Comics", atIndex: 1)
+        names.insert("Creators", atIndex: 2)
+        names.insert("Events", atIndex: 3)
+        names.insert("Series", atIndex: 4)
+        names.insert("Stories", atIndex: 5)
+        
+        //We create an array with the images
+        images.insert("list1", atIndex: 0)
+        images.insert("list2", atIndex: 1)
+        images.insert("list3", atIndex: 2)
+        images.insert("list4", atIndex: 3)
+        images.insert("list5", atIndex: 4)
+        images.insert("list6", atIndex: 5)
         
     }
     
@@ -35,7 +44,7 @@ class FirstMasterViewController: UITableViewController {
     }
 
     func insertNewObject(sender: AnyObject) {
-        objects.insert(NSDate(), atIndex: 0)
+        names.insert(NSDate(), atIndex: 0)
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
@@ -60,14 +69,18 @@ class FirstMasterViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return objects.count
+        return names.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 
-        let object = objects[indexPath.row] as! String
-        cell.textLabel!.text = object
+        let name = names[indexPath.row] as! String
+        let image = images[indexPath.row] as! String
+        
+        (cell.contentView.viewWithTag(1) as! UILabel).text = name
+        (cell.contentView.viewWithTag(2) as! UIImageView).image = UIImage(named: image)
+        
         return cell
     }
     
@@ -79,12 +92,6 @@ class FirstMasterViewController: UITableViewController {
         return false
     }
 
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            objects.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        }
-    }
 
 }
 

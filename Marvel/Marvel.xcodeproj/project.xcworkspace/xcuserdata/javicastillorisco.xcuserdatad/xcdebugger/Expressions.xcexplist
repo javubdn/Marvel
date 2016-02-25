@@ -6,7 +6,7 @@
          contextName = "DetailedMasterViewController.tableView(UITableView, cellForRowAtIndexPath : NSIndexPath) -&gt; UITableViewCell:DetailedMasterViewController.swift">
       </ContextState>
       <ContextState
-         contextName = "DetailedMasterViewController.updateTable(NSNotification) -&gt; ():DetailedMasterViewController.swift">
+         contextName = "DownloadManager.(downloadData(DownloadManager) -&gt; (NSURL) -&gt; ()).(closure #1):DownloadManager.swift">
       </ContextState>
       <ContextState
          contextName = "DownloadManager.getUrlRequest(NSURL, params : NSDictionary) -&gt; NSURL:DownloadManager.swift">
@@ -17,7 +17,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "DownloadManager.(downloadData(DownloadManager) -&gt; (NSURL) -&gt; ()).(closure #1):DownloadManager.swift">
+         contextName = "DetailedMasterViewController.updateTable(NSNotification) -&gt; ():DetailedMasterViewController.swift">
       </ContextState>
       <ContextState
          contextName = "DetailedMasterViewController.tableView(UITableView, numberOfRowsInSection : Int) -&gt; Int:DetailedMasterViewController.swift">
@@ -26,6 +26,9 @@
                value = "items.count">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Comic.getComicsWithArrayDictionaries(NSArray) -&gt; [Comic]:Comic.swift">
       </ContextState>
       <ContextState
          contextName = "static Character.characterWithManagedObject(NSManagedObject) -&gt; Character:Character.swift">
@@ -53,10 +56,18 @@
                value = "self.numberOfItems">
             </PersistentString>
             <PersistentString
-               value = "self.collectedResults">
+               value = "self.count">
             </PersistentString>
             <PersistentString
-               value = "self.count">
+               value = "self.collectedResults">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Comic.managedObjectWithComic(Comic) -&gt; NSManagedObject:Comic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "comic.pageCount">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
