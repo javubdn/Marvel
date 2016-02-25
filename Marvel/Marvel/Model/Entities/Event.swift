@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
+/// Class that contain the data of a Event
 class Event:NSObject {
 	var id:Int64
 	var descriptionEvent:String

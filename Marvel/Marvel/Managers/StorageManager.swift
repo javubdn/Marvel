@@ -18,58 +18,12 @@ class StorageManager {
 	
 	// MARK: - Store methods
 	
-//	func saveData(data:AnyObject, category:Constants.TypeData) {
-//        
-//        //We need the managedContext
-//        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-//        let managedContext = appDelegate.managedObjectContext
-//        
-//        var item:NSManagedObject //= NSManagedObject()
-//        
-//        switch(category) {
-//        case .Characters:
-//            item = Character.managedObjectWithCharacter(data as! Character)
-//            break
-//        case .Comics:
-//            item = Comic.managedObjectWithComic(data as! Comic)
-//            break
-//        case .Creators:
-//            item = Creator.managedObjectWithCreator(data as! Creator)
-//            break
-//        case .Events:
-//            item = Event.managedObjectWithEvent(data as! Event)
-//            break
-//        case .Series:
-//            item = Serie.managedObjectWithSerie(data as! Serie)
-//            break
-//        case .Stories:
-//            item = Story.managedObjectWithStory(data as! Story)
-//            break
-//            
-//        default:
-//            return
-//        }
-//        
-//        var items = [NSManagedObject]()
-//        
-//        do {
-//            try managedContext.save()
-//            items.append(item)
-//        } catch let error as NSError  {
-//            print("Could not save \(error), \(error.userInfo)")
-//        }
-//        
-//    }
-//    
-//    func saveListItems(items:[AnyObject], category:Constants.TypeData) {
-//        dispatch_async(self.storageManagerSerialQueue, {
-//            for item in items {
-//                self.saveData(item, category: category)
-//            }
-//        })
-//        
-//    }
+    /**
+    This method saves the items of the given type in the database
     
+    - parameter elements: list of elements to store
+    - parameter category: type of items that we have (Character, comic, etc...)
+    */
     func saveListItems(elements:[AnyObject], category:Constants.TypeData) {
         dispatch_async(self.storageManagerSerialQueue, {
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -112,10 +66,56 @@ class StorageManager {
         })
         
     }
+    
+    /**
+     This method updates the max number of items that we have of a category
+     
+     - parameter category: category selected
+     - parameter numItems: number max of items
+     */
+    func updateNumberItems(category:Constants.TypeData, numItems:Int) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        switch(category) {
+        case .Characters:
+            userDefaults.setInteger(numItems, forKey: "numberCharacters")
+            userDefaults.synchronize()
+            break;
+        case .Comics:
+            userDefaults.setInteger(numItems, forKey: "numberComics")
+            userDefaults.synchronize()
+            break;
+        case .Creators:
+            userDefaults.setInteger(numItems, forKey: "numberCreators")
+            userDefaults.synchronize()
+            break;
+        case .Events:
+            userDefaults.setInteger(numItems, forKey: "numberEvents")
+            userDefaults.synchronize()
+            break;
+        case .Series:
+            userDefaults.setInteger(numItems, forKey: "numberSeries")
+            userDefaults.synchronize()
+            break;
+        case .Stories:
+            userDefaults.setInteger(numItems, forKey: "numberStories")
+            userDefaults.synchronize()
+            break;
+        default:
+            break;
+        }
+    }
+    
 	// MARK: - Load methods
 	
+    /**
+    This method gets the data from the database of the type that we are asking for
+    
+    - parameter category: category of the items that we want (Character, comic, etc...)
+    
+    - returns: Registers of the type of item that we want
+    */
 	func getData(category:Constants.TypeData)->NSArray {
-		var stories = [NSManagedObject]()
+		var items = [NSManagedObject]()
 		
 		//We need the managedContext
 		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -125,14 +125,21 @@ class StorageManager {
 		
 		do {
 			let results = try managedContext.executeFetchRequest(fetchRequest)
-			stories = results as! [NSManagedObject]
+			items = results as! [NSManagedObject]
 		} catch let error as NSError {
 			print("Could not fetch \(error), \(error.userInfo)")
 		}
 		
-		return stories
+		return items
 	}
 	
+    /**
+     This methods gets the items of the instance that we want (character, comic, etc...)
+    
+     - parameter category: type of data
+     
+     - returns: list of items
+     */
     func getItems(category:Constants.TypeData)->NSArray {
 		
         var items:NSArray
@@ -180,38 +187,13 @@ class StorageManager {
         }
     }
     
-    func updateNumberItems(category:Constants.TypeData, numItems:Int) {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        switch(category) {
-        case .Characters:
-            userDefaults.setInteger(numItems, forKey: "numberCharacters")
-            userDefaults.synchronize()
-            break;
-        case .Comics:
-            userDefaults.setInteger(numItems, forKey: "numberComics")
-            userDefaults.synchronize()
-            break;
-        case .Creators:
-            userDefaults.setInteger(numItems, forKey: "numberCreators")
-            userDefaults.synchronize()
-            break;
-        case .Events:
-            userDefaults.setInteger(numItems, forKey: "numberEvents")
-            userDefaults.synchronize()
-            break;
-        case .Series:
-            userDefaults.setInteger(numItems, forKey: "numberSeries")
-            userDefaults.synchronize()
-            break;
-        case .Stories:
-            userDefaults.setInteger(numItems, forKey: "numberStories")
-            userDefaults.synchronize()
-            break;
-        default:
-            break;
-        }
-    }
-    
+    /**
+     This method gets the max number of items that we have of a category
+     
+     - parameter category: category
+     
+     - returns: number of items that we can have in this category
+     */
     func getNumberItems(category:Constants.TypeData)->Int {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         switch(category) {

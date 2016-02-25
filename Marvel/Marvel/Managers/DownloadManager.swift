@@ -44,9 +44,15 @@ class DownloadManager {
         category = Constants.TypeData.NoValue
     }
     
-    /*
-    *   This function gets the URL that we need to make the request. In this method the needed data for the request is added (like timestamp or hash code)
-    *
+    // MARK: - Download data
+    
+    /**
+    This function gets the URL that we need to make the request. In this method the needed data for the request is added (like timestamp or hash code)
+    
+    - parameter url:    url we want to make the request
+    - parameter params: params with extra info to make the request (like offset)
+    
+    - returns: url with the data needed (like hash or timestamp)
     */
     func getUrlRequest(url:NSURL, params:NSDictionary)->NSURL {
         
@@ -70,7 +76,13 @@ class DownloadManager {
         
     }
     
-    
+    /**
+     This method inits the download of the data from Marvel API using the url given
+     
+     - parameter url:      url to make the request
+     - parameter offset:   offset of the request
+     - parameter category: type of item (character, comic, etc...)
+     */
     func downloadData(url:NSURL, offset:Int, category:Constants.TypeData) {
         
         self.url = url              // We update the url with the given in the function
@@ -82,6 +94,10 @@ class DownloadManager {
 		
     }
     
+    /**
+     This method is called recursively to get the data of the request
+     Once the method is called, it gets all the data until we have all achieved
+     */
     func continueDownloading() {
         
         //We prepare the params that we need
@@ -103,8 +119,8 @@ class DownloadManager {
 				switch (statusCode) {
 				case 429:
 					//Limit rate excedeed
-					
-					break;
+					//We should give a message to the user indicating that the maximum of requests has been achieved
+					return;
 				default:
 					break;
 				}
@@ -166,8 +182,13 @@ class DownloadManager {
         
     }
     
-    /**
-     *   This function is used to download the images of the thumbnails from the urls
+    // MARK: - Download images
+    
+     /**
+     This function is used to download the images of the thumbnails from the urls
+     
+     - parameter item:     item that contains the image we want to download
+     - parameter category: type of item
      */
     static func downloadImage(item:AnyObject, category:Constants.TypeData) {
         
@@ -229,6 +250,11 @@ class DownloadManager {
         
     }
 	
+    // MARK: - Stop tasks
+    
+    /**
+     This method stops the tasks that can be in this moment in execution. It's called when the screen of detail is closed and we don't need download more data
+     */
 	func stopTasks() {
 		NSURLSession.sharedSession().getTasksWithCompletionHandler { (dataTasks, uploadTasks, downloadTasks) -> Void in
 			for task in  dataTasks {

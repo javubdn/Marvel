@@ -32,6 +32,7 @@
 		BCB210801C7F597800F864F8 /* EventsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB2107F1C7F597800F864F8 /* EventsFactory.swift */; };
 		BCB210821C7F5A1B00F864F8 /* SeriesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB210811C7F5A1B00F864F8 /* SeriesFactory.swift */; };
 		BCB210841C7F5AE800F864F8 /* StoriesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB210831C7F5AE800F864F8 /* StoriesFactory.swift */; };
+		BCB210871C7F634900F864F8 /* Documentation.txt in Resources */ = {isa = PBXBuildFile; fileRef = BCB210861C7F634900F864F8 /* Documentation.txt */; };
 		BCDA90FA1C78CDC8001AF2F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA90F91C78CDC8001AF2F1 /* AppDelegate.swift */; };
 		BCDA90FC1C78CDC8001AF2F1 /* FirstMasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA90FB1C78CDC8001AF2F1 /* FirstMasterViewController.swift */; };
 		BCDA91011C78CDC8001AF2F1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCDA90FF1C78CDC8001AF2F1 /* Main.storyboard */; };
@@ -98,6 +99,7 @@
 		BCB2107F1C7F597800F864F8 /* EventsFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventsFactory.swift; path = Model/Factories/EventsFactory.swift; sourceTree = "<group>"; };
 		BCB210811C7F5A1B00F864F8 /* SeriesFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SeriesFactory.swift; path = Model/Factories/SeriesFactory.swift; sourceTree = "<group>"; };
 		BCB210831C7F5AE800F864F8 /* StoriesFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoriesFactory.swift; path = Model/Factories/StoriesFactory.swift; sourceTree = "<group>"; };
+		BCB210861C7F634900F864F8 /* Documentation.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Documentation.txt; path = Documentation/Documentation.txt; sourceTree = "<group>"; };
 		BCDA90F61C78CDC8001AF2F1 /* Marvel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marvel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCDA90F91C78CDC8001AF2F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCDA90FB1C78CDC8001AF2F1 /* FirstMasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstMasterViewController.swift; sourceTree = "<group>"; };
@@ -208,6 +210,14 @@
 			name = Factories;
 			sourceTree = "<group>";
 		};
+		BCB210851C7F630400F864F8 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				BCB210861C7F634900F864F8 /* Documentation.txt */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
 		BCDA90ED1C78CDC8001AF2F1 = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +242,7 @@
 		BCDA90F81C78CDC8001AF2F1 /* Marvel */ = {
 			isa = PBXGroup;
 			children = (
+				BCB210851C7F630400F864F8 /* Documentation */,
 				593C34121C7B212300F1BF20 /* Model */,
 				BC6D07031C790308005D2E2A /* Utils */,
 				BC6D07001C78ECA4005D2E2A /* Managers */,
@@ -369,6 +380,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCB210871C7F634900F864F8 /* Documentation.txt in Resources */,
 				BCDA91061C78CDC8001AF2F1 /* LaunchScreen.storyboard in Resources */,
 				11B9F1B71C7E0EEE00DEA048 /* List.xcassets in Resources */,
 				BCDA91031C78CDC8001AF2F1 /* Assets.xcassets in Resources */,

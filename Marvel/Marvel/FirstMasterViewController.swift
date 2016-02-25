@@ -43,12 +43,6 @@ class FirstMasterViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
 
-    func insertNewObject(sender: AnyObject) {
-        names.insert(NSDate(), atIndex: 0)
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-    }
-
     // MARK: - Segues
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

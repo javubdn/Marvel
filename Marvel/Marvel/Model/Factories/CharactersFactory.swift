@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
+/// Class to create the instances of Character
 class CharactersFactory {
     
      /**

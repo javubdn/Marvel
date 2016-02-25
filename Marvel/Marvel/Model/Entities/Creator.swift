@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
+/// Class that contain the data of a Creator
 class Creator:NSObject {
 
 	var id:Int64

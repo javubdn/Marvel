@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
+/// Class that contain the data of a Comic
 class Comic:NSObject {
 	var id:Int64
 	var descriptionComic:String

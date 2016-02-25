@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
+/// Class that contain the data of a Character
 class Character:NSObject {
 	var id:Int64
 	var name:String

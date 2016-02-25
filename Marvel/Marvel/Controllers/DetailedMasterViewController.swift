@@ -16,12 +16,7 @@ class DetailedMasterViewController: UITableViewController, UISearchResultsUpdati
     var filteredItems = NSMutableArray()
     
     @IBOutlet var itemsTableView: UITableView!
-    var category: Constants.TypeData = Constants.TypeData.Characters {
-        didSet {
-            // Update the view.
-           // self.configureView()
-        }
-    }
+    var category: Constants.TypeData = Constants.TypeData.Characters
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,6 +74,11 @@ class DetailedMasterViewController: UITableViewController, UISearchResultsUpdati
     
     // MARK: - Private methods
     
+    /**
+    This method gets the url that we need to download the data of the current category (Characters, comics, etc...)
+    
+    - returns: The string of the url to make the request
+    */
     func getUrl()->String {
         
         var url = "http://gateway.marvel.com/v1/public/"
@@ -91,6 +91,11 @@ class DetailedMasterViewController: UITableViewController, UISearchResultsUpdati
     
     // MARK: - Notifications
     
+    /**
+    Thie method updates the table with the data obtained in the request to Marvel's Api and it stores this data in the database
+    
+    - parameter notification: notification
+    */
     func updateTable(notification: NSNotification){
 		
 		//We get the items from the notification
@@ -136,6 +141,11 @@ class DetailedMasterViewController: UITableViewController, UISearchResultsUpdati
         
     }
     
+    /**
+     This method is called when we have a new image. We must, in this case, update the table
+     
+     - parameter notification: <#notification description#>
+     */
     func imageDownloaded(notification: NSNotification) {
         
         //We need update the tableView

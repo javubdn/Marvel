@@ -1,0 +1,26 @@
+
+How this app works:
+
+- There is an initial screen that contains the different type of elements that can be requested to Marvel, there are 6 categories
+    - Character
+    - Comic
+    - Creator
+    - Event
+    - Serie
+    - Story
+- The user can select one and it gets to the next screen
+- The app detects the type of element selected and it searchs in the database the info that there is of this type (the first time will not be data)
+- If there is no data or the data is lower than the maximum number of items that can this type have (we know this in every request, there is a field tat indicates the maximum number), we make a request to ask the rest of the data. In parallel, we load the data that we have in a list
+- If we have all the data, no request is done
+- Every time new data is given from the request to the api, this data is used to update the list and it's stored in the database, for future requests
+- When an item is selected from the list, the user can pass to the next screen to see the details
+
+
+
+Some considerations
+
+- There are 6 views created to the details, one for every type, it can be done in just one, but it's designed for the case where you want to show more fields in any of the types and need to modify only that particular view. Another option is create one view for every type, all in the sameclass
+- There are some validations to avoid errors when the data of json returned in the requests is parsed. These validations shouldn't be needed if the data was always filled and with correct data, but there was items with null values that caused crashes.
+- All the data downloaded is stored in the database, even fields that are not showed, and there is even included relations between classes that can be used to give more information to the user. All these data can be showed, just modifying the views and controllers, the model is prepared for these changes
+- The app is universal, can be tested in ipad and in iPhone
+- There is a max of requests to the Marvel's API and now it's not controlled, and there are some things that can be added like a progress bar to indicate the progress of the request or more info to the user; that can be added in version 2.0 :)

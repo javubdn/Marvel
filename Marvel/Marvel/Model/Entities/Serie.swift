@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
+/// Class that contain the data of a Serie
 class Serie:NSObject {
 	var id:Int64
 	var descriptionSerie:String

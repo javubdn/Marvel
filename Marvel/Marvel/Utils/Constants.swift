@@ -77,6 +77,14 @@ struct Constants {
 	
     // MARK: - Functions
     
+    /**
+    This method gets a date using the string and the format given in the parameters
+    
+    - parameter date:   string with the date
+    - parameter format: format of the date
+    
+    - returns: date of the string given
+    */
     static func convertDateFormater(date: String, format: String) -> NSDate {
 	
 		let dateFormatter = NSDateFormatter()
