@@ -102,7 +102,12 @@ class Event:NSObject {
             let newEvent = Event()
             
             newEvent.id = Int64(currentObject["id"] as! Int)
-            newEvent.descriptionEvent = (currentObject["description"] as? String)!
+			if let _ = currentObject["description"] as? String {
+				newEvent.descriptionEvent = (currentObject["description"] as? String)!
+			}
+			else {
+				newEvent.descriptionEvent = ""
+			}
             newEvent.resourceURI = (currentObject["resourceURI"] as? String)!
             newEvent.title = (currentObject["title"] as? String)!
             newEvent.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")

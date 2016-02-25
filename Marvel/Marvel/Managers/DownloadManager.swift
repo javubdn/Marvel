@@ -227,6 +227,14 @@ class DownloadManager {
             }
             }.resume()
         
-    }    
-    
+    }
+	
+	func stopTasks() {
+		NSURLSession.sharedSession().getTasksWithCompletionHandler { (dataTasks, uploadTasks, downloadTasks) -> Void in
+			for task in  dataTasks {
+				task.cancel()
+			}
+		}
+	}
+	
 }

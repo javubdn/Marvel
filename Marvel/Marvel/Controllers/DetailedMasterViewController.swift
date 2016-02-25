@@ -48,9 +48,9 @@ class DetailedMasterViewController: UITableViewController, UISearchResultsUpdati
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTable:", name:Constants.NOTIFICATION_UPDATE_DATA, object: nil)
         
         let elementsDB = StorageManager.sharedInstance.getItems(self.category)
-        if(self.items.count == 0) {
-            self.items.addObjectsFromArray(elementsDB as [AnyObject])
-        }
+		self.items.removeAllObjects()
+        self.items.addObjectsFromArray(elementsDB as [AnyObject])
+
         //itemsTableView.reloadData()
         
         let count = self.items.count //We have here the number of items that we have stored
@@ -69,7 +69,10 @@ class DetailedMasterViewController: UITableViewController, UISearchResultsUpdati
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
+		
+		//We stop the downloads, if there is anything
+		DownloadManager.sharedInstance.stopTasks()
+		
         //We delete the notifications
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }

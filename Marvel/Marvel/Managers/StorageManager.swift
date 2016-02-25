@@ -145,15 +145,35 @@ class StorageManager {
             }
             return items
         case .Comics:
-            return Comic.getComicsWithObjects(self.getData(category) as! [NSManagedObject])
+			items = Comic.getComicsWithObjects(self.getData(category) as! [NSManagedObject])
+			for comic in items {
+				DownloadManager.downloadImage(comic as! Comic, category: Constants.TypeData.Comics)
+			}
+            return items
         case .Creators:
-            return Creator.getCreatorsWithObjects(self.getData(category) as! [NSManagedObject])
+			items = Creator.getCreatorsWithObjects(self.getData(category) as! [NSManagedObject])
+			for creator in items {
+				DownloadManager.downloadImage(creator as! Creator, category: Constants.TypeData.Creators)
+			}
+			return items
         case .Events:
-            return Event.getEventsWithObjects(self.getData(category) as! [NSManagedObject])
+			items = Event.getEventsWithObjects(self.getData(category) as! [NSManagedObject])
+			for event in items {
+				DownloadManager.downloadImage(event as! Event, category: Constants.TypeData.Events)
+			}
+			return items
         case .Series:
-            return Serie.getSeriesWithObjects(self.getData(category) as! [NSManagedObject])
+			items = Serie.getSeriesWithObjects(self.getData(category) as! [NSManagedObject])
+			for serie in items {
+				DownloadManager.downloadImage(serie as! Serie, category: Constants.TypeData.Series)
+			}
+			return items
         case .Stories:
-            return Story.getStoriesWithObjects(self.getData(category) as! [NSManagedObject])
+			items = Story.getStoriesWithObjects(self.getData(category) as! [NSManagedObject])
+			for story in items {
+				DownloadManager.downloadImage(story as! Story, category: Constants.TypeData.Stories)
+			}
+			return items
         default:
             return NSArray()
             
