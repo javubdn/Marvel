@@ -12,18 +12,16 @@ import UIKit
 class StoryDetailViewController: UIViewController {
     
     var story:Story = Story()
-    
-    @IBOutlet weak var titleStory: UILabel!
+	
     @IBOutlet weak var descriptionStory: UILabel!
     @IBOutlet weak var imageStory: UIImageView!
     
     override func viewDidLoad() {
-        titleStory.text = self.story.title
-        if(self.story.descriptionStory.isEmpty) {
+        if(self.story.title.isEmpty) {
             descriptionStory.text = "Description not available"
         }
         else {
-            descriptionStory.text = self.story.descriptionStory
+            descriptionStory.text = self.story.title
         }
         imageStory.contentMode = UIViewContentMode.ScaleAspectFit;
         imageStory.image = self.story.imageThumbnail
