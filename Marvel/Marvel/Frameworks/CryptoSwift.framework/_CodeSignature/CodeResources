@@ -10,23 +10,15 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		RV2cSYOs3vudbdSMGt+NjF4vInc=
+		b5CnuFEQuO5lN7GxpQjMJ8nlqFI=
 		</data>
-		<key>Modules/CryptoSwift.swiftmodule/arm.swiftdoc</key>
+		<key>Modules/CryptoSwift.swiftmodule/x86_64.swiftdoc</key>
 		<data>
-		bN+FXkCAmJeQehhzfFTjG6doRxQ=
+		Xriy9SET5OMpKV5H19fA1qQ6Ps4=
 		</data>
-		<key>Modules/CryptoSwift.swiftmodule/arm.swiftmodule</key>
+		<key>Modules/CryptoSwift.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		VeYO9cFwcw1xzLCNwyusovupwm8=
-		</data>
-		<key>Modules/CryptoSwift.swiftmodule/arm64.swiftdoc</key>
-		<data>
-		BLFhuMW64EmWBIRMhkM71eZTnxY=
-		</data>
-		<key>Modules/CryptoSwift.swiftmodule/arm64.swiftmodule</key>
-		<data>
-		817AM/bG4at4Zu1oIs/UojtxM3k=
+		xGeBa/UW6K5csCcEgem1C5IZk/4=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -36,29 +28,49 @@
 	<key>files2</key>
 	<dict>
 		<key>Headers/CryptoSwift.h</key>
-		<data>
-		spmS3Ur7W7wnG1nc6iY/t4Q7X0c=
-		</data>
-		<key>Modules/CryptoSwift.swiftmodule/arm.swiftdoc</key>
-		<data>
-		bN+FXkCAmJeQehhzfFTjG6doRxQ=
-		</data>
-		<key>Modules/CryptoSwift.swiftmodule/arm.swiftmodule</key>
-		<data>
-		VeYO9cFwcw1xzLCNwyusovupwm8=
-		</data>
-		<key>Modules/CryptoSwift.swiftmodule/arm64.swiftdoc</key>
-		<data>
-		BLFhuMW64EmWBIRMhkM71eZTnxY=
-		</data>
-		<key>Modules/CryptoSwift.swiftmodule/arm64.swiftmodule</key>
-		<data>
-		817AM/bG4at4Zu1oIs/UojtxM3k=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			spmS3Ur7W7wnG1nc6iY/t4Q7X0c=
+			</data>
+			<key>hash2</key>
+			<data>
+			LKTFZeCP6yi+xx9GiYdLvJom52FZ5NRrUx7+M7cJWyM=
+			</data>
+		</dict>
+		<key>Modules/CryptoSwift.swiftmodule/x86_64.swiftdoc</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Xriy9SET5OMpKV5H19fA1qQ6Ps4=
+			</data>
+			<key>hash2</key>
+			<data>
+			Ur4fGT0KlnwGO/LbAm5MwZ7D0TqbH8eZm/jkx32I/yA=
+			</data>
+		</dict>
+		<key>Modules/CryptoSwift.swiftmodule/x86_64.swiftmodule</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			xGeBa/UW6K5csCcEgem1C5IZk/4=
+			</data>
+			<key>hash2</key>
+			<data>
+			rDrH82lmWBPGZOIMeFpGxTcoxNsL4qvUeeL8EyEn0yI=
+			</data>
+		</dict>
 		<key>Modules/module.modulemap</key>
-		<data>
-		InXRW7lNElgfIykXN4bMThlEvTg=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			InXRW7lNElgfIykXN4bMThlEvTg=
+			</data>
+			<key>hash2</key>
+			<data>
+			QFm96ioHkJa7M1HEMHRmHKBRW9BwHmcLAr772e/W+cg=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>

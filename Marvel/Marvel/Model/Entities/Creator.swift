@@ -11,30 +11,24 @@ import UIKit
 import CoreData
 
 /// Class that contain the data of a Creator
-class Creator:NSObject {
+class Creator:ItemMarvel {
 
-	var id:Int64
 	var firstName:String
 	var fullName:String
 	var lastName:String
 	var middleName:String
-	var modified:NSDate
+	var modified:Date
 	var resourceURI:String
 	var suffix:String
-    var thumbnail:String
-    var imageThumbnail:UIImage
 	
 	override init() {
-		id = 0
 		firstName = ""
 		fullName = ""
 		lastName = ""
 		middleName = ""
-		modified = NSDate()
+		modified = Date()
 		resourceURI = ""
 		suffix = ""
-        thumbnail = ""
-        imageThumbnail = UIImage()
 	}
 	
 }

@@ -25,7 +25,7 @@ class SerieDetailViewController: UIViewController {
         else {
             descriptionSerie.text = self.serie.descriptionSerie
         }
-        imageSerie.contentMode = UIViewContentMode.ScaleAspectFit;
+        imageSerie.contentMode = UIViewContentMode.scaleAspectFit;
         imageSerie.image = self.serie.imageThumbnail
     }
     

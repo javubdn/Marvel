@@ -11,31 +11,25 @@ import UIKit
 import CoreData
 
 /// Class that contain the data of a Serie
-class Serie:NSObject {
-	var id:Int64
+class Serie:ItemMarvel {
 	var descriptionSerie:String
 	var startYear:Int64
 	var endYear:Int64
-	var modified:NSDate
+	var modified:Date
 	var rating:String
 	var resourceURI:String
 	var title:String
     var type:String
-    var thumbnail:String
-    var imageThumbnail:UIImage
 	
 	override init() {
-		id = 0
 		descriptionSerie = ""
 		startYear = 0
 		endYear = 0
-		modified = NSDate()
+		modified = Date()
 		rating = ""
 		resourceURI = ""
 		title = ""
         type = ""
-        thumbnail = ""
-        imageThumbnail = UIImage()
 	}
     
 }

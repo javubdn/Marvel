@@ -20,24 +20,24 @@ class ComicsFactory {
      
      - returns: Comic with the data of the register
      */
-    static func comicWithManagedObject(object:NSManagedObject)->Comic {
+    static func comicWithManagedObject(_ object:NSManagedObject)->Comic {
         let comic = Comic()
-        comic.id = Int64((object.valueForKey("id") as! Int))
-        comic.descriptionComic = (object.valueForKey("descriptionComic") as? String)!
-        comic.diamondCode = (object.valueForKey("diamondCode") as? String)!
-        comic.digitalId = Int64((object.valueForKey("digitalId") as! Int))
-        comic.ean = (object.valueForKey("ean") as? String)!
-        comic.format = (object.valueForKey("format") as? String)!
-        comic.isbn = (object.valueForKey("isbn") as? String)!
-        comic.issn = (object.valueForKey("issn") as? String)!
-        comic.issueNumber = Int64((object.valueForKey("issueNumber") as! Int))
-        comic.modified = (object.valueForKey("modified") as? NSDate)!
-        comic.pageCount = Int64((object.valueForKey("pageCount") as! Int))
-        comic.resourceURI = (object.valueForKey("resourceURI") as? String)!
-        comic.title = (object.valueForKey("title") as? String)!
-        comic.upc = (object.valueForKey("upc") as? String)!
-        comic.variantDescription = (object.valueForKey("variantDescription") as? String)!
-        comic.thumbnail = (object.valueForKey("thumbnail") as? String)!
+        comic.id = Int64((object.value(forKey: "id") as! Int))
+        comic.descriptionComic = (object.value(forKey: "descriptionComic") as? String)!
+        comic.diamondCode = (object.value(forKey: "diamondCode") as? String)!
+        comic.digitalId = Int64((object.value(forKey: "digitalId") as! Int))
+        comic.ean = (object.value(forKey: "ean") as? String)!
+        comic.format = (object.value(forKey: "format") as? String)!
+        comic.isbn = (object.value(forKey: "isbn") as? String)!
+        comic.issn = (object.value(forKey: "issn") as? String)!
+        comic.issueNumber = Int64((object.value(forKey: "issueNumber") as! Int))
+        comic.modified = (object.value(forKey: "modified") as? Date)!
+        comic.pageCount = Int64((object.value(forKey: "pageCount") as! Int))
+        comic.resourceURI = (object.value(forKey: "resourceURI") as? String)!
+        comic.title = (object.value(forKey: "title") as? String)!
+        comic.upc = (object.value(forKey: "upc") as? String)!
+        comic.variantDescription = (object.value(forKey: "variantDescription") as? String)!
+        comic.thumbnail = (object.value(forKey: "thumbnail") as? String)!
         
         return comic
     }
@@ -49,14 +49,12 @@ class ComicsFactory {
      
      - returns: list of comics
      */
-    static func getComicsWithObjects(objects:[NSManagedObject])->[Comic] {
-        var comics:[Comic] = []
-        
-        for(var i=0; i < objects.count; i++) {
-            let newComic = comicWithManagedObject((objects[i] as NSManagedObject))
-            comics.insert(newComic, atIndex: i)
+    static func getComicsWithObjects(_ objects:[NSManagedObject])->[Comic] {
+        var comics = [Comic]()
+        for object in objects {
+            let newComic = comicWithManagedObject((object as NSManagedObject))
+            comics.append(newComic)
         }
-        
         return comics
     }
     
@@ -67,28 +65,28 @@ class ComicsFactory {
      
      - returns: Register to store with the data of the comic
      */
-    static func managedObjectWithComic(comic:Comic)->NSManagedObject {
+    static func managedObjectWithComic(_ comic:Comic)->NSManagedObject {
         
         //We need the managedContext
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         //We get the entity for type Character
-        let entity =  NSEntityDescription.entityForName("Comic", inManagedObjectContext:managedContext)
+        let entity =  NSEntityDescription.entity(forEntityName: "Comic", in:managedContext)
         
-        let object = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let object = NSManagedObject(entity: entity!, insertInto: managedContext)
         
-        object.setValue(NSNumber(longLong: comic.id), forKey: "id")
+        object.setValue(NSNumber(value: comic.id as Int64), forKey: "id")
         object.setValue(comic.descriptionComic, forKey: "descriptionComic")
         object.setValue(comic.diamondCode, forKey: "diamondCode")
-        object.setValue(NSNumber(longLong: comic.digitalId), forKey: "digitalId")
+        object.setValue(NSNumber(value: comic.digitalId as Int64), forKey: "digitalId")
         object.setValue(comic.ean, forKey: "ean")
         object.setValue(comic.format, forKey: "format")
         object.setValue(comic.isbn, forKey: "isbn")
         object.setValue(comic.issn, forKey: "issn")
-        object.setValue(NSNumber(longLong:comic.issueNumber), forKey: "issueNumber")
+        object.setValue(NSNumber(value: comic.issueNumber as Int64), forKey: "issueNumber")
         object.setValue(comic.modified, forKey: "modified")
-        object.setValue(NSNumber(longLong:comic.pageCount), forKey: "pageCount")
+        object.setValue(NSNumber(value: comic.pageCount as Int64), forKey: "pageCount")
         object.setValue(comic.resourceURI, forKey: "resourceURI")
         object.setValue(comic.title, forKey: "title")
         object.setValue(comic.upc, forKey: "upc")
@@ -106,18 +104,14 @@ class ComicsFactory {
      
      - returns: array of comics
      */
-    static func getComicsWithArrayDictionaries(objects:NSArray)->[Comic] {
+    static func getComicsWithArrayDictionaries(_ objects:[[String: Any]])->[Comic] {
         var comics:[Comic] = []
-        
-        for(var i=0; i < objects.count; i++) {
-            let currentObject = objects[i]
+        for currentObject in objects {
             let newComic = Comic()
-            
             newComic.id = Int64(currentObject["id"] as! Int)
             if let _ = currentObject["description"] as? String {
                 newComic.descriptionComic = (currentObject["description"] as? String)!
-            }
-            else {
+            } else {
                 newComic.descriptionComic = ""
             }
             if let _ = currentObject["diamondCode"] as? String {
@@ -140,12 +134,12 @@ class ComicsFactory {
             newComic.upc = (currentObject["upc"] as? String)!
             newComic.variantDescription = (currentObject["variantDescription"] as? String)!
             
-            let path = (currentObject["thumbnail"]!!["path"] as? String)!
-            let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!
+            let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
+            let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
             newComic.thumbnail = "\(path).\(extensionImage)"
-            DownloadManager.downloadImage(newComic, category: Constants.TypeData.Comics)
+            DownloadManager.downloadImage(newComic)
             
-            comics.insert(newComic, atIndex: i)
+            comics.append(newComic)
         }
         
         return comics

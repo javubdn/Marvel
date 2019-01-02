@@ -25,7 +25,7 @@ class ComicDetailViewController: UIViewController {
         else {
             descriptionComic.text = self.comic.descriptionComic
         }
-        imageComic.contentMode = UIViewContentMode.ScaleAspectFit;
+        imageComic.contentMode = UIViewContentMode.scaleAspectFit;
         imageComic.image = self.comic.imageThumbnail
     }
     

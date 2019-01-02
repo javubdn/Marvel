@@ -20,18 +20,18 @@ class SeriesFactory {
      
      - returns: Serie with the data of the register
      */
-    static func serieWithManagedObject(object:NSManagedObject)->Serie {
+    static func serieWithManagedObject(_ object:NSManagedObject)->Serie {
         let serie = Serie()
-        serie.id = Int64((object.valueForKey("id") as! Int))
-        serie.descriptionSerie = (object.valueForKey("descriptionSerie") as? String)!
-        serie.startYear = Int64((object.valueForKey("startYear") as! Int))
-        serie.endYear = Int64((object.valueForKey("endYear") as! Int))
-        serie.modified = (object.valueForKey("modified") as? NSDate)!
-        serie.rating = (object.valueForKey("rating") as? String)!
-        serie.resourceURI = (object.valueForKey("resourceURI") as? String)!
-        serie.title = (object.valueForKey("title") as? String)!
-        serie.type = (object.valueForKey("type") as? String)!
-        serie.thumbnail = (object.valueForKey("thumbnail") as? String)!
+        serie.id = Int64((object.value(forKey: "id") as! Int))
+        serie.descriptionSerie = (object.value(forKey: "descriptionSerie") as? String)!
+        serie.startYear = Int64((object.value(forKey: "startYear") as! Int))
+        serie.endYear = Int64((object.value(forKey: "endYear") as! Int))
+        serie.modified = (object.value(forKey: "modified") as? Date)!
+        serie.rating = (object.value(forKey: "rating") as? String)!
+        serie.resourceURI = (object.value(forKey: "resourceURI") as? String)!
+        serie.title = (object.value(forKey: "title") as? String)!
+        serie.type = (object.value(forKey: "type") as? String)!
+        serie.thumbnail = (object.value(forKey: "thumbnail") as? String)!
         
         return serie
     }
@@ -43,12 +43,12 @@ class SeriesFactory {
      
      - returns: list of series
      */
-    static func getSeriesWithObjects(objects:[NSManagedObject])->[Serie] {
-        var series:[Serie] = []
+    static func getSeriesWithObjects(_ objects:[NSManagedObject])->[Serie] {
+        var series = [Serie]()
         
-        for(var i=0; i < objects.count; i++) {
-            let newSerie = serieWithManagedObject((objects[i] as NSManagedObject))
-            series.insert(newSerie, atIndex: i)
+        for object in objects {
+            let newSerie = serieWithManagedObject(object as NSManagedObject)
+            series.append(newSerie)
         }
         
         return series
@@ -61,21 +61,21 @@ class SeriesFactory {
      
      - returns: Register to store with the data of the serie
      */
-    static func managedObjectWithSerie(serie:Serie)->NSManagedObject {
+    static func managedObjectWithSerie(_ serie:Serie)->NSManagedObject {
         
         //We need the managedContext
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         //We get the entity for type Character
-        let entity =  NSEntityDescription.entityForName("Serie", inManagedObjectContext:managedContext)
+        let entity =  NSEntityDescription.entity(forEntityName: "Serie", in:managedContext)
         
-        let object = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let object = NSManagedObject(entity: entity!, insertInto: managedContext)
         
-        object.setValue(NSNumber(longLong: serie.id), forKey: "id")
+        object.setValue(NSNumber(value: serie.id as Int64), forKey: "id")
         object.setValue(serie.descriptionSerie, forKey: "descriptionSerie")
-        object.setValue(NSNumber(longLong: serie.startYear), forKey: "startYear")
-        object.setValue(NSNumber(longLong: serie.endYear), forKey: "endYear")
+        object.setValue(NSNumber(value: serie.startYear as Int64), forKey: "startYear")
+        object.setValue(NSNumber(value: serie.endYear as Int64), forKey: "endYear")
         object.setValue(serie.modified, forKey: "modified")
         object.setValue(serie.rating, forKey: "rating")
         object.setValue(serie.resourceURI, forKey: "resourceURI")
@@ -94,11 +94,10 @@ class SeriesFactory {
      
      - returns: array of series
      */
-    static func getSeriesWithArrayDictionaries(objects:NSArray)->[Serie] {
-        var series:[Serie] = []
+    static func getSeriesWithArrayDictionaries(_ objects:[[String: Any]])->[Serie] {
+        var series = [Serie]()
         
-        for(var i=0; i < objects.count; i++) {
-            let currentObject = objects[i]
+        for currentObject in objects {
             let newSerie = Serie()
             
             newSerie.id = Int64(currentObject["id"] as! Int)
@@ -117,12 +116,12 @@ class SeriesFactory {
             newSerie.startYear = Int64(currentObject["startYear"] as! Int)
             newSerie.endYear = Int64(currentObject["endYear"] as! Int)
             
-            let path = (currentObject["thumbnail"]!!["path"] as? String)!
-            let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!
+            let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
+            let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
             newSerie.thumbnail = "\(path).\(extensionImage)"
-            DownloadManager.downloadImage(newSerie, category: Constants.TypeData.Series)
+            DownloadManager.downloadImage(newSerie)
             
-            series.insert(newSerie, atIndex: i)
+            series.append(newSerie)
         }
         
         return series

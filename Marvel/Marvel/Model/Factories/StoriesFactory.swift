@@ -20,15 +20,15 @@ class StoriesFactory {
      
      - returns: Story with the data of the register
      */
-    static func storyWithManagedObject(object:NSManagedObject)->Story {
+    static func storyWithManagedObject(_ object:NSManagedObject)->Story {
         let story = Story()
-        story.id = Int64((object.valueForKey("id") as! Int))
-        story.descriptionStory = (object.valueForKey("descriptionStory") as? String)!
-        story.modified = (object.valueForKey("modified") as? NSDate)!
-        story.resourceURI = (object.valueForKey("resourceURI") as? String)!
-        story.title = (object.valueForKey("title") as? String)!
-        story.type = (object.valueForKey("type") as? String)!
-        story.thumbnail = (object.valueForKey("thumbnail") as? String)!
+        story.id = Int64((object.value(forKey: "id") as! Int))
+        story.descriptionStory = (object.value(forKey: "descriptionStory") as? String)!
+        story.modified = (object.value(forKey: "modified") as? Date)!
+        story.resourceURI = (object.value(forKey: "resourceURI") as? String)!
+        story.title = (object.value(forKey: "title") as? String)!
+        story.type = (object.value(forKey: "type") as? String)!
+        story.thumbnail = (object.value(forKey: "thumbnail") as? String)!
         
         return story
     }
@@ -40,12 +40,12 @@ class StoriesFactory {
      
      - returns: list of stories
      */
-    static func getStoriesWithObjects(objects:[NSManagedObject])->[Story] {
+    static func getStoriesWithObjects(_ objects:[NSManagedObject])->[Story] {
         var stories:[Story] = []
         
-        for(var i=0; i < objects.count; i++) {
-            let newStory = storyWithManagedObject((objects[i] as NSManagedObject))
-            stories.insert(newStory, atIndex: i)
+        for object in objects {
+            let newStory = storyWithManagedObject(object as NSManagedObject)
+            stories.append(newStory)
         }
         
         return stories
@@ -58,18 +58,18 @@ class StoriesFactory {
      
      - returns: Register to store with the data of the story
      */
-    static func managedObjectWithStory(story:Story)->NSManagedObject {
+    static func managedObjectWithStory(_ story:Story)->NSManagedObject {
         
         //We need the managedContext
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         //We get the entity for type Character
-        let entity =  NSEntityDescription.entityForName("Story", inManagedObjectContext:managedContext)
+        let entity =  NSEntityDescription.entity(forEntityName: "Story", in:managedContext)
         
-        let object = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let object = NSManagedObject(entity: entity!, insertInto: managedContext)
         
-        object.setValue(NSNumber(longLong: story.id), forKey: "id")
+        object.setValue(NSNumber(value: story.id as Int64), forKey: "id")
         object.setValue(story.descriptionStory, forKey: "descriptionStory")
         object.setValue(story.modified, forKey: "modified")
         object.setValue(story.resourceURI, forKey: "resourceURI")
@@ -88,11 +88,10 @@ class StoriesFactory {
      
      - returns: array of stories
      */
-    static func getStoriesWithArrayDictionaries(objects:NSArray)->[Story] {
-        var stories:[Story] = []
+    static func getStoriesWithArrayDictionaries(_ objects:[[String: Any]])->[Story] {
+        var stories = [Story]()
         
-        for(var i=0; i < objects.count; i++) {
-            let currentObject = objects[i]
+        for currentObject in objects {
             let newStory = Story()
             
             newStory.id = Int64(currentObject["id"] as! Int)
@@ -108,15 +107,15 @@ class StoriesFactory {
             newStory.type = (currentObject["type"] as? String)!
             
             if let _ = currentObject["thumbnail"] as? NSDictionary {
-                let path = (currentObject["thumbnail"]!!["path"] as? String)!
-                let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!
+                let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
+                let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
                 newStory.thumbnail = "\(path).\(extensionImage)"
-                DownloadManager.downloadImage(newStory, category: Constants.TypeData.Stories)
+                DownloadManager.downloadImage(newStory)
             }
             else {
                 newStory.thumbnail = ""
             }
-            stories.insert(newStory, atIndex: i)
+            stories.append(newStory)
         }
         
         return stories

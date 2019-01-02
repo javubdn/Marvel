@@ -11,8 +11,7 @@ import UIKit
 import CoreData
 
 /// Class that contain the data of a Comic
-class Comic:NSObject {
-	var id:Int64
+class Comic:ItemMarvel {
 	var descriptionComic:String
 	var diamondCode:String
 	var digitalId:Int64
@@ -21,17 +20,14 @@ class Comic:NSObject {
 	var isbn:String
 	var issn:String
 	var issueNumber:Int64
-	var modified:NSDate
+	var modified:Date
 	var pageCount:Int64
 	var resourceURI:String
 	var title:String
 	var upc:String
 	var variantDescription:String
-    var thumbnail:String
-    var imageThumbnail:UIImage
 	
 	override init() {
-		id = 0
 		descriptionComic = ""
 		diamondCode = ""
 		digitalId = 0
@@ -40,14 +36,12 @@ class Comic:NSObject {
 		isbn = ""
 		issn = ""
 		issueNumber = 0
-		modified = NSDate()
+		modified = Date()
 		pageCount = 0
 		resourceURI = ""
 		title = ""
 		upc = ""
 		variantDescription = ""
-        thumbnail = ""
-        imageThumbnail = UIImage()
 	}
     
 }

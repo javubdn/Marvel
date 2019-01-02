@@ -13,63 +13,75 @@ struct Constants {
     // MARK: - Type data
     
     enum TypeData : Int {
-        case    NoValue = 0
-        case    Characters, Comics, Creators, Events, Series, Stories
+        case characters, comics, creators, events, series, stories
         
         func getDescription() -> String {
             switch self {
-            case .NoValue:
-                return ""
-            case .Characters:
+            case .characters:
                 return "characters"
-            case .Comics:
+            case .comics:
                 return "comics"
-            case .Creators:
+            case .creators:
                 return "creators"
-            case .Events:
+            case .events:
                 return "events"
-            case .Series:
+            case .series:
                 return "series"
-            case .Stories:
+            case .stories:
                 return "stories"
             }
         }
 		
 		func getTable() -> String {
 			switch self {
-			case .NoValue:
-				return ""
-			case .Characters:
+			case .characters:
 				return "Character"
-			case .Comics:
+			case .comics:
 				return "Comic"
-			case .Creators:
+			case .creators:
 				return "Creator"
-			case .Events:
+			case .events:
 				return "Event"
-			case .Series:
+			case .series:
 				return "Serie"
-			case .Stories:
+			case .stories:
 				return "Story"
 			}
 		}
+        
+        func getSegue() -> String {
+            switch self {
+            case .characters:
+                return "showCharacter"
+            case .comics:
+                return "showComic"
+            case .creators:
+                return "showCreator"
+            case .events:
+                return "showEvent"
+            case .series:
+                return "showSerie"
+            case .stories:
+                return "showStory"
+            }
+        }
 		
-        static func getValue(value:Int) -> TypeData {
+        static func getValue(_ value: Int) -> TypeData {
             switch value {
             case 0:
-                return .Characters
+                return .characters
             case 1:
-                return .Comics
+                return .comics
             case 2:
-                return .Creators
+                return .creators
             case 3:
-                return .Events
+                return .events
             case 4:
-                return .Series
+                return .series
             case 5:
-                return .Stories
+                return .stories
             default:
-                return .NoValue
+                return .characters //Imposible case
             }
         }
         
@@ -85,17 +97,17 @@ struct Constants {
     
     - returns: date of the string given
     */
-    static func convertDateFormater(date: String, format: String) -> NSDate {
+    static func convertDateFormater(_ date: String, format: String) -> Date {
 	
-		let dateFormatter = NSDateFormatter()
-		dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+		let dateFormatter = DateFormatter()
+		dateFormatter.locale = Locale(identifier: "en_US_POSIX")
 		dateFormatter.dateFormat = format
-        let dateD:NSDate
+        let dateD:Date
         if(date.hasPrefix("-")){
-            dateD = NSDate()
+            dateD = Date()
         }
         else {
-            dateD = dateFormatter.dateFromString(date)!
+            dateD = dateFormatter.date(from: date)!
         }
 		return dateD
 		

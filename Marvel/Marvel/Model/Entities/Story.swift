@@ -11,25 +11,19 @@ import UIKit
 import CoreData
 
 /// Class that contain the data of a Story
-class Story:NSObject {
-	var id:Int64
+class Story:ItemMarvel {
 	var descriptionStory:String
-	var modified:NSDate
+	var modified:Date
 	var resourceURI:String
 	var title:String
 	var type:String
-    var thumbnail:String
-    var imageThumbnail:UIImage
 	
 	override init() {
-		id = 0
 		descriptionStory = ""
-		modified = NSDate()
+		modified = Date()
 		resourceURI = ""
 		title = ""
 		type = ""
-        thumbnail = ""
-        imageThumbnail = UIImage()
 	}
     
 }

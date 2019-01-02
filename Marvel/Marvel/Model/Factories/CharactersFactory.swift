@@ -20,14 +20,14 @@ class CharactersFactory {
      
      - returns: Character with the data of the register
      */
-    static func characterWithManagedObject(object:NSManagedObject)->Character {
+    static func characterWithManagedObject(_ object:NSManagedObject)->Character {
         let character = Character()
-        character.id = Int64((object.valueForKey("id") as! Int))
-        character.name = (object.valueForKey("name") as? String)!
-        character.descriptionCharacter = (object.valueForKey("descriptionCharacter") as? String)!
-        character.modified = (object.valueForKey("modified") as? NSDate)!
-        character.resourceURI = (object.valueForKey("resourceURI") as? String)!
-        character.thumbnail = (object.valueForKey("thumbnail") as? String)!
+        character.id = Int64((object.value(forKey: "id") as! Int))
+        character.name = (object.value(forKey: "name") as? String)!
+        character.descriptionCharacter = (object.value(forKey: "descriptionCharacter") as? String)!
+        character.modified = (object.value(forKey: "modified") as? Date)!
+        character.resourceURI = (object.value(forKey: "resourceURI") as? String)!
+        character.thumbnail = (object.value(forKey: "thumbnail") as? String)!
         return character
     }
     
@@ -38,12 +38,12 @@ class CharactersFactory {
     
      - returns: list of characters
      */
-    static func getCharactersWithObjects(objects:[NSManagedObject])->[Character] {
+    static func getCharactersWithObjects(_ objects:[NSManagedObject]) -> [Character] {
         var characters:[Character] = []
         
-        for(var i=0; i < objects.count; i++) {
-            let newCharacter = characterWithManagedObject((objects[i] as NSManagedObject))
-            characters.insert(newCharacter, atIndex: i)
+        for object in objects {
+            let newCharacter = characterWithManagedObject(object as NSManagedObject)
+            characters.append(newCharacter)
         }
         
         return characters
@@ -56,18 +56,18 @@ class CharactersFactory {
      
      - returns: Register to store with the data of the character
      */
-    static func managedObjectWithCharacter(character:Character)->NSManagedObject {
+    static func managedObjectWithCharacter(_ character:Character)->NSManagedObject {
         
         //We need the managedContext
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         //We get the entity for type Character
-        let entity =  NSEntityDescription.entityForName("Character", inManagedObjectContext:managedContext)
+        let entity =  NSEntityDescription.entity(forEntityName: "Character", in:managedContext)
         
-        let object = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let object = NSManagedObject(entity: entity!, insertInto: managedContext)
         
-        object.setValue(NSNumber(longLong: character.id), forKey: "id")
+        object.setValue(NSNumber(value: character.id as Int64), forKey: "id")
         object.setValue(character.name, forKey: "name")
         object.setValue(character.descriptionCharacter, forKey: "descriptionCharacter")
         object.setValue(character.modified, forKey: "modified")
@@ -85,11 +85,10 @@ class CharactersFactory {
      
      - returns: array of characters
      */
-    static func getCharactersWithArrayDictionaries(objects:NSArray)->[Character] {
-        var characters:[Character] = []
+    static func getCharactersWithArrayDictionaries(_ objects:[[String: Any]])->[Character] {
+        var characters = [Character]()
         
-        for(var i=0; i < objects.count; i++) {
-            let currentObject = objects[i]
+        for currentObject in objects {
             let newCharacter = Character()
             
             newCharacter.id = Int64(currentObject["id"] as! Int)
@@ -97,12 +96,12 @@ class CharactersFactory {
             newCharacter.descriptionCharacter = (currentObject["description"] as? String)!
             newCharacter.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
             newCharacter.resourceURI = (currentObject["resourceURI"] as? String)!
-            let path = (currentObject["thumbnail"]!!["path"] as? String)!
-            let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!
+            let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
+            let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
             newCharacter.thumbnail = "\(path).\(extensionImage)"
-            DownloadManager.downloadImage(newCharacter, category: Constants.TypeData.Characters)
+            DownloadManager.downloadImage(newCharacter)
             
-            characters.insert(newCharacter, atIndex: i)
+            characters.append(newCharacter)
         }
         
         return characters

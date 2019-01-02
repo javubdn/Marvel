@@ -20,16 +20,16 @@ class EventsFactory {
      
      - returns: Event with the data of the register
      */
-    static func eventWithManagedObject(object:NSManagedObject)->Event {
+    static func eventWithManagedObject(_ object:NSManagedObject)->Event {
         let event = Event()
-        event.id = Int64((object.valueForKey("id") as! Int))
-        event.descriptionEvent = (object.valueForKey("descriptionEvent") as? String)!
-        event.start = (object.valueForKey("start") as? NSDate)!
-        event.end = (object.valueForKey("end") as? NSDate)!
-        event.modified = (object.valueForKey("modified") as? NSDate)!
-        event.resourceURI = (object.valueForKey("resourceURI") as? String)!
-        event.title = (object.valueForKey("title") as? String)!
-        event.thumbnail = (object.valueForKey("thumbnail") as? String)!
+        event.id = Int64((object.value(forKey: "id") as! Int))
+        event.descriptionEvent = (object.value(forKey: "descriptionEvent") as? String)!
+        event.start = (object.value(forKey: "start") as? Date)!
+        event.end = (object.value(forKey: "end") as? Date)!
+        event.modified = (object.value(forKey: "modified") as? Date)!
+        event.resourceURI = (object.value(forKey: "resourceURI") as? String)!
+        event.title = (object.value(forKey: "title") as? String)!
+        event.thumbnail = (object.value(forKey: "thumbnail") as? String)!
         
         return event
     }
@@ -41,12 +41,12 @@ class EventsFactory {
      
      - returns: list of events
      */
-    static func getEventsWithObjects(objects:[NSManagedObject])->[Event] {
+    static func getEventsWithObjects(_ objects:[NSManagedObject])->[Event] {
         var events:[Event] = []
         
-        for(var i=0; i < objects.count; i++) {
-            let newEvent = eventWithManagedObject((objects[i] as NSManagedObject))
-            events.insert(newEvent, atIndex: i)
+        for object in objects {
+            let newEvent = eventWithManagedObject(object as NSManagedObject)
+            events.append(newEvent)
         }
         
         return events
@@ -59,18 +59,18 @@ class EventsFactory {
      
      - returns: Register to store with the data of the event
      */
-    static func managedObjectWithEvent(event:Event)->NSManagedObject {
+    static func managedObjectWithEvent(_ event:Event)->NSManagedObject {
         
         //We need the managedContext
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         //We get the entity for type Character
-        let entity =  NSEntityDescription.entityForName("Event", inManagedObjectContext:managedContext)
+        let entity =  NSEntityDescription.entity(forEntityName: "Event", in:managedContext)
         
-        let object = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let object = NSManagedObject(entity: entity!, insertInto: managedContext)
         
-        object.setValue(NSNumber(longLong: event.id), forKey: "id")
+        object.setValue(NSNumber(value: event.id as Int64), forKey: "id")
         object.setValue(event.descriptionEvent, forKey: "descriptionEvent")
         object.setValue(event.start, forKey: "start")
         object.setValue(event.end, forKey: "end")
@@ -90,11 +90,10 @@ class EventsFactory {
      
      - returns: array of events
      */
-    static func getEventsWithArrayDictionaries(objects:NSArray)->[Event] {
-        var events:[Event] = []
+    static func getEventsWithArrayDictionaries(_ objects:[[String: Any]])->[Event] {
+        var events = [Event]()
         
-        for(var i=0; i < objects.count; i++) {
-            let currentObject = objects[i]
+        for currentObject in objects {
             let newEvent = Event()
             
             newEvent.id = Int64(currentObject["id"] as! Int)
@@ -111,21 +110,21 @@ class EventsFactory {
                 newEvent.start = Constants.convertDateFormater((currentObject["start"] as? String)!, format: "yyyy-MM-dd HH:mm:ss")
             }
             else {
-                newEvent.start = NSDate()
+                newEvent.start = Date()
             }
             if let _ = currentObject["end"] as? String {
                 newEvent.end = Constants.convertDateFormater((currentObject["end"] as? String)!, format: "yyyy-MM-dd HH:mm:ss")
             }
             else {
-                newEvent.end = NSDate()
+                newEvent.end = Date()
             }
             
-            let path = (currentObject["thumbnail"]!!["path"] as? String)!
-            let extensionImage = (currentObject["thumbnail"]!!["extension"] as? String)!
+            let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
+            let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
             newEvent.thumbnail = "\(path).\(extensionImage)"
-            DownloadManager.downloadImage(newEvent, category: Constants.TypeData.Events)
+            DownloadManager.downloadImage(newEvent)
             
-            events.insert(newEvent, atIndex: i)
+            events.append(newEvent)
         }
         
         return events

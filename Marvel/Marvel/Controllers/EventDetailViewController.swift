@@ -25,7 +25,7 @@ class EventDetailViewController: UIViewController {
         else {
             descriptionEvent.text = self.event.descriptionEvent
         }
-        imageEvent.contentMode = UIViewContentMode.ScaleAspectFit;
+        imageEvent.contentMode = UIViewContentMode.scaleAspectFit;
         imageEvent.image = self.event.imageThumbnail
     }
     

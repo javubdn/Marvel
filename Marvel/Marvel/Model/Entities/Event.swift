@@ -11,27 +11,21 @@ import UIKit
 import CoreData
 
 /// Class that contain the data of a Event
-class Event:NSObject {
-	var id:Int64
+class Event:ItemMarvel {
 	var descriptionEvent:String
-	var end:NSDate
-	var modified:NSDate
+	var end:Date
+	var modified:Date
 	var resourceURI:String
-	var start:NSDate
+	var start:Date
 	var title:String
-    var thumbnail:String
-    var imageThumbnail:UIImage
 	
 	override init() {
-		id = 0
 		descriptionEvent = ""
-		start = NSDate()
-		end = NSDate()
-		modified = NSDate()
+		start = Date()
+		end = Date()
+		modified = Date()
 		resourceURI = ""
 		title = ""
-        thumbnail = ""
-        imageThumbnail = UIImage()
 	}
     
 }

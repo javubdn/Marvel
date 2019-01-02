@@ -19,7 +19,7 @@ class CreatorDetailViewController: UIViewController {
     override func viewDidLoad() {
         firstNameCreator.text = self.creator.firstName
         lastNameCreator.text = self.creator.lastName
-        imageCreator.contentMode = UIViewContentMode.ScaleAspectFit;
+        imageCreator.contentMode = UIViewContentMode.scaleAspectFit;
         imageCreator.image = self.creator.imageThumbnail
     }
     

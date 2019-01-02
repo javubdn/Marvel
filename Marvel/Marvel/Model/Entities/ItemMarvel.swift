@@ -7,3 +7,20 @@
 //
 
 import Foundation
+import UIKit
+
+/// Class that contain the data of a Character
+class ItemMarvel:NSObject {
+    var id:Int64
+    var thumbnail:String
+    var imageDownloaded:Bool
+    var imageThumbnail:UIImage
+    
+    override init() {
+        id = 0
+        thumbnail = ""
+        imageDownloaded = false
+        imageThumbnail = UIImage()
+    }
+    
+}

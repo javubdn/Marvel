@@ -11,65 +11,57 @@ import UIKit
 
 class DetailedMasterViewController: UITableViewController, UISearchResultsUpdating {
     
-    var items:NSMutableArray = NSMutableArray()
-    var resultSearchController = UISearchController()
-    var filteredItems = NSMutableArray()
+    var items = [AnyObject]()
+    var resultSearchController = UISearchController(searchResultsController: nil)
+    var filteredItems = [AnyObject]()
     
     @IBOutlet var itemsTableView: UITableView!
-    var category: Constants.TypeData = Constants.TypeData.Characters
+    var category: Constants.TypeData!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.resultSearchController = ({
-            let controller = UISearchController(searchResultsController: nil)
-            controller.searchResultsUpdater = self
-            controller.dimsBackgroundDuringPresentation = false
-            controller.searchBar.sizeToFit()
-            controller.searchBar.barStyle = UIBarStyle.Black
-            controller.searchBar.barTintColor = UIColor.whiteColor()
-            controller.searchBar.backgroundColor = UIColor.clearColor()
-            self.itemsTableView.tableHeaderView = controller.searchBar
-            
-            return controller
-        })()
+        resultSearchController.searchResultsUpdater = self
+        resultSearchController.dimsBackgroundDuringPresentation = false
+        resultSearchController.searchBar.sizeToFit()
+        resultSearchController.searchBar.barStyle = UIBarStyle.black
+        resultSearchController.searchBar.barTintColor = UIColor.white
+        resultSearchController.searchBar.backgroundColor = UIColor.clear
+        self.itemsTableView.tableHeaderView = resultSearchController.searchBar
+        definesPresentationContext = true
 	}
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         //We prepare the notifications of the view
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "imageDownloaded:", name:Constants.NOTIFICATION_IMAGE_DOWNLOADED, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTable:", name:Constants.NOTIFICATION_UPDATE_DATA, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DetailedMasterViewController.imageDownloaded(_:)), name:NSNotification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DetailedMasterViewController.updateTable(_:)), name:NSNotification.Name(rawValue: Constants.NOTIFICATION_UPDATE_DATA), object: nil)
         
         let elementsDB = StorageManager.sharedInstance.getItems(self.category)
-		self.items.removeAllObjects()
-        self.items.addObjectsFromArray(elementsDB as [AnyObject])
+		items.removeAll()
+        items += elementsDB
 
         //itemsTableView.reloadData()
         
         let count = self.items.count //We have here the number of items that we have stored
         let total = StorageManager.sharedInstance.getNumberItems(self.category) // We have here the number of items that we should have
         
-        if(total == 0 || count < total) {
-            
+        if total == 0 || count < total {
             //In this case we don't have elements, we init the download
             let url = self.getUrl()
-            let manager = DownloadManager.sharedInstance
-            manager.downloadData(NSURL(fileURLWithPath: url), offset:count, category: self.category )
-        
+            DownloadManager.sharedInstance.downloadData(URL(fileURLWithPath: url), offset:count, category: self.category )
         }
         
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 		
 		//We stop the downloads, if there is anything
 		DownloadManager.sharedInstance.stopTasks()
 		
         //We delete the notifications
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Private methods
@@ -79,328 +71,243 @@ class DetailedMasterViewController: UITableViewController, UISearchResultsUpdati
     
     - returns: The string of the url to make the request
     */
-    func getUrl()->String {
-        
+    private func getUrl() -> String {
         var url = "http://gateway.marvel.com/v1/public/"
-        
         url = url + self.category.getDescription()
-        
         return url
-        
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return resultSearchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredItems = items.filter({( item: AnyObject) -> Bool in
+            return item.name.lowercased().contains(searchText.lowercased())
+        })
+        itemsTableView.reloadData()
+    }
+    
+    func isFiltering() -> Bool {
+        return resultSearchController.isActive && !searchBarIsEmpty()
     }
     
     // MARK: - Notifications
     
-    /**
-    Thie method updates the table with the data obtained in the request to Marvel's Api and it stores this data in the database
-    
-    - parameter notification: notification
-    */
-    func updateTable(notification: NSNotification){
+    /// This method updates the table with the data obtained in the request to Marvel's Api and it stores this data in the database
+    ///
+    /// - Parameter notification: notification
+    func updateTable(_ notification: Notification) {
 		
 		//We get the items from the notification
-        let chunkResults = notification.object as? NSArray
-		
+        let chunkResults = notification.object as? [[String: Any]]
+        var itemsDownloaded: [AnyObject]
 		//We store the items
-        switch(self.category) {
-        case .Characters:
-            let itemsDownloaded = CharactersFactory.getCharactersWithArrayDictionaries(chunkResults!)
-            StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
-            self.items.addObjectsFromArray(itemsDownloaded)
-            break
-        case .Comics:
-            let itemsDownloaded = ComicsFactory.getComicsWithArrayDictionaries(chunkResults!)
-            StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
-            self.items.addObjectsFromArray(itemsDownloaded)
-            break
-        case .Creators:
-            let itemsDownloaded = CreatorsFactory.getCreatorsWithArrayDictionaries(chunkResults!)
-            StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
-            self.items.addObjectsFromArray(itemsDownloaded)
-            break
-        case .Events:
-            let itemsDownloaded = EventsFactory.getEventsWithArrayDictionaries(chunkResults!)
-            StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
-            self.items.addObjectsFromArray(itemsDownloaded)
-            break
-        case .Series:
-            let itemsDownloaded = SeriesFactory.getSeriesWithArrayDictionaries(chunkResults!)
-            StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
-            self.items.addObjectsFromArray(itemsDownloaded)
-            break
-        case .Stories:
-            let itemsDownloaded = StoriesFactory.getStoriesWithArrayDictionaries(chunkResults!)
-            StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
-            self.items.addObjectsFromArray(itemsDownloaded)
-            break
-        default:
-            break
+        switch self.category! {
+        case .characters:
+            itemsDownloaded = CharactersFactory.getCharactersWithArrayDictionaries(chunkResults!)
+        case .comics:
+            itemsDownloaded = ComicsFactory.getComicsWithArrayDictionaries(chunkResults!)
+        case .creators:
+            itemsDownloaded = CreatorsFactory.getCreatorsWithArrayDictionaries(chunkResults!)
+        case .events:
+            itemsDownloaded = EventsFactory.getEventsWithArrayDictionaries(chunkResults!)
+        case .series:
+            itemsDownloaded = SeriesFactory.getSeriesWithArrayDictionaries(chunkResults!)
+        case .stories:
+            itemsDownloaded = StoriesFactory.getStoriesWithArrayDictionaries(chunkResults!)
         }
-        
-        self.itemsTableView.reloadData()
+        StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
+        items += itemsDownloaded
+        itemsTableView.reloadData()
         
     }
     
-    /**
-     This method is called when we have a new image. We must, in this case, update the table
-     
-     - parameter notification: <#notification description#>
-     */
-    func imageDownloaded(notification: NSNotification) {
+    /// This method is called when we have a new image. We must, in this case, update the table
+    ///
+    /// - Parameter notification: notification
+    func imageDownloaded(_ notification: Notification) {
+        let item = notification.object
+        
+        if self.resultSearchController.isActive {
+            if let rowNumber = filteredItems.index(where: {$0 === (item as AnyObject!)}) {
+                let indexPath = IndexPath(row: rowNumber, section: 0)
+                self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.top)
+            }
+        } else {
+            if let rowNumber = items.index(where: {$0 === (item as AnyObject!)}) {
+                let indexPath = IndexPath(row: rowNumber, section: 0)
+                self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.top)
+            }
+        }
         
         //We need update the tableView
-        self.itemsTableView.reloadData()
+        //self.itemsTableView.reloadData()
     }
     
     // MARK: - Table View
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (self.resultSearchController.active) {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
             return self.filteredItems.count
-        }
-        else {
+        } else {
             return self.items.count
         }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ItemCell", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath)
         
         let object:AnyObject
-        if (self.resultSearchController.active) {
-            object = filteredItems[indexPath.row]
-        }
-        else {
-            object = items[indexPath.row]
+        if isFiltering() {
+            object = filteredItems[indexPath.row] as AnyObject
+        } else {
+            object = items[indexPath.row] as AnyObject
         }
         
         //(cell.contentView.viewWithTag(1) as! UILabel).text = object["name"] as? String
         
-        switch(self.category) {
-        case .Characters:
+        switch self.category! {
+        case .characters:
             (cell.contentView.viewWithTag(1) as! UILabel).text = (object as! Character).name
-            (cell.contentView.viewWithTag(2) as! UIImageView).image = (object as! Character).imageThumbnail
             break
-        case .Comics:
+        case .comics:
             (cell.contentView.viewWithTag(1) as! UILabel).text = (object as! Comic).title
-            (cell.contentView.viewWithTag(2) as! UIImageView).image = (object as! Comic).imageThumbnail
             break
-        case .Creators:
+        case .creators:
             (cell.contentView.viewWithTag(1) as! UILabel).text = (object as! Creator).fullName
-            (cell.contentView.viewWithTag(2) as! UIImageView).image = (object as! Creator).imageThumbnail
             break
-        case .Events:
+        case .events:
             (cell.contentView.viewWithTag(1) as! UILabel).text = (object as! Event).title
-            (cell.contentView.viewWithTag(2) as! UIImageView).image = (object as! Event).imageThumbnail
             break
-        case .Series:
+        case .series:
             (cell.contentView.viewWithTag(1) as! UILabel).text = (object as! Serie).title
-            (cell.contentView.viewWithTag(2) as! UIImageView).image = (object as! Serie).imageThumbnail
             break
-        case .Stories:
+        case .stories:
             (cell.contentView.viewWithTag(1) as! UILabel).text = (object as! Story).title
-            (cell.contentView.viewWithTag(2) as! UIImageView).image = (object as! Story).imageThumbnail
             break
-        default:
-            break
+        }
+        
+        (cell.contentView.viewWithTag(2) as! UIImageView).image = (object as! ItemMarvel).imageThumbnail
+        if((object as! ItemMarvel).imageDownloaded) {
+            (cell.contentView.viewWithTag(3) as! UIActivityIndicatorView).stopAnimating()
+        }
+        else {
+            if(!(cell.contentView.viewWithTag(3) as! UIActivityIndicatorView).isAnimating) {
+                (cell.contentView.viewWithTag(3) as! UIActivityIndicatorView).startAnimating()
+            }
         }
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        switch(self.category) {
-        case .Characters:
-            performSegueWithIdentifier("showCharacter", sender: self)
-            break
-        case .Comics:
-            performSegueWithIdentifier("showComic", sender: self)
-            break
-        case .Creators:
-            performSegueWithIdentifier("showCreator", sender: self)
-            break
-        case .Events:
-            performSegueWithIdentifier("showEvent", sender: self)
-            break
-        case .Series:
-            performSegueWithIdentifier("showSerie", sender: self)
-            break
-        case .Stories:
-            performSegueWithIdentifier("showStory", sender: self)
-            break
-        default:
-            break
-        }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: self.category.getSegue(), sender: self)
     }
     
     // MARK: - Segues
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch(segue.identifier!) {
-            case "showCharacter":
-                if let indexPath = self.tableView.indexPathForSelectedRow {
-                    
-                    let viewController:CharacterDetailViewController = segue.destinationViewController as! CharacterDetailViewController
-                    
-                    if (self.resultSearchController.active) {
-                        let character = filteredItems[indexPath.row] as! Character
-                        viewController.character = character
-                    }
-                    else {
-                        let character = items[indexPath.row] as! Character
-                        viewController.character = character
-                    }
-                    
-                }
-            break
-        case "showComic":
+        case Constants.TypeData.characters.getSegue():
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                
-                let viewController:ComicDetailViewController = segue.destinationViewController as! ComicDetailViewController
-                
-                if (self.resultSearchController.active) {
-                    let comic = filteredItems[indexPath.row] as! Comic
-                    viewController.comic = comic
-                }
-                else {
-                    let comic = items[indexPath.row] as! Comic
-                    viewController.comic = comic
-                }
-                
-            }
-            break
-        case "showCreator":
-            if let indexPath = self.tableView.indexPathForSelectedRow {
-                
-                let viewController:CreatorDetailViewController = segue.destinationViewController as! CreatorDetailViewController
-                
-                if (self.resultSearchController.active) {
-                    let creator = filteredItems[indexPath.row] as! Creator
-                    viewController.creator = creator
-                }
-                else {
-                    let creator = items[indexPath.row] as! Creator
-                    viewController.creator = creator
-                }
-                
-            }
-            break
-        case "showEvent":
-            if let indexPath = self.tableView.indexPathForSelectedRow {
-                
-                let viewController:EventDetailViewController = segue.destinationViewController as! EventDetailViewController
-                
-                if (self.resultSearchController.active) {
-                    let event = filteredItems[indexPath.row] as! Event
-                    viewController.event = event
-                }
-                else {
-                    let event = items[indexPath.row] as! Event
-                    viewController.event = event
-                }
-                
-            }
-            break
-        case "showSerie":
-            if let indexPath = self.tableView.indexPathForSelectedRow {
-                
-                let viewController:SerieDetailViewController = segue.destinationViewController as! SerieDetailViewController
-                
-                if (self.resultSearchController.active) {
-                    let serie = filteredItems[indexPath.row] as! Serie
-                    viewController.serie = serie
-                }
-                else {
-                    let serie = items[indexPath.row] as! Serie
-                    viewController.serie = serie
-                }
-                
-            }
-            break
-        case "showStory":
-            if let indexPath = self.tableView.indexPathForSelectedRow {
-                
-                let viewController:StoryDetailViewController = segue.destinationViewController as! StoryDetailViewController
-                
-                if (self.resultSearchController.active) {
-                    let story = filteredItems[indexPath.row] as! Story
-                    viewController.story = story
-                }
-                else {
-                    let story = items[indexPath.row] as! Story
-                    viewController.story = story
-                }
-                
-            }
-            break
-        default:
-            break
-            
-            
-        }
-        if segue.identifier == "showCharacter" {
-            if let indexPath = self.tableView.indexPathForSelectedRow {
-                
-                let viewController:CharacterDetailViewController = segue.destinationViewController as! CharacterDetailViewController
-                let character = items[indexPath.row] as! Character
-                viewController.character = character
-                
-                if (self.resultSearchController.active) {
+                let viewController = segue.destination as! CharacterDetailViewController
+                if isFiltering() {
                     let character = filteredItems[indexPath.row] as! Character
                     viewController.character = character
-                }
-                else {
+                } else {
                     let character = items[indexPath.row] as! Character
                     viewController.character = character
                 }
-                
             }
+        case Constants.TypeData.comics.getSegue():
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                let viewController = segue.destination as! ComicDetailViewController
+                if isFiltering() {
+                    let comic = filteredItems[indexPath.row] as! Comic
+                    viewController.comic = comic
+                } else {
+                    let comic = items[indexPath.row] as! Comic
+                    viewController.comic = comic
+                }
+            }
+        case Constants.TypeData.creators.getSegue():
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                let viewController = segue.destination as! CreatorDetailViewController
+                if isFiltering() {
+                    let creator = filteredItems[indexPath.row] as! Creator
+                    viewController.creator = creator
+                } else {
+                    let creator = items[indexPath.row] as! Creator
+                    viewController.creator = creator
+                }
+            }
+        case Constants.TypeData.events.getSegue():
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                let viewController = segue.destination as! EventDetailViewController
+                if isFiltering() {
+                    let event = filteredItems[indexPath.row] as! Event
+                    viewController.event = event
+                } else {
+                    let event = items[indexPath.row] as! Event
+                    viewController.event = event
+                }
+            }
+        case Constants.TypeData.series.getSegue():
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                let viewController = segue.destination as! SerieDetailViewController
+                if isFiltering() {
+                    let serie = filteredItems[indexPath.row] as! Serie
+                    viewController.serie = serie
+                } else {
+                    let serie = items[indexPath.row] as! Serie
+                    viewController.serie = serie
+                }
+            }
+        case Constants.TypeData.stories.getSegue():
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                let viewController = segue.destination as! StoryDetailViewController
+                if isFiltering() {
+                    let story = filteredItems[indexPath.row] as! Story
+                    viewController.story = story
+                } else {
+                    let story = items[indexPath.row] as! Story
+                    viewController.story = story
+                }
+            }
+        default:
+            break
         }
     }
     
     // MARK: - UISearchResultsUpdating protocol
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        
-        self.filteredItems.removeAllObjects()
-        
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+        /*
+        self.filteredItems.removeAll()
         let searchPredicate:NSPredicate
-        
-        switch(self.category) {
-        case .Characters:
+        switch self.category! {
+        case .characters:
             searchPredicate = NSPredicate(format: "SELF.name CONTAINS[c] %@", searchController.searchBar.text!)
-            break
-        case .Comics:
+        case .comics:
             searchPredicate = NSPredicate(format: "SELF.title CONTAINS[c] %@", searchController.searchBar.text!)
-            break
-        case .Creators:
+        case .creators:
             searchPredicate = NSPredicate(format: "SELF.fullName CONTAINS[c] %@", searchController.searchBar.text!)
-            break
-        case .Events:
+        case .events:
             searchPredicate = NSPredicate(format: "SELF.title CONTAINS[c] %@", searchController.searchBar.text!)
-            break
-        case .Series:
+        case .series:
             searchPredicate = NSPredicate(format: "SELF.title CONTAINS[c] %@", searchController.searchBar.text!)
-            break
-        case .Stories:
+        case .stories:
             searchPredicate = NSPredicate(format: "SELF.title CONTAINS[c] %@", searchController.searchBar.text!)
-            break
-        default:
-            searchPredicate = NSPredicate()
-            break
         }
-        
-        let itemsCurrent = (self.items as NSArray)
-        let array = itemsCurrent.filteredArrayUsingPredicate(searchPredicate)
-        self.filteredItems.addObjectsFromArray(array)
-        self.tableView.reloadData()
-        
+        let itemsCurrent = self.items as NSArray
+        let array = itemsCurrent.filtered(using: searchPredicate)
+        filteredItems.append(contentsOf: array)
+        tableView.reloadData()
+ */
     }
     
 }
+

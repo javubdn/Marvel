@@ -7,85 +7,59 @@
 //
 
 import UIKit
-import CryptoSwift
+//import CryptoSwift
 
 class FirstMasterViewController: UITableViewController {
 
-    var names = [AnyObject]()
-    var images = [AnyObject]()
+    var names = [String]()
+    var images = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //We create an array with the main options to show in the first list
-        names.insert("Characters", atIndex: 0)
-        names.insert("Comics", atIndex: 1)
-        names.insert("Creators", atIndex: 2)
-        names.insert("Events", atIndex: 3)
-        names.insert("Series", atIndex: 4)
-        names.insert("Stories", atIndex: 5)
+        names = ["Characters", "Comics", "Creators", "Events", "Series", "Stories"]
         
         //We create an array with the images
-        images.insert("list1", atIndex: 0)
-        images.insert("list2", atIndex: 1)
-        images.insert("list3", atIndex: 2)
-        images.insert("list4", atIndex: 3)
-        images.insert("list5", atIndex: 4)
-        images.insert("list6", atIndex: 5)
+        images = ["list1", "list2", "list3", "list4", "list5", "list6"]
         
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
     // MARK: - Segues
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showCategory" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                
-                let viewController:DetailedMasterViewController = segue.destinationViewController as! DetailedMasterViewController
+                let viewController = segue.destination as! DetailedMasterViewController
                 viewController.category = Constants.TypeData.getValue(indexPath.row)
-                
             }
         }
     }
 
     // MARK: - Table View
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return names.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
-
-        let name = names[indexPath.row] as! String
-        let image = images[indexPath.row] as! String
-        
-        (cell.contentView.viewWithTag(1) as! UILabel).text = name
-        (cell.contentView.viewWithTag(2) as! UIImageView).image = UIImage(named: image)
-        
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        (cell.contentView.viewWithTag(1) as! UILabel).text = names[indexPath.row]
+        (cell.contentView.viewWithTag(2) as! UIImageView).image = UIImage(named: images[indexPath.row])
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("showCategory", sender: self)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showCategory", sender: self)
     }
 
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return false
     }
-
 
 }
 
