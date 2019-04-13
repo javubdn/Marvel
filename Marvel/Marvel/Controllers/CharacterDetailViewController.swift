@@ -24,7 +24,7 @@ class CharacterDetailViewController: UIViewController {
         else {
             descriptionCharacter.text = self.character.descriptionCharacter
         }
-		imageCharacter.contentMode = UIViewContentMode.scaleAspectFit;
+        imageCharacter.contentMode = UIView.ContentMode.scaleAspectFit;
         imageCharacter.image = character.imageThumbnail
     }
     

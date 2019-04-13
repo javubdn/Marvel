@@ -16,6 +16,9 @@
 		593C34431C7B6EBF00F1BF20 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593C34421C7B6EBF00F1BF20 /* Event.swift */; };
 		593C34471C7B704600F1BF20 /* Serie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593C34461C7B704600F1BF20 /* Serie.swift */; };
 		593C34491C7B70F500F1BF20 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593C34481C7B70F500F1BF20 /* Story.swift */; };
+		BC6AC6B22261B5C50013D0F1 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */; };
+		BC6AC6B32261BB280013D0F1 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */; };
+		BC6AC6B42261BB280013D0F1 /* CryptoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC6D07021C78ED6F005D2E2A /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6D07011C78ED6F005D2E2A /* DownloadManager.swift */; };
 		BC8171D91C7EEAF50044BFFF /* ComicDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8171D81C7EEAF50044BFFF /* ComicDetailViewController.swift */; };
 		BC8171DB1C7EEBD10044BFFF /* CreatorDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8171DA1C7EEBD10044BFFF /* CreatorDetailViewController.swift */; };
@@ -23,8 +26,6 @@
 		BC8171DF1C7EEC920044BFFF /* SerieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8171DE1C7EEC920044BFFF /* SerieDetailViewController.swift */; };
 		BC8171E11C7EECB00044BFFF /* StoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8171E01C7EECB00044BFFF /* StoryDetailViewController.swift */; };
 		BC94F5791CA6A85F0033D36E /* ItemMarvel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC94F5781CA6A85F0033D36E /* ItemMarvel.swift */; };
-		BCAAE2311C79B58800B327DB /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6D07061C7908D7005D2E2A /* CryptoSwift.framework */; };
-		BCAAE2321C79B58800B327DB /* CryptoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC6D07061C7908D7005D2E2A /* CryptoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BCAAE2351C7A0FE100B327DB /* DetailedMasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAAE2341C7A0FE100B327DB /* DetailedMasterViewController.swift */; };
 		BCAAE2371C7A116300B327DB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAAE2361C7A116300B327DB /* Constants.swift */; };
 		BCB2107A1C7F567200F864F8 /* CharactersFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB210791C7F567200F864F8 /* CharactersFactory.swift */; };
@@ -68,7 +69,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BCAAE2321C79B58800B327DB /* CryptoSwift.framework in Embed Frameworks */,
+				BC6AC6B42261BB280013D0F1 /* CryptoSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,8 +86,8 @@
 		593C34421C7B6EBF00F1BF20 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Event.swift; path = Model/Entities/Event.swift; sourceTree = "<group>"; };
 		593C34461C7B704600F1BF20 /* Serie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Serie.swift; path = Model/Entities/Serie.swift; sourceTree = "<group>"; };
 		593C34481C7B70F500F1BF20 /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Story.swift; path = Model/Entities/Story.swift; sourceTree = "<group>"; };
+		BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Marvel/Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		BC6D07011C78ED6F005D2E2A /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DownloadManager.swift; path = Managers/DownloadManager.swift; sourceTree = "<group>"; };
-		BC6D07061C7908D7005D2E2A /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Marvel/Frameworks/CryptoSwift.framework; sourceTree = "<group>"; };
 		BC8171D81C7EEAF50044BFFF /* ComicDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ComicDetailViewController.swift; path = Controllers/ComicDetailViewController.swift; sourceTree = "<group>"; };
 		BC8171DA1C7EEBD10044BFFF /* CreatorDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreatorDetailViewController.swift; path = Controllers/CreatorDetailViewController.swift; sourceTree = "<group>"; };
 		BC8171DC1C7EEC5F0044BFFF /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventDetailViewController.swift; path = Controllers/EventDetailViewController.swift; sourceTree = "<group>"; };
@@ -123,7 +124,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCAAE2311C79B58800B327DB /* CryptoSwift.framework in Frameworks */,
+				BC6AC6B22261B5C50013D0F1 /* CryptoSwift.framework in Frameworks */,
+				BC6AC6B32261BB280013D0F1 /* CryptoSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +168,14 @@
 				BC94F5781CA6A85F0033D36E /* ItemMarvel.swift */,
 			);
 			name = Entities;
+			sourceTree = "<group>";
+		};
+		BC6AC6B02261B5C50013D0F1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		BC6D06FF1C78EC61005D2E2A /* Controllers */ = {
@@ -224,11 +234,11 @@
 		BCDA90ED1C78CDC8001AF2F1 = {
 			isa = PBXGroup;
 			children = (
-				BC6D07061C7908D7005D2E2A /* CryptoSwift.framework */,
 				BCDA90F81C78CDC8001AF2F1 /* Marvel */,
 				BCDA910F1C78CDC8001AF2F1 /* MarvelTests */,
 				BCDA911A1C78CDC8001AF2F1 /* MarvelUITests */,
 				BCDA90F71C78CDC8001AF2F1 /* Products */,
+				BC6AC6B02261B5C50013D0F1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -366,6 +376,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -585,13 +596,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Marvel/Frameworks",
+					"$(PROJECT_DIR)/Marvel/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Marvel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jcr.Marvel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -602,13 +614,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Marvel/Frameworks",
+					"$(PROJECT_DIR)/Marvel/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Marvel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jcr.Marvel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

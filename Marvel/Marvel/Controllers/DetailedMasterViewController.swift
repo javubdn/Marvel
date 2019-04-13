@@ -98,7 +98,7 @@ class DetailedMasterViewController: UITableViewController, UISearchResultsUpdati
     /// This method updates the table with the data obtained in the request to Marvel's Api and it stores this data in the database
     ///
     /// - Parameter notification: notification
-    func updateTable(_ notification: Notification) {
+    @objc func updateTable(_ notification: Notification) {
 		
 		//We get the items from the notification
         let chunkResults = notification.object as? [[String: Any]]
@@ -127,18 +127,18 @@ class DetailedMasterViewController: UITableViewController, UISearchResultsUpdati
     /// This method is called when we have a new image. We must, in this case, update the table
     ///
     /// - Parameter notification: notification
-    func imageDownloaded(_ notification: Notification) {
+    @objc func imageDownloaded(_ notification: Notification) {
         let item = notification.object
         
         if self.resultSearchController.isActive {
             if let rowNumber = filteredItems.index(where: {$0 === (item as AnyObject!)}) {
                 let indexPath = IndexPath(row: rowNumber, section: 0)
-                self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.top)
+                self.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.top)
             }
         } else {
             if let rowNumber = items.index(where: {$0 === (item as AnyObject!)}) {
                 let indexPath = IndexPath(row: rowNumber, section: 0)
-                self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.top)
+                self.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.top)
             }
         }
         

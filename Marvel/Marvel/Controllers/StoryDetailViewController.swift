@@ -23,7 +23,7 @@ class StoryDetailViewController: UIViewController {
         else {
             descriptionStory.text = self.story.title
         }
-        imageStory.contentMode = UIViewContentMode.scaleAspectFit;
+        imageStory.contentMode = UIView.ContentMode.scaleAspectFit;
         imageStory.image = self.story.imageThumbnail
     }
     
