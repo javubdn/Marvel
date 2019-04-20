@@ -21,24 +21,24 @@ class ComicsFactory {
      - returns: Comic with the data of the register
      */
     static func comicWithManagedObject(_ object:NSManagedObject)->Comic {
-        let comic = Comic()
-        comic.id = Int64((object.value(forKey: "id") as! Int))
-        comic.descriptionComic = (object.value(forKey: "descriptionComic") as? String)!
-        comic.diamondCode = (object.value(forKey: "diamondCode") as? String)!
-        comic.digitalId = Int64((object.value(forKey: "digitalId") as! Int))
-        comic.ean = (object.value(forKey: "ean") as? String)!
-        comic.format = (object.value(forKey: "format") as? String)!
-        comic.isbn = (object.value(forKey: "isbn") as? String)!
-        comic.issn = (object.value(forKey: "issn") as? String)!
-        comic.issueNumber = Int64((object.value(forKey: "issueNumber") as! Int))
-        comic.modified = (object.value(forKey: "modified") as? Date)!
-        comic.pageCount = Int64((object.value(forKey: "pageCount") as! Int))
-        comic.resourceURI = (object.value(forKey: "resourceURI") as? String)!
-        comic.title = (object.value(forKey: "title") as? String)!
-        comic.upc = (object.value(forKey: "upc") as? String)!
-        comic.variantDescription = (object.value(forKey: "variantDescription") as? String)!
-        comic.thumbnail = (object.value(forKey: "thumbnail") as? String)!
-        
+        let comic = Comic(id: Int64((object.value(forKey: "id") as! Int)),
+                          thumbnail: (object.value(forKey: "thumbnail") as? String)!,
+                          mainText: (object.value(forKey: "title") as? String)!,
+                          descriptionText: (object.value(forKey: "descriptionComic") as? String)!,
+                          descriptionComic: (object.value(forKey: "descriptionComic") as? String)!,
+                          diamondCode: (object.value(forKey: "diamondCode") as? String)!,
+                          digitalId: Int64((object.value(forKey: "digitalId") as! Int)),
+                          ean: (object.value(forKey: "ean") as? String)!,
+                          format: (object.value(forKey: "format") as? String)!,
+                          isbn: (object.value(forKey: "isbn") as? String)!,
+                          issn: (object.value(forKey: "issn") as? String)!,
+                          issueNumber: Int64((object.value(forKey: "issueNumber") as! Int)),
+                          modified: (object.value(forKey: "modified") as? Date)!,
+                          pageCount: Int64((object.value(forKey: "pageCount") as! Int)),
+                          resourceURI: (object.value(forKey: "resourceURI") as? String)!,
+                          title: (object.value(forKey: "title") as? String)!,
+                          upc: (object.value(forKey: "upc") as? String)!,
+                          variantDescription: (object.value(forKey: "variantDescription") as? String)!)
         return comic
     }
     
@@ -107,36 +107,28 @@ class ComicsFactory {
     static func getComicsWithArrayDictionaries(_ objects:[[String: Any]])->[Comic] {
         var comics:[Comic] = []
         for currentObject in objects {
-            let newComic = Comic()
-            newComic.id = Int64(currentObject["id"] as! Int)
-            if let _ = currentObject["description"] as? String {
-                newComic.descriptionComic = (currentObject["description"] as? String)!
-            } else {
-                newComic.descriptionComic = ""
-            }
-            if let _ = currentObject["diamondCode"] as? String {
-                newComic.diamondCode = (currentObject["diamondCode"] as? String)!
-            }
-            else {
-                newComic.diamondCode = ""
-            }
-            
-            newComic.digitalId = Int64(currentObject["digitalId"] as! Int)
-            newComic.ean = (currentObject["ean"] as? String)!
-            newComic.format = (currentObject["format"] as? String)!
-            newComic.isbn = (currentObject["isbn"] as? String)!
-            newComic.issn = (currentObject["issn"] as? String)!
-            newComic.issueNumber = Int64(currentObject["issueNumber"] as! Int)
-            newComic.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
-            newComic.pageCount = Int64(currentObject["pageCount"] as! Int)
-            newComic.resourceURI = (currentObject["resourceURI"] as? String)!
-            newComic.title = (currentObject["title"] as? String)!
-            newComic.upc = (currentObject["upc"] as? String)!
-            newComic.variantDescription = (currentObject["variantDescription"] as? String)!
-            
             let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
             let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
-            newComic.thumbnail = "\(path).\(extensionImage)"
+            
+            let newComic = Comic(id: Int64(currentObject["id"] as! Int),
+                                 thumbnail: "\(path).\(extensionImage)",
+                mainText: (currentObject["title"] as? String)!,
+                descriptionText: currentObject["description"] as? String ?? "",
+                descriptionComic: currentObject["description"] as? String ?? "",
+                diamondCode: currentObject["diamondCode"] as? String ?? "",
+                digitalId: Int64(currentObject["digitalId"] as! Int),
+                ean: (currentObject["ean"] as? String)!,
+                format: (currentObject["format"] as? String)!,
+                isbn: (currentObject["isbn"] as? String)!,
+                issn: (currentObject["issn"] as? String)!,
+                issueNumber: Int64(currentObject["issueNumber"] as! Int),
+                modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
+                pageCount: Int64(currentObject["pageCount"] as! Int),
+                resourceURI: (currentObject["resourceURI"] as? String)!,
+                title: (currentObject["title"] as? String)!,
+                upc: (currentObject["upc"] as? String)!,
+                variantDescription: (currentObject["variantDescription"] as? String)!)
+            
             DownloadManager.downloadImage(newComic)
             
             comics.append(newComic)

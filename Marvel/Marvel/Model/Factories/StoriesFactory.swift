@@ -20,16 +20,21 @@ class StoriesFactory {
      
      - returns: Story with the data of the register
      */
-    static func storyWithManagedObject(_ object:NSManagedObject)->Story {
-        let story = Story()
-        story.id = Int64((object.value(forKey: "id") as! Int))
-        story.descriptionStory = (object.value(forKey: "descriptionStory") as? String)!
-        story.modified = (object.value(forKey: "modified") as? Date)!
-        story.resourceURI = (object.value(forKey: "resourceURI") as? String)!
-        story.title = (object.value(forKey: "title") as? String)!
-        story.type = (object.value(forKey: "type") as? String)!
-        story.thumbnail = (object.value(forKey: "thumbnail") as? String)!
+    static func storyWithManagedObject(_ object:NSManagedObject) -> Story {
+        var thumbnail: String?
+        if let thumbnailStored = object.value(forKey: "thumbnail") as? String {
+            thumbnail = thumbnailStored
+        }
         
+        let story = Story(id: Int64((object.value(forKey: "id") as! Int)),
+                          thumbnail: thumbnail,
+                          mainText: (object.value(forKey: "title") as? String)!,
+                          descriptionText: (object.value(forKey: "descriptionStory") as? String)!,
+                          descriptionStory: (object.value(forKey: "descriptionStory") as? String)!,
+                          modified: (object.value(forKey: "modified") as? Date)!,
+                          resourceURI: (object.value(forKey: "resourceURI") as? String)!,
+                          title: (object.value(forKey: "title") as? String)!,
+                          type: (object.value(forKey: "type") as? String)!)
         return story
     }
     
@@ -92,29 +97,23 @@ class StoriesFactory {
         var stories = [Story]()
         
         for currentObject in objects {
-            let newStory = Story()
+            var thumbnail: String?
+            if let thumbnailItem = currentObject["thumbnail"] as? [String : String],
+                let path = thumbnailItem["path"],
+                let extensionImage = thumbnailItem["extension"] {
+                thumbnail = "\(path).\(extensionImage)"
+            }
             
-            newStory.id = Int64(currentObject["id"] as! Int)
-            if let _ = currentObject["description"] as? String {
-                newStory.descriptionStory = (currentObject["description"] as? String)!
-            }
-            else {
-                newStory.descriptionStory = ""
-            }
-            newStory.title = (currentObject["title"] as? String)!
-            newStory.resourceURI = (currentObject["resourceURI"] as? String)!
-            newStory.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
-            newStory.type = (currentObject["type"] as? String)!
-            
-            if let _ = currentObject["thumbnail"] as? NSDictionary {
-                let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
-                let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
-                newStory.thumbnail = "\(path).\(extensionImage)"
-                DownloadManager.downloadImage(newStory)
-            }
-            else {
-                newStory.thumbnail = ""
-            }
+            let newStory = Story(id: Int64(currentObject["id"] as! Int),
+                                 thumbnail: thumbnail,
+                mainText: (currentObject["title"] as? String)!,
+                descriptionText: currentObject["description"] as? String ?? "",
+                descriptionStory: currentObject["description"] as? String ?? "",
+                modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
+                resourceURI: (currentObject["resourceURI"] as? String)!,
+                title: (currentObject["title"] as? String)!,
+                type: (currentObject["type"] as? String)!)
+            DownloadManager.downloadImage(newStory)
             stories.append(newStory)
         }
         

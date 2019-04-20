@@ -15,20 +15,20 @@ class DownloadManager {
     //This will be the instance for DownloadManager, this is a Singleton class
     static let sharedInstance = DownloadManager()
     
-    let queue:OperationQueue
-    var publicAPIKey:String     // Public key of the Marvel API
-    var privateAPIKey:String    // Private key of the Marvel API
-    var url:URL?               // We keep here the current URL that we are using for the download
-    var offset:CLong            // We store here the current offset, we use it to know in what point we have the current request
-    var numberOfItems:CLong     // We store here the number of items that must be downloaded (we use it to know when the download is completed)
-    var count:CLong             // Indicates the number of items downloaded in this moment (we use it to know if we have finished)
-    var category:Constants.TypeData! //It keeps the type of category to update the number of items if it's necessary
+    let queue: OperationQueue
+    var publicAPIKey: String     // Public key of the Marvel API
+    var privateAPIKey: String    // Private key of the Marvel API
+    var url: URL?               // We keep here the current URL that we are using for the download
+    var offset: CLong            // We store here the current offset, we use it to know in what point we have the current request
+    var numberOfItems: CLong     // We store here the number of items that must be downloaded (we use it to know when the download is completed)
+    var count: CLong             // Indicates the number of items downloaded in this moment (we use it to know if we have finished)
+    var category: Constants.TypeData! //It keeps the type of category to update the number of items if it's necessary
 
     //Data received in every call
-    var attributionText:String
-    var attributionHTML:String
-    var copyright:String
-    var etag:String
+    var attributionText: String
+    var attributionHTML: String
+    var copyright: String
+    var etag: String
     
     init() {
         queue = OperationQueue()
@@ -53,9 +53,11 @@ class DownloadManager {
     
     - returns: url with the data needed (like hash or timestamp)
     */
-    func getUrlRequest(_ url:URL, params:NSDictionary) -> URL {
+    func getUrlRequest(_ url: URL, params: NSDictionary) -> URL {
         
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            return url
+        }
         let timeStamp = Int(Date().timeIntervalSinceReferenceDate)
         let hashBase = "\(timeStamp)\(privateAPIKey)\(publicAPIKey)"
         let hash = hashBase.md5()
@@ -69,9 +71,9 @@ class DownloadManager {
             query += "&offset=\(params["offset"] as! CLong)"          //If exists offset, we add it to the request
         }
         
-        components?.query = query                           //We assign the query to our urlComponents
+        components.query = query                           //We assign the query to our urlComponents
         
-        return (components?.url)!
+        return components.url ?? url
         
     }
     
@@ -167,7 +169,7 @@ class DownloadManager {
                         print("Error could not parse JSON: \(jsonStr)")
                     }
                 } catch let parseError {
-                    print(parseError)                                                          // Log the error thrown by `JSONObjectWithData`
+                    print(parseError) // Log the error thrown by `JSONObjectWithData`
                     let jsonStr = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
                     print("Error could not parse JSON: '\(jsonStr)'")
                 }
@@ -189,10 +191,14 @@ class DownloadManager {
      - parameter item:     item that contains the image we want to download
      - parameter category: type of item
      */
-    static func downloadImage(_ item:ItemMarvel) {
-        
-        let url:URL
-        url = URL(string: item.thumbnail)!
+    static func downloadImage(_ item: ItemMarvel) {
+        guard let thumbnail = item.thumbnail,
+            let url = URL(string: thumbnail) else {
+                item.imageDownloaded = true
+                item.imageThumbnail = UIImage(named: "ItemNotAvailable")
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: item)
+                return
+        }
         
         URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
             DispatchQueue.main.async { () -> Void in
@@ -203,7 +209,7 @@ class DownloadManager {
                 
                 NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: item)
             }
-            }) .resume()
+        }).resume()
         
     }
 	

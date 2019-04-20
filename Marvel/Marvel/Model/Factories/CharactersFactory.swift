@@ -20,14 +20,15 @@ class CharactersFactory {
      
      - returns: Character with the data of the register
      */
-    static func characterWithManagedObject(_ object:NSManagedObject)->Character {
-        let character = Character()
-        character.id = Int64((object.value(forKey: "id") as! Int))
-        character.name = (object.value(forKey: "name") as? String)!
-        character.descriptionCharacter = (object.value(forKey: "descriptionCharacter") as? String)!
-        character.modified = (object.value(forKey: "modified") as? Date)!
-        character.resourceURI = (object.value(forKey: "resourceURI") as? String)!
-        character.thumbnail = (object.value(forKey: "thumbnail") as? String)!
+    static func characterWithManagedObject(_ object:NSManagedObject) -> Character {
+        let character = Character(id: Int64((object.value(forKey: "id") as! Int)),
+                                  thumbnail: (object.value(forKey: "thumbnail") as? String)!,
+                                  mainText: (object.value(forKey: "name") as? String)!,
+                                  descriptionText: (object.value(forKey: "descriptionCharacter") as? String)!,
+                                  name: (object.value(forKey: "name") as? String)!,
+                                  descriptionCharacter: (object.value(forKey: "descriptionCharacter") as? String)!,
+                                  modified: (object.value(forKey: "modified") as? Date)!,
+                                  resourceURI: (object.value(forKey: "resourceURI") as? String)!)
         return character
     }
     
@@ -56,7 +57,7 @@ class CharactersFactory {
      
      - returns: Register to store with the data of the character
      */
-    static func managedObjectWithCharacter(_ character:Character)->NSManagedObject {
+    static func managedObjectWithCharacter(_ character:Character) -> NSManagedObject {
         
         //We need the managedContext
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -85,20 +86,22 @@ class CharactersFactory {
      
      - returns: array of characters
      */
-    static func getCharactersWithArrayDictionaries(_ objects:[[String: Any]])->[Character] {
+    static func getCharactersWithArrayDictionaries(_ objects:[[String: Any]]) -> [Character] {
         var characters = [Character]()
         
         for currentObject in objects {
-            let newCharacter = Character()
-            
-            newCharacter.id = Int64(currentObject["id"] as! Int)
-            newCharacter.name = (currentObject["name"] as? String)!
-            newCharacter.descriptionCharacter = (currentObject["description"] as? String)!
-            newCharacter.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
-            newCharacter.resourceURI = (currentObject["resourceURI"] as? String)!
             let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
             let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
-            newCharacter.thumbnail = "\(path).\(extensionImage)"
+            
+            let newCharacter = Character(id: Int64(currentObject["id"] as! Int),
+                                         thumbnail: "\(path).\(extensionImage)",
+                mainText: (currentObject["name"] as? String)!,
+                descriptionText: (currentObject["description"] as? String)!,
+                name: (currentObject["name"] as? String)!,
+                descriptionCharacter: (currentObject["description"] as? String)!,
+                modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
+                resourceURI: (currentObject["resourceURI"] as? String)!)
+            
             DownloadManager.downloadImage(newCharacter)
             
             characters.append(newCharacter)

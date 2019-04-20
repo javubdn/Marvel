@@ -7,7 +7,6 @@
 //
 
 import UIKit
-//import CryptoSwift
 
 class FirstMasterViewController: UITableViewController {
 
@@ -18,10 +17,20 @@ class FirstMasterViewController: UITableViewController {
         super.viewDidLoad()
         
         //We create an array with the main options to show in the first list
-        names = ["Characters", "Comics", "Creators", "Events", "Series", "Stories"]
+        names = ["Characters",
+                 "Comics",
+                 "Creators",
+                 "Events",
+                 "Series",
+                 "Stories"]
         
         //We create an array with the images
-        images = ["list1", "list2", "list3", "list4", "list5", "list6"]
+        images = [Character.imageName,
+                  Comic.imageName,
+                  Creator.imageName,
+                  Event.imageName,
+                  Serie.imageName,
+                  Story.imageName]
         
     }
     

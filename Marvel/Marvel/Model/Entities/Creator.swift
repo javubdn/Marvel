@@ -13,22 +13,38 @@ import CoreData
 /// Class that contain the data of a Creator
 class Creator:ItemMarvel {
 
-	var firstName:String
-	var fullName:String
-	var lastName:String
-	var middleName:String
-	var modified:Date
-	var resourceURI:String
-	var suffix:String
+    static let imageName = "creators"
+    
+	let firstName: String
+	let fullName: String
+	let lastName: String
+	let middleName: String
+	let modified: Date
+	let resourceURI: String
+	let suffix: String
 	
-	override init() {
-		firstName = ""
-		fullName = ""
-		lastName = ""
-		middleName = ""
-		modified = Date()
-		resourceURI = ""
-		suffix = ""
-	}
+    init(id: Int64,
+         thumbnail: String?,
+         mainText: String,
+         descriptionText: String,
+         firstName: String,
+         fullName: String,
+         lastName: String,
+         middleName: String,
+         modified: Date,
+         resourceURI: String,
+         suffix: String) {
+        self.firstName = firstName
+        self.fullName = fullName
+        self.lastName = lastName
+        self.middleName = middleName
+        self.modified = modified
+        self.resourceURI = resourceURI
+        self.suffix = suffix
+        super.init(id: id,
+                   thumbnail: thumbnail,
+                   mainText: mainText,
+                   descriptionText: descriptionText)
+    }
 	
 }

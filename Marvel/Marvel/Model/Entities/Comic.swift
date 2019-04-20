@@ -12,36 +12,60 @@ import CoreData
 
 /// Class that contain the data of a Comic
 class Comic:ItemMarvel {
-	var descriptionComic:String
-	var diamondCode:String
-	var digitalId:Int64
-	var ean:String
-	var format:String
-	var isbn:String
-	var issn:String
-	var issueNumber:Int64
-	var modified:Date
-	var pageCount:Int64
-	var resourceURI:String
-	var title:String
-	var upc:String
-	var variantDescription:String
-	
-	override init() {
-		descriptionComic = ""
-		diamondCode = ""
-		digitalId = 0
-		ean = ""
-		format = ""
-		isbn = ""
-		issn = ""
-		issueNumber = 0
-		modified = Date()
-		pageCount = 0
-		resourceURI = ""
-		title = ""
-		upc = ""
-		variantDescription = ""
-	}
+    
+    static let imageName = "comics"
+    
+	let descriptionComic: String
+	let diamondCode: String
+	let digitalId: Int64
+	let ean: String
+	let format: String
+	let isbn: String
+	let issn: String
+	let issueNumber: Int64
+	let modified: Date
+	let pageCount: Int64
+	let resourceURI: String
+	let title: String
+	let upc: String
+	let variantDescription: String
+    
+    init(id: Int64,
+         thumbnail: String?,
+         mainText: String,
+         descriptionText: String,
+         descriptionComic: String,
+         diamondCode: String,
+         digitalId: Int64,
+         ean: String,
+         format: String,
+         isbn: String,
+         issn: String,
+         issueNumber: Int64,
+         modified: Date,
+         pageCount: Int64,
+         resourceURI: String,
+         title: String,
+         upc: String,
+         variantDescription: String) {
+        self.descriptionComic = descriptionComic
+        self.diamondCode = diamondCode
+        self.digitalId = digitalId
+        self.ean = ean
+        self.format = format
+        self.isbn = isbn
+        self.issn = issn
+        self.issueNumber = issueNumber
+        self.modified = modified
+        self.pageCount = pageCount
+        self.resourceURI = resourceURI
+        self.title = title
+        self.upc = upc
+        self.variantDescription = variantDescription
+        super.init(id: id,
+                   thumbnail: thumbnail,
+                   mainText: mainText,
+                   descriptionText: descriptionText)
+    }
     
 }

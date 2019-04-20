@@ -50,20 +50,7 @@ struct Constants {
 		}
         
         func getSegue() -> String {
-            switch self {
-            case .characters:
-                return "showCharacter"
-            case .comics:
-                return "showComic"
-            case .creators:
-                return "showCreator"
-            case .events:
-                return "showEvent"
-            case .series:
-                return "showSerie"
-            case .stories:
-                return "showStory"
-            }
+            return "showDetail"
         }
 		
         static func getValue(_ value: Int) -> TypeData {

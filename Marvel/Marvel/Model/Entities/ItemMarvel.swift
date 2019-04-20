@@ -10,17 +10,20 @@ import Foundation
 import UIKit
 
 /// Class that contain the data of a Character
-class ItemMarvel:NSObject {
-    var id:Int64
-    var thumbnail:String
-    var imageDownloaded:Bool
-    var imageThumbnail:UIImage
+class ItemMarvel: NSObject {
     
-    override init() {
-        id = 0
-        thumbnail = ""
-        imageDownloaded = false
-        imageThumbnail = UIImage()
+    let id: Int64
+    let thumbnail: String?
+    let mainText: String
+    let descriptionText: String
+    var imageDownloaded = false
+    var imageThumbnail: UIImage?
+    
+    init(id: Int64, thumbnail: String?, mainText: String, descriptionText: String) {
+        self.id = id
+        self.thumbnail = thumbnail
+        self.mainText = mainText
+        self.descriptionText = descriptionText
     }
     
 }

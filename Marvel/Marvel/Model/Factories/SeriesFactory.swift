@@ -6,7 +6,6 @@
 //  Copyright © 2016 Javi Castillo Risco. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import CoreData
 
@@ -20,19 +19,20 @@ class SeriesFactory {
      
      - returns: Serie with the data of the register
      */
-    static func serieWithManagedObject(_ object:NSManagedObject)->Serie {
-        let serie = Serie()
-        serie.id = Int64((object.value(forKey: "id") as! Int))
-        serie.descriptionSerie = (object.value(forKey: "descriptionSerie") as? String)!
-        serie.startYear = Int64((object.value(forKey: "startYear") as! Int))
-        serie.endYear = Int64((object.value(forKey: "endYear") as! Int))
-        serie.modified = (object.value(forKey: "modified") as? Date)!
-        serie.rating = (object.value(forKey: "rating") as? String)!
-        serie.resourceURI = (object.value(forKey: "resourceURI") as? String)!
-        serie.title = (object.value(forKey: "title") as? String)!
-        serie.type = (object.value(forKey: "type") as? String)!
-        serie.thumbnail = (object.value(forKey: "thumbnail") as? String)!
-        
+    static func serieWithManagedObject(_ object: NSManagedObject) -> Serie {
+        let serie = Serie(id: Int64((object.value(forKey: "id") as! Int)),
+                          thumbnail: (object.value(forKey: "thumbnail") as? String)!,
+                          mainText: (object.value(forKey: "title") as? String)!,
+                          descriptionText: (object.value(forKey: "descriptionSerie") as? String)!,
+                          descriptionSerie: (object.value(forKey: "descriptionSerie") as? String)!,
+                          startYear: Int64((object.value(forKey: "startYear") as! Int)),
+                          endYear: Int64((object.value(forKey: "endYear") as! Int)),
+                          modified: (object.value(forKey: "modified") as? Date)!,
+                          rating: (object.value(forKey: "rating") as? String)!,
+                          resourceURI: (object.value(forKey: "resourceURI") as? String)!,
+                          title: (object.value(forKey: "title") as? String)!,
+                          type: (object.value(forKey: "type") as? String)!)
+
         return serie
     }
     
@@ -43,7 +43,7 @@ class SeriesFactory {
      
      - returns: list of series
      */
-    static func getSeriesWithObjects(_ objects:[NSManagedObject])->[Serie] {
+    static func getSeriesWithObjects(_ objects:[NSManagedObject]) -> [Serie] {
         var series = [Serie]()
         
         for object in objects {
@@ -98,29 +98,22 @@ class SeriesFactory {
         var series = [Serie]()
         
         for currentObject in objects {
-            let newSerie = Serie()
-            
-            newSerie.id = Int64(currentObject["id"] as! Int)
-            
-            if let _ = currentObject["description"] as? String {
-                newSerie.descriptionSerie = (currentObject["description"] as? String)!
-            }
-            else {
-                newSerie.descriptionSerie = ""
-            }
-            newSerie.title = (currentObject["title"] as? String)!
-            newSerie.resourceURI = (currentObject["resourceURI"] as? String)!
-            newSerie.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
-            newSerie.rating = (currentObject["rating"] as? String)!
-            newSerie.type = (currentObject["type"] as? String)!
-            newSerie.startYear = Int64(currentObject["startYear"] as! Int)
-            newSerie.endYear = Int64(currentObject["endYear"] as! Int)
-            
             let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
             let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
-            newSerie.thumbnail = "\(path).\(extensionImage)"
-            DownloadManager.downloadImage(newSerie)
+            let newSerie = Serie(id: Int64(currentObject["id"] as! Int),
+                                 thumbnail: "\(path).\(extensionImage)",
+                mainText: (currentObject["title"] as? String)!,
+                descriptionText: (currentObject["description"] as? String) ?? "",
+                descriptionSerie: (currentObject["description"] as? String) ?? "",
+                startYear: Int64(currentObject["startYear"] as! Int),
+                endYear: Int64(currentObject["endYear"] as! Int),
+                modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
+                rating: (currentObject["rating"] as? String)!,
+                resourceURI: (currentObject["resourceURI"] as? String)!,
+                title: (currentObject["title"] as? String)!,
+                type: (currentObject["type"] as? String)!)
             
+            DownloadManager.downloadImage(newSerie)
             series.append(newSerie)
         }
         

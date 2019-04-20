@@ -21,17 +21,17 @@ class CreatorsFactory {
      - returns: Creator with the data of the register
      */
     static func creatorWithManagedObject(_ object:NSManagedObject)->Creator {
-        let creator = Creator()
-        creator.id = Int64((object.value(forKey: "id") as! Int))
-        creator.firstName = (object.value(forKey: "firstName") as? String)!
-        creator.fullName = (object.value(forKey: "fullName") as? String)!
-        creator.lastName = (object.value(forKey: "lastName") as? String)!
-        creator.middleName = (object.value(forKey: "middleName") as? String)!
-        creator.modified = (object.value(forKey: "modified") as? Date)!
-        creator.resourceURI = (object.value(forKey: "resourceURI") as? String)!
-        creator.suffix = (object.value(forKey: "suffix") as? String)!
-        creator.thumbnail = (object.value(forKey: "thumbnail") as? String)!
-        
+        let creator = Creator(id: Int64((object.value(forKey: "id") as! Int)),
+                              thumbnail: (object.value(forKey: "thumbnail") as? String)!,
+                              mainText: (object.value(forKey: "fullName") as? String)!,
+                              descriptionText: (object.value(forKey: "fullName") as? String)!,
+                              firstName: (object.value(forKey: "firstName") as? String)!,
+                              fullName: (object.value(forKey: "fullName") as? String)!,
+                              lastName: (object.value(forKey: "lastName") as? String)!,
+                              middleName: (object.value(forKey: "middleName") as? String)!,
+                              modified: (object.value(forKey: "modified") as? Date)!,
+                              resourceURI: (object.value(forKey: "resourceURI") as? String)!,
+                              suffix: (object.value(forKey: "suffix") as? String)!)
         return creator
     }
     
@@ -96,22 +96,23 @@ class CreatorsFactory {
         var creators = [Creator]()
         
         for currentObject in objects {
-            let newCreator = Creator()
-            
-            newCreator.id = Int64(currentObject["id"] as! Int)
-            newCreator.firstName = (currentObject["firstName"] as? String)!
-            newCreator.fullName = (currentObject["fullName"] as? String)!
-            newCreator.lastName = (currentObject["lastName"] as? String)!
-            newCreator.middleName = (currentObject["middleName"] as? String)!
-            if(currentObject["modified"] != nil) {
-                newCreator.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
-            }
-            newCreator.resourceURI = (currentObject["resourceURI"] as? String)!
-            newCreator.suffix = (currentObject["suffix"] as? String)!
-            
             let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
             let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
-            newCreator.thumbnail = "\(path).\(extensionImage)"
+            var modifiedDate = Date()
+            if(currentObject["modified"] != nil) {
+                modifiedDate = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
+            }
+            let newCreator = Creator(id: Int64(currentObject["id"] as! Int),
+                                     thumbnail: "\(path).\(extensionImage)",
+                mainText: (currentObject["fullName"] as? String)!,
+                descriptionText: (currentObject["fullName"] as? String)!,
+                firstName: (currentObject["firstName"] as? String)!,
+                fullName: (currentObject["fullName"] as? String)!,
+                lastName: (currentObject["lastName"] as? String)!,
+                middleName: (currentObject["middleName"] as? String)!,
+                modified: modifiedDate,
+                resourceURI: (currentObject["resourceURI"] as? String)!,
+                suffix: (currentObject["suffix"] as? String)!)
             DownloadManager.downloadImage(newCreator)
             
             creators.append(newCreator)

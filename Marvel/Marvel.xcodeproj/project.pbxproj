@@ -20,11 +20,7 @@
 		BC6AC6B32261BB280013D0F1 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */; };
 		BC6AC6B42261BB280013D0F1 /* CryptoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC6D07021C78ED6F005D2E2A /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6D07011C78ED6F005D2E2A /* DownloadManager.swift */; };
-		BC8171D91C7EEAF50044BFFF /* ComicDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8171D81C7EEAF50044BFFF /* ComicDetailViewController.swift */; };
-		BC8171DB1C7EEBD10044BFFF /* CreatorDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8171DA1C7EEBD10044BFFF /* CreatorDetailViewController.swift */; };
-		BC8171DD1C7EEC5F0044BFFF /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8171DC1C7EEC5F0044BFFF /* EventDetailViewController.swift */; };
-		BC8171DF1C7EEC920044BFFF /* SerieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8171DE1C7EEC920044BFFF /* SerieDetailViewController.swift */; };
-		BC8171E11C7EECB00044BFFF /* StoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8171E01C7EECB00044BFFF /* StoryDetailViewController.swift */; };
+		BC7D99442263DB27007B5281 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7D99432263DB27007B5281 /* ItemDetailViewController.swift */; };
 		BC94F5791CA6A85F0033D36E /* ItemMarvel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC94F5781CA6A85F0033D36E /* ItemMarvel.swift */; };
 		BCAAE2351C7A0FE100B327DB /* DetailedMasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAAE2341C7A0FE100B327DB /* DetailedMasterViewController.swift */; };
 		BCAAE2371C7A116300B327DB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAAE2361C7A116300B327DB /* Constants.swift */; };
@@ -42,7 +38,6 @@
 		BCDA91061C78CDC8001AF2F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCDA91041C78CDC8001AF2F1 /* LaunchScreen.storyboard */; };
 		BCDA91111C78CDC8001AF2F1 /* MarvelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA91101C78CDC8001AF2F1 /* MarvelTests.swift */; };
 		BCDA911C1C78CDC8001AF2F1 /* MarvelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA911B1C78CDC8001AF2F1 /* MarvelUITests.swift */; };
-		BCDFE8F01C7B8C7B00F2B516 /* CharacterDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFE8EF1C7B8C7B00F2B516 /* CharacterDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,11 +83,7 @@
 		593C34481C7B70F500F1BF20 /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Story.swift; path = Model/Entities/Story.swift; sourceTree = "<group>"; };
 		BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Marvel/Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		BC6D07011C78ED6F005D2E2A /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DownloadManager.swift; path = Managers/DownloadManager.swift; sourceTree = "<group>"; };
-		BC8171D81C7EEAF50044BFFF /* ComicDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ComicDetailViewController.swift; path = Controllers/ComicDetailViewController.swift; sourceTree = "<group>"; };
-		BC8171DA1C7EEBD10044BFFF /* CreatorDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreatorDetailViewController.swift; path = Controllers/CreatorDetailViewController.swift; sourceTree = "<group>"; };
-		BC8171DC1C7EEC5F0044BFFF /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventDetailViewController.swift; path = Controllers/EventDetailViewController.swift; sourceTree = "<group>"; };
-		BC8171DE1C7EEC920044BFFF /* SerieDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SerieDetailViewController.swift; path = Controllers/SerieDetailViewController.swift; sourceTree = "<group>"; };
-		BC8171E01C7EECB00044BFFF /* StoryDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryDetailViewController.swift; path = Controllers/StoryDetailViewController.swift; sourceTree = "<group>"; };
+		BC7D99432263DB27007B5281 /* ItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ItemDetailViewController.swift; path = Controllers/ItemDetailViewController.swift; sourceTree = "<group>"; };
 		BC94F5781CA6A85F0033D36E /* ItemMarvel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemMarvel.swift; path = Model/Entities/ItemMarvel.swift; sourceTree = "<group>"; };
 		BCAAE2341C7A0FE100B327DB /* DetailedMasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailedMasterViewController.swift; path = Controllers/DetailedMasterViewController.swift; sourceTree = "<group>"; };
 		BCAAE2361C7A116300B327DB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Utils/Constants.swift; sourceTree = "<group>"; };
@@ -116,7 +107,6 @@
 		BCDA91171C78CDC8001AF2F1 /* MarvelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarvelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCDA911B1C78CDC8001AF2F1 /* MarvelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelUITests.swift; sourceTree = "<group>"; };
 		BCDA911D1C78CDC8001AF2F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BCDFE8EF1C7B8C7B00F2B516 /* CharacterDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CharacterDetailViewController.swift; path = Controllers/CharacterDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,12 +173,7 @@
 			children = (
 				BCDA90FB1C78CDC8001AF2F1 /* FirstMasterViewController.swift */,
 				BCAAE2341C7A0FE100B327DB /* DetailedMasterViewController.swift */,
-				BCDFE8EF1C7B8C7B00F2B516 /* CharacterDetailViewController.swift */,
-				BC8171D81C7EEAF50044BFFF /* ComicDetailViewController.swift */,
-				BC8171DA1C7EEBD10044BFFF /* CreatorDetailViewController.swift */,
-				BC8171DC1C7EEC5F0044BFFF /* EventDetailViewController.swift */,
-				BC8171DE1C7EEC920044BFFF /* SerieDetailViewController.swift */,
-				BC8171E01C7EECB00044BFFF /* StoryDetailViewController.swift */,
+				BC7D99432263DB27007B5281 /* ItemDetailViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -427,7 +412,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				593C343D1C7B6AE400F1BF20 /* Character.swift in Sources */,
-				BC8171DD1C7EEC5F0044BFFF /* EventDetailViewController.swift in Sources */,
 				BCDA90FC1C78CDC8001AF2F1 /* FirstMasterViewController.swift in Sources */,
 				BCB2107C1C7F57C500F864F8 /* ComicsFactory.swift in Sources */,
 				BCDA90FA1C78CDC8001AF2F1 /* AppDelegate.swift in Sources */,
@@ -435,10 +419,7 @@
 				593C34471C7B704600F1BF20 /* Serie.swift in Sources */,
 				593C34431C7B6EBF00F1BF20 /* Event.swift in Sources */,
 				BCB210801C7F597800F864F8 /* EventsFactory.swift in Sources */,
-				BCDFE8F01C7B8C7B00F2B516 /* CharacterDetailViewController.swift in Sources */,
 				593C34151C7B214400F1BF20 /* Marvel.xcdatamodeld in Sources */,
-				BC8171DF1C7EEC920044BFFF /* SerieDetailViewController.swift in Sources */,
-				BC8171D91C7EEAF50044BFFF /* ComicDetailViewController.swift in Sources */,
 				BCB210841C7F5AE800F864F8 /* StoriesFactory.swift in Sources */,
 				BCAAE2351C7A0FE100B327DB /* DetailedMasterViewController.swift in Sources */,
 				BC94F5791CA6A85F0033D36E /* ItemMarvel.swift in Sources */,
@@ -446,12 +427,11 @@
 				593C343F1C7B6C0900F1BF20 /* Comic.swift in Sources */,
 				BCAAE2371C7A116300B327DB /* Constants.swift in Sources */,
 				593C34181C7B4CC200F1BF20 /* StorageManager.swift in Sources */,
-				BC8171E11C7EECB00044BFFF /* StoryDetailViewController.swift in Sources */,
 				BCB2107E1C7F58A800F864F8 /* CreatorsFactory.swift in Sources */,
 				BCB210821C7F5A1B00F864F8 /* SeriesFactory.swift in Sources */,
+				BC7D99442263DB27007B5281 /* ItemDetailViewController.swift in Sources */,
 				593C34411C7B6D7900F1BF20 /* Creator.swift in Sources */,
 				593C34491C7B70F500F1BF20 /* Story.swift in Sources */,
-				BC8171DB1C7EEBD10044BFFF /* CreatorDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

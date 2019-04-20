@@ -51,9 +51,6 @@ class StorageManager {
                 case .stories:
                     item = StoriesFactory.managedObjectWithStory(element as! Story)
                     break
-                    
-                default:
-                    continue
                 }
                 items.append(item)
                 
@@ -100,8 +97,6 @@ class StorageManager {
             userDefaults.set(numItems, forKey: "numberStories")
             userDefaults.synchronize()
             break;
-        default:
-            break;
         }
     }
     
@@ -140,9 +135,9 @@ class StorageManager {
      
      - returns: list of items
      */
-    func getItems(_ category:Constants.TypeData) -> [AnyObject] {
+    func getItems(_ category:Constants.TypeData) -> [ItemMarvel] {
 		
-        var items: [AnyObject]
+        var items: [ItemMarvel]
         
         switch(category) {
         case .characters:
@@ -181,9 +176,6 @@ class StorageManager {
 				DownloadManager.downloadImage(story as! Story)
 			}
 			return items
-        default:
-            return []
-            
         }
     }
     
@@ -215,10 +207,7 @@ class StorageManager {
         case .stories:
             let numberStories = userDefaults.integer(forKey: "numberStories")
             return numberStories
-        default:
-            break;
         }
-        return 0
     }
     
 }

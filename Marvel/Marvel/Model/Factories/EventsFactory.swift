@@ -21,16 +21,16 @@ class EventsFactory {
      - returns: Event with the data of the register
      */
     static func eventWithManagedObject(_ object:NSManagedObject)->Event {
-        let event = Event()
-        event.id = Int64((object.value(forKey: "id") as! Int))
-        event.descriptionEvent = (object.value(forKey: "descriptionEvent") as? String)!
-        event.start = (object.value(forKey: "start") as? Date)!
-        event.end = (object.value(forKey: "end") as? Date)!
-        event.modified = (object.value(forKey: "modified") as? Date)!
-        event.resourceURI = (object.value(forKey: "resourceURI") as? String)!
-        event.title = (object.value(forKey: "title") as? String)!
-        event.thumbnail = (object.value(forKey: "thumbnail") as? String)!
-        
+        let event = Event(id: Int64((object.value(forKey: "id") as! Int)),
+                          thumbnail: (object.value(forKey: "thumbnail") as? String)!,
+                          mainText: (object.value(forKey: "title") as? String)!,
+                          descriptionText: (object.value(forKey: "descriptionEvent") as? String)!,
+                          descriptionEvent: (object.value(forKey: "descriptionEvent") as? String)!,
+                          end: (object.value(forKey: "end") as? Date)!,
+                          modified: (object.value(forKey: "modified") as? Date)!,
+                          resourceURI: (object.value(forKey: "resourceURI") as? String)!,
+                          start: (object.value(forKey: "start") as? Date)!,
+                          title: (object.value(forKey: "title") as? String)!)        
         return event
     }
     
@@ -94,36 +94,27 @@ class EventsFactory {
         var events = [Event]()
         
         for currentObject in objects {
-            let newEvent = Event()
-            
-            newEvent.id = Int64(currentObject["id"] as! Int)
-            if let _ = currentObject["description"] as? String {
-                newEvent.descriptionEvent = (currentObject["description"] as? String)!
-            }
-            else {
-                newEvent.descriptionEvent = ""
-            }
-            newEvent.resourceURI = (currentObject["resourceURI"] as? String)!
-            newEvent.title = (currentObject["title"] as? String)!
-            newEvent.modified = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
-            if let _ = currentObject["start"] as? String {
-                newEvent.start = Constants.convertDateFormater((currentObject["start"] as? String)!, format: "yyyy-MM-dd HH:mm:ss")
-            }
-            else {
-                newEvent.start = Date()
-            }
-            if let _ = currentObject["end"] as? String {
-                newEvent.end = Constants.convertDateFormater((currentObject["end"] as? String)!, format: "yyyy-MM-dd HH:mm:ss")
-            }
-            else {
-                newEvent.end = Date()
-            }
-            
             let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
             let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
-            newEvent.thumbnail = "\(path).\(extensionImage)"
+            var newEventStart = Date()
+            var newEventEnd = Date()
+            if let _ = currentObject["start"] as? String {
+                newEventStart = Constants.convertDateFormater((currentObject["start"] as? String)!, format: "yyyy-MM-dd HH:mm:ss")
+            }
+            if let _ = currentObject["end"] as? String {
+                newEventEnd = Constants.convertDateFormater((currentObject["end"] as? String)!, format: "yyyy-MM-dd HH:mm:ss")
+            }
+            let newEvent = Event(id: Int64(currentObject["id"] as! Int),
+                                 thumbnail: "\(path).\(extensionImage)",
+                mainText: (currentObject["title"] as? String)!,
+                descriptionText: currentObject["description"] as? String ?? "",
+                descriptionEvent: currentObject["description"] as? String ?? "",
+                end: newEventEnd,
+                modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
+                resourceURI: (currentObject["resourceURI"] as? String)!,
+                start: newEventStart,
+                title: (currentObject["title"] as? String)!)
             DownloadManager.downloadImage(newEvent)
-            
             events.append(newEvent)
         }
         

@@ -11,17 +11,31 @@ import UIKit
 import CoreData
 
 /// Class that contain the data of a Character
-class Character:ItemMarvel {
-	var name:String
-	var descriptionCharacter:String
-	var modified:Date
-	var resourceURI:String
+class Character: ItemMarvel {
     
-	override init() {
-		name = ""
-		descriptionCharacter = ""
-		modified = Date()
-		resourceURI = ""
-	}
+    static let imageName = "characters"
+	
+    let name: String
+	let descriptionCharacter: String
+	let modified: Date
+	let resourceURI: String
+    
+    init(id: Int64,
+         thumbnail: String?,
+         mainText: String,
+         descriptionText: String,
+         name: String,
+         descriptionCharacter: String,
+         modified: Date,
+         resourceURI: String) {
+        self.name = name
+        self.descriptionCharacter = descriptionCharacter
+        self.modified = modified
+        self.resourceURI = resourceURI
+        super.init(id: id,
+                   thumbnail: thumbnail,
+                   mainText: mainText,
+                   descriptionText: descriptionText)
+    }
     
 }
