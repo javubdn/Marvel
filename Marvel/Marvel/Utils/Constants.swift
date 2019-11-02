@@ -12,7 +12,7 @@ struct Constants {
     
     // MARK: - Type data
     
-    enum TypeData : Int {
+    enum TypeData {
         case characters, comics, creators, events, series, stories
         
         func getDescription() -> String {

@@ -6,7 +6,6 @@
 //  Copyright © 2016 Javi Castillo Risco. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import CoreData
 
@@ -20,7 +19,7 @@ class StoriesFactory {
      
      - returns: Story with the data of the register
      */
-    static func storyWithManagedObject(_ object:NSManagedObject) -> Story {
+    static func storyWithManagedObject(_ object: NSManagedObject) -> Story {
         var thumbnail: String?
         if let thumbnailStored = object.value(forKey: "thumbnail") as? String {
             thumbnail = thumbnailStored
@@ -45,7 +44,7 @@ class StoriesFactory {
      
      - returns: list of stories
      */
-    static func getStoriesWithObjects(_ objects:[NSManagedObject])->[Story] {
+    static func getStoriesWithObjects(_ objects:[NSManagedObject]) -> [Story] {
         var stories:[Story] = []
         
         for object in objects {
@@ -63,7 +62,7 @@ class StoriesFactory {
      
      - returns: Register to store with the data of the story
      */
-    static func managedObjectWithStory(_ story:Story)->NSManagedObject {
+    static func managedObjectWithStory(_ story: Story) -> NSManagedObject {
         
         //We need the managedContext
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

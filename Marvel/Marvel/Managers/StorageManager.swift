@@ -24,41 +24,41 @@ class StorageManager {
     - parameter elements: list of elements to store
     - parameter category: type of items that we have (Character, comic, etc...)
     */
-    func saveListItems(_ elements:[AnyObject], category:Constants.TypeData) {
-        self.storageManagerSerialQueue.async(execute: {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let managedContext = appDelegate.managedObjectContext
-            var items = [NSManagedObject]()
-            for element in elements {
-                var item:NSManagedObject //= NSManagedObject()
-                
-                switch(category) {
-                case .characters:
-                    item = CharactersFactory.managedObjectWithCharacter(element as! Character)
-                    break
-                case .comics:
-                    item = ComicsFactory.managedObjectWithComic(element as! Comic)
-                    break
-                case .creators:
-                    item = CreatorsFactory.managedObjectWithCreator(element as! Creator)
-                    break
-                case .events:
-                    item = EventsFactory.managedObjectWithEvent(element as! Event)
-                    break
-                case .series:
-                    item = SeriesFactory.managedObjectWithSerie(element as! Serie)
-                    break
-                case .stories:
-                    item = StoriesFactory.managedObjectWithStory(element as! Story)
-                    break
+    func saveListItems(_ elements: [AnyObject], category: Constants.TypeData) {
+        storageManagerSerialQueue.async(execute: {
+            DispatchQueue.main.async {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let managedContext = appDelegate.managedObjectContext
+                var items = [NSManagedObject]()
+                for element in elements {
+                    var item: NSManagedObject
+                    switch(category) {
+                    case .characters:
+                        item = CharactersFactory.managedObjectWithCharacter(element as! Character)
+                        break
+                    case .comics:
+                        item = ComicsFactory.managedObjectWithComic(element as! Comic)
+                        break
+                    case .creators:
+                        item = CreatorsFactory.managedObjectWithCreator(element as! Creator)
+                        break
+                    case .events:
+                        item = EventsFactory.managedObjectWithEvent(element as! Event)
+                        break
+                    case .series:
+                        item = SeriesFactory.managedObjectWithSerie(element as! Serie)
+                        break
+                    case .stories:
+                        item = StoriesFactory.managedObjectWithStory(element as! Story)
+                        break
+                    }
+                    items.append(item)
                 }
-                items.append(item)
-                
-            }
-            do {
-                try managedContext.save()
-            } catch let error as NSError  {
-                print("Could not save \(error), \(error.userInfo)")
+                do {
+                    try managedContext.save()
+                } catch let error as NSError  {
+                    print("Could not save \(error), \(error.userInfo)")
+                }
             }
         })
         
@@ -70,9 +70,9 @@ class StorageManager {
      - parameter category: category selected
      - parameter numItems: number max of items
      */
-    func updateNumberItems(_ category:Constants.TypeData, numItems:Int) {
+    func updateNumberItems(_ category: Constants.TypeData, numItems: Int) {
         let userDefaults = UserDefaults.standard
-        switch(category) {
+        switch category {
         case .characters:
             userDefaults.set(numItems, forKey: "numberCharacters")
             userDefaults.synchronize()
@@ -109,7 +109,7 @@ class StorageManager {
     
     - returns: Registers of the type of item that we want
     */
-	func getData(_ category:Constants.TypeData)->NSArray {
+	func getData(_ category: Constants.TypeData) -> [NSManagedObject] {
 		var items = [NSManagedObject]()
 		
 		//We need the managedContext
@@ -125,7 +125,7 @@ class StorageManager {
 			print("Could not fetch \(error), \(error.userInfo)")
 		}
 		
-		return items as NSArray
+		return items
 	}
 	
     /**
@@ -135,48 +135,23 @@ class StorageManager {
      
      - returns: list of items
      */
-    func getItems(_ category:Constants.TypeData) -> [ItemMarvel] {
-		
-        var items: [ItemMarvel]
-        
-        switch(category) {
+    func getItems(_ category: Constants.TypeData) -> [ItemMarvel] {
+		var items: [ItemMarvel]
+        switch category {
         case .characters:
-            items = CharactersFactory.getCharactersWithObjects(self.getData(category) as! [NSManagedObject])
-            for character in items {
-                DownloadManager.downloadImage(character as! Character)
-            }
-            return items
+            items = CharactersFactory.getCharactersWithObjects(getData(category))
         case .comics:
-			items = ComicsFactory.getComicsWithObjects(self.getData(category) as! [NSManagedObject])
-			for comic in items {
-				DownloadManager.downloadImage(comic as! Comic)
-			}
-            return items
+            items = ComicsFactory.getComicsWithObjects(getData(category))
         case .creators:
-			items = CreatorsFactory.getCreatorsWithObjects(self.getData(category) as! [NSManagedObject])
-			for creator in items {
-				DownloadManager.downloadImage(creator as! Creator)
-			}
-			return items
+            items = CreatorsFactory.getCreatorsWithObjects(getData(category))
         case .events:
-			items = EventsFactory.getEventsWithObjects(self.getData(category) as! [NSManagedObject])
-			for event in items {
-				DownloadManager.downloadImage(event as! Event)
-			}
-			return items
+            items = EventsFactory.getEventsWithObjects(getData(category))
         case .series:
-			items = SeriesFactory.getSeriesWithObjects(self.getData(category) as! [NSManagedObject])
-			for serie in items {
-				DownloadManager.downloadImage(serie as! Serie)
-			}
-			return items
+            items = SeriesFactory.getSeriesWithObjects(getData(category))
         case .stories:
-			items = StoriesFactory.getStoriesWithObjects(self.getData(category) as! [NSManagedObject])
-			for story in items {
-				DownloadManager.downloadImage(story as! Story)
-			}
-			return items
+            items = StoriesFactory.getStoriesWithObjects(getData(category))
         }
+        return items
     }
     
     /**
@@ -186,27 +161,21 @@ class StorageManager {
      
      - returns: number of items that we can have in this category
      */
-    func getNumberItems(_ category:Constants.TypeData)->Int {
+    func getNumberItems(_ category: Constants.TypeData) -> Int {
         let userDefaults = UserDefaults.standard
-        switch(category) {
+        switch category {
         case .characters:
-            let numberCharacters = userDefaults.integer(forKey: "numberCharacters")
-            return numberCharacters
+            return userDefaults.integer(forKey: "numberCharacters")
         case .comics:
-            let numberComics = userDefaults.integer(forKey: "numberComics")
-            return numberComics
+            return userDefaults.integer(forKey: "numberComics")
         case .creators:
-            let numberCreators = userDefaults.integer(forKey: "numberCreators")
-            return numberCreators
+            return userDefaults.integer(forKey: "numberCreators")
         case .events:
-            let numberEvents = userDefaults.integer(forKey: "numberEvents")
-            return numberEvents
+            return userDefaults.integer(forKey: "numberEvents")
         case .series:
-            let numberSeries = userDefaults.integer(forKey: "numberSeries")
-            return numberSeries
+            return userDefaults.integer(forKey: "numberSeries")
         case .stories:
-            let numberStories = userDefaults.integer(forKey: "numberStories")
-            return numberStories
+            return userDefaults.integer(forKey: "numberStories")
         }
     }
     

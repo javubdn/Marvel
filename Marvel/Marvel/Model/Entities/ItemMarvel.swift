@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 /// Class that contain the data of a Character
-class ItemMarvel: NSObject {
+class ItemMarvel {
     
     let id: Int64
     let thumbnail: String?

@@ -14,9 +14,10 @@ class DetailedMasterViewController: UITableViewController {
     var items = [ItemMarvel]()
     var resultSearchController = UISearchController(searchResultsController: nil)
     var filteredItems = [ItemMarvel]()
+    var presenter: DetailedMasterPresenter!
     
     @IBOutlet var itemsTableView: UITableView!
-    var category = Constants.TypeData.characters
+    var category: Constants.TypeData!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,28 +29,16 @@ class DetailedMasterViewController: UITableViewController {
         resultSearchController.searchBar.backgroundColor = UIColor.clear
         self.itemsTableView.tableHeaderView = resultSearchController.searchBar
         definesPresentationContext = true
+        
+        //We prepare the notifications of the view
+        NotificationCenter.default.addObserver(self, selector: #selector(imageDownloaded(_:)), name:NSNotification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTable(_:)), name:NSNotification.Name(rawValue: Constants.NOTIFICATION_UPDATE_DATA), object: nil)
+        
 	}
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        //We prepare the notifications of the view
-        NotificationCenter.default.addObserver(self, selector: #selector(DetailedMasterViewController.imageDownloaded(_:)), name:NSNotification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(DetailedMasterViewController.updateTable(_:)), name:NSNotification.Name(rawValue: Constants.NOTIFICATION_UPDATE_DATA), object: nil)
-        
-        let elementsDB = StorageManager.sharedInstance.getItems(self.category)
-		items.removeAll()
-        items += elementsDB
-
-        let count = self.items.count //We have here the number of items that we have stored
-        let total = StorageManager.sharedInstance.getNumberItems(self.category) // We have here the number of items that we should have
-        
-        if total == 0 || count < total {
-            //In this case we don't have elements, we init the download
-            let url = getUrl()
-            DownloadManager.sharedInstance.downloadData(URL(fileURLWithPath: url), offset:count, category: self.category )
-        }
-        
+        presenter.loadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -63,17 +52,6 @@ class DetailedMasterViewController: UITableViewController {
     }
     
     // MARK: - Private methods
-    
-    /**
-    This method gets the url that we need to download the data of the current category (Characters, comics, etc...)
-    
-    - returns: The string of the url to make the request
-    */
-    private func getUrl() -> String {
-        var url = "http://gateway.marvel.com/v1/public/"
-        url = url + category.getDescription()
-        return url
-    }
     
     func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
@@ -118,6 +96,8 @@ class DetailedMasterViewController: UITableViewController {
             itemsDownloaded = SeriesFactory.getSeriesWithArrayDictionaries(chunkResults)
         case .stories:
             itemsDownloaded = StoriesFactory.getStoriesWithArrayDictionaries(chunkResults)
+        case .none:
+            return
         }
         StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
         items += itemsDownloaded
@@ -136,17 +116,15 @@ class DetailedMasterViewController: UITableViewController {
         if self.resultSearchController.isActive {
             if let rowNumber = filteredItems.index(where: {$0 === item}) {
                 let indexPath = IndexPath(row: rowNumber, section: 0)
-                self.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.top)
+                tableView.reloadRows(at: [indexPath], with: .none)
             }
         } else {
             if let rowNumber = items.index(where: {$0 === item}) {
                 let indexPath = IndexPath(row: rowNumber, section: 0)
-                self.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.top)
+                tableView.reloadRows(at: [indexPath], with: .none)
             }
         }
         
-        //We need update the tableView
-        //self.itemsTableView.reloadData()
     }
     
     // MARK: - Table View
@@ -201,6 +179,15 @@ class DetailedMasterViewController: UITableViewController {
         }
     }
     
+}
+
+extension DetailedMasterViewController: DetailedMasterPresenterOutput {
+
+    func updateItems(_ items: [ItemMarvel]) {
+        self.items.removeAll()
+        self.items += items
+    }
+
 }
 
 extension DetailedMasterViewController: UISearchResultsUpdating {

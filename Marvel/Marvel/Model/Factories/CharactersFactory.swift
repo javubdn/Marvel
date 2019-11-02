@@ -6,7 +6,6 @@
 //  Copyright © 2016 Javi Castillo Risco. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import CoreData
 
@@ -15,9 +14,7 @@ class CharactersFactory {
     
      /**
      This method gets a Character from a NSManagedObject
-     
      - parameter object: Register we use to create the character
-     
      - returns: Character with the data of the register
      */
     static func characterWithManagedObject(_ object:NSManagedObject) -> Character {
@@ -34,12 +31,10 @@ class CharactersFactory {
     
      /**
      This method gets an array of Character from an array of NSManagedObject
-     
      - parameter objects: array of registers to get the characters
-    
      - returns: list of characters
      */
-    static func getCharactersWithObjects(_ objects:[NSManagedObject]) -> [Character] {
+    static func getCharactersWithObjects(_ objects: [NSManagedObject]) -> [Character] {
         var characters:[Character] = []
         
         for object in objects {
@@ -52,12 +47,10 @@ class CharactersFactory {
     
      /**
      This method gets an NSManagedObject from a Character
-     
      - parameter character: Character to get the register
-     
      - returns: Register to store with the data of the character
      */
-    static func managedObjectWithCharacter(_ character:Character) -> NSManagedObject {
+    static func managedObjectWithCharacter(_ character: Character) -> NSManagedObject {
         
         //We need the managedContext
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -81,29 +74,29 @@ class CharactersFactory {
     
      /**
      This method an array of Characters from a dictionary (the one that comes from the Marvel's API)
-     
      - parameter objects: list of items that we obtain from the call to the Marvel API
-     
      - returns: array of characters
      */
-    static func getCharactersWithArrayDictionaries(_ objects:[[String: Any]]) -> [Character] {
+    static func getCharactersWithArrayDictionaries(_ objects: [[String: Any]]) -> [Character] {
         var characters = [Character]()
         
         for currentObject in objects {
-            let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
-            let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
-            
+            var thumbnail: String?
+            if let thumbnailItem = currentObject["thumbnail"] as? [String : String],
+                let path = thumbnailItem["path"],
+                let extensionImage = thumbnailItem["extension"] {
+                thumbnail = "\(path).\(extensionImage)"
+            }
             let newCharacter = Character(id: Int64(currentObject["id"] as! Int),
-                                         thumbnail: "\(path).\(extensionImage)",
-                mainText: (currentObject["name"] as? String)!,
-                descriptionText: (currentObject["description"] as? String)!,
-                name: (currentObject["name"] as? String)!,
-                descriptionCharacter: (currentObject["description"] as? String)!,
-                modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
-                resourceURI: (currentObject["resourceURI"] as? String)!)
+                                         thumbnail: thumbnail,
+                                         mainText: (currentObject["name"] as? String)!,
+                                         descriptionText: (currentObject["description"] as? String)!,
+                                         name: (currentObject["name"] as? String)!,
+                                         descriptionCharacter: (currentObject["description"] as? String)!,
+                                         modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
+                                         resourceURI: (currentObject["resourceURI"] as? String)!)
             
             DownloadManager.downloadImage(newCharacter)
-            
             characters.append(newCharacter)
         }
         

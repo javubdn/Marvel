@@ -15,6 +15,9 @@ class DownloadManager {
     //This will be the instance for DownloadManager, this is a Singleton class
     static let sharedInstance = DownloadManager()
     
+    static let LIMIT_RATE_EXCEDED_CODE = 429
+    static let DOWNLOAD_CANCELLED_CODE = -999
+    
     let queue: OperationQueue
     var publicAPIKey: String     // Public key of the Marvel API
     var privateAPIKey: String    // Private key of the Marvel API
@@ -84,7 +87,7 @@ class DownloadManager {
      - parameter offset:   offset of the request
      - parameter category: type of item (character, comic, etc...)
      */
-    func downloadData(_ url:URL, offset:Int, category:Constants.TypeData) {
+    func downloadData(_ url: URL, offset: Int, category: Constants.TypeData) {
         
         self.url = url              // We update the url with the given in the function
         self.offset = offset        // We init the offset with value that give us the function
@@ -110,77 +113,62 @@ class DownloadManager {
         let currentUrl = getUrlRequest(self.url!, params: params as NSDictionary)
         
         //Once we have the url with all the data we need, we make the request
-        let task = URLSession.shared.dataTask(with: currentUrl, completionHandler: {(data, response, error) in
-            
-            //let statusCode = (response! as! NSHTTPURLResponse).statusCode
-            if((error == nil)) {
-				
+        let task = URLSession.shared.dataTask(with: currentUrl, completionHandler: { data, response, error in
+            if error == nil {
 				//We need to check if there is any error code in the response
-				let statusCode = (response as! HTTPURLResponse).statusCode
+                guard let httpUrlResponse = response as? HTTPURLResponse else {
+                    return
+                }
+				let statusCode = httpUrlResponse.statusCode
 				switch (statusCode) {
-				case 429:
-					//Limit rate excedeed
-					//We should give a message to the user indicating that the maximum of requests has been achieved
+                case DownloadManager.LIMIT_RATE_EXCEDED_CODE:
+                    //TODO: We should give a message to the user indicating that the maximum of requests has been achieved
 					return;
 				default:
 					break;
 				}
-				
-                //We have here the data downloaded, we use it
-                
-                do {
-                    if let json = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
-                        
-                        //We load the data received in our variables
-                        if(json["attributionText"] != nil) { self.attributionText = (json["attributionText"] as? String)! }
-                        if(json["attributionHTML"] != nil) { self.attributionHTML = (json["attributionHTML"] as? String)! }
-                        if(json["copyright"] != nil) { self.copyright = (json["copyright"] as? String)! }
-                        if(json["etag"] != nil) { self.etag = (json["etag"] as? String)! }
-                        
-                        
-                        //we need to load the data
-                        if let data = json["data"] as? [String: Any] {
-                            self.numberOfItems = (data["total"] as? CLong)!
-                            
-                            //Once we have the number of items, we can update it with the StorageManager
+				do {
+                    guard let data = data,
+                        let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary else {
+                            print("Error could not parse JSON")
+                            return
+                    }
+                    
+                    if let attributionText = json["attributionText"] as? String {
+                        self.attributionText = attributionText
+                    }
+                    if let attributionHTML = json["attributionHTML"] as? String {
+                        self.attributionHTML = attributionHTML
+                    }
+                    if let copyright = json["copyright"] as? String {
+                        self.copyright = copyright
+                    }
+                    if let etag = json["etag"] as? String {
+                        self.etag = etag
+                    }
+                    
+                    if let data = json["data"] as? [String: Any] {
+                        if let total = data["total"] as? CLong {
+                            self.numberOfItems = total
                             StorageManager.sharedInstance.updateNumberItems(self.category, numItems: self.numberOfItems)
-                            
-                            let chunkResults = (data["results"] as? NSArray)
-
-                            self.count += chunkResults!.count;
-                            
+                        }
+                        if let chunkResults = data["results"] as? NSArray {
+                            self.count += chunkResults.count
                             NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_UPDATE_DATA), object: chunkResults)
                         }
-                        
-                        if (self.count < self.numberOfItems) {
-                            //If the count until this point is less than the number of items that we are expecting, we update the offset and continue with the downloading
-                            self.offset = self.count;
-                            self.continueDownloading()
-                            
-                        }
-                        else {
-                            //We are done!!!
-
-                        }
-
-                        
-                    } else {
-                        let jsonStr = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)    // No error thrown, but not NSDictionary
-                        print("Error could not parse JSON: \(jsonStr)")
+                    }
+                    
+                    if (self.count < self.numberOfItems) {
+                        //If the count until this point is less than the number of items that we are expecting, we update the offset and continue with the downloading
+                        self.offset = self.count;
+                        self.continueDownloading()
                     }
                 } catch let parseError {
-                    print(parseError) // Log the error thrown by `JSONObjectWithData`
-                    let jsonStr = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-                    print("Error could not parse JSON: '\(jsonStr)'")
+                    print(parseError)
                 }
-                
-                
-                
             }
-        }) 
-        
+        })
         task.resume()
-        
     }
     
     // MARK: - Download images
@@ -202,15 +190,19 @@ class DownloadManager {
         
         URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
             DispatchQueue.main.async { () -> Void in
-                guard let data = data, error == nil else { return }
-                
+                guard let data = data, error == nil else {
+                    if let errorCode = error as NSError?, errorCode.code != DOWNLOAD_CANCELLED_CODE {
+                        item.imageDownloaded = true
+                        item.imageThumbnail = UIImage(named: "ItemNotAvailable")
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: item)
+                    }
+                    return
+                }
                 item.imageThumbnail = UIImage(data: data)!
                 item.imageDownloaded = true
-                
                 NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: item)
             }
         }).resume()
-        
     }
 	
     // MARK: - Stop tasks
@@ -220,7 +212,7 @@ class DownloadManager {
      */
 	func stopTasks() {
 		URLSession.shared.getTasksWithCompletionHandler { (dataTasks, uploadTasks, downloadTasks) -> Void in
-			for task in  dataTasks {
+			for task in dataTasks {
 				task.cancel()
 			}
 		}

@@ -6,7 +6,6 @@
 //  Copyright © 2016 Javi Castillo Risco. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import CoreData
 
@@ -94,8 +93,12 @@ class EventsFactory {
         var events = [Event]()
         
         for currentObject in objects {
-            let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
-            let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
+            var thumbnail: String?
+            if let thumbnailItem = currentObject["thumbnail"] as? [String: String],
+                let path = thumbnailItem["path"],
+                let extensionImage = thumbnailItem["extension"] {
+                thumbnail = "\(path).\(extensionImage)"
+            }
             var newEventStart = Date()
             var newEventEnd = Date()
             if let _ = currentObject["start"] as? String {
@@ -105,15 +108,15 @@ class EventsFactory {
                 newEventEnd = Constants.convertDateFormater((currentObject["end"] as? String)!, format: "yyyy-MM-dd HH:mm:ss")
             }
             let newEvent = Event(id: Int64(currentObject["id"] as! Int),
-                                 thumbnail: "\(path).\(extensionImage)",
-                mainText: (currentObject["title"] as? String)!,
-                descriptionText: currentObject["description"] as? String ?? "",
-                descriptionEvent: currentObject["description"] as? String ?? "",
-                end: newEventEnd,
-                modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
-                resourceURI: (currentObject["resourceURI"] as? String)!,
-                start: newEventStart,
-                title: (currentObject["title"] as? String)!)
+                                 thumbnail: thumbnail,
+                                 mainText: (currentObject["title"] as? String)!,
+                                 descriptionText: currentObject["description"] as? String ?? "",
+                                 descriptionEvent: currentObject["description"] as? String ?? "",
+                                 end: newEventEnd,
+                                 modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
+                                 resourceURI: (currentObject["resourceURI"] as? String)!,
+                                 start: newEventStart,
+                                 title: (currentObject["title"] as? String)!)
             DownloadManager.downloadImage(newEvent)
             events.append(newEvent)
         }

@@ -41,6 +41,10 @@ class FirstMasterViewController: UITableViewController {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let viewController = segue.destination as! DetailedMasterViewController
                 viewController.category = Constants.TypeData.getValue(indexPath.row)
+                let detailedMasterInteractor = DetailedMasterInteractorImpl(category: Constants.TypeData.getValue(indexPath.row))
+                let detailedMasterPresenter = DetailedMasterPresenterImpl(interactor: detailedMasterInteractor, delegate: viewController)
+                viewController.presenter = detailedMasterPresenter
+                detailedMasterInteractor.delegate = detailedMasterPresenter
             }
         }
     }

@@ -43,11 +43,11 @@ class SeriesFactory {
      
      - returns: list of series
      */
-    static func getSeriesWithObjects(_ objects:[NSManagedObject]) -> [Serie] {
+    static func getSeriesWithObjects(_ objects: [NSManagedObject]) -> [Serie] {
         var series = [Serie]()
         
         for object in objects {
-            let newSerie = serieWithManagedObject(object as NSManagedObject)
+            let newSerie = serieWithManagedObject(object)
             series.append(newSerie)
         }
         
@@ -61,7 +61,7 @@ class SeriesFactory {
      
      - returns: Register to store with the data of the serie
      */
-    static func managedObjectWithSerie(_ serie:Serie)->NSManagedObject {
+    static func managedObjectWithSerie(_ serie: Serie) -> NSManagedObject {
         
         //We need the managedContext
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -94,24 +94,28 @@ class SeriesFactory {
      
      - returns: array of series
      */
-    static func getSeriesWithArrayDictionaries(_ objects:[[String: Any]])->[Serie] {
+    static func getSeriesWithArrayDictionaries(_ objects: [[String: Any]]) -> [Serie] {
         var series = [Serie]()
         
         for currentObject in objects {
-            let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
-            let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
+            var thumbnail: String?
+            if let thumbnailItem = currentObject["thumbnail"] as? [String: String],
+                let path = thumbnailItem["path"],
+                let extensionImage = thumbnailItem["extension"] {
+                thumbnail = "\(path).\(extensionImage)"
+            }
             let newSerie = Serie(id: Int64(currentObject["id"] as! Int),
-                                 thumbnail: "\(path).\(extensionImage)",
-                mainText: (currentObject["title"] as? String)!,
-                descriptionText: (currentObject["description"] as? String) ?? "",
-                descriptionSerie: (currentObject["description"] as? String) ?? "",
-                startYear: Int64(currentObject["startYear"] as! Int),
-                endYear: Int64(currentObject["endYear"] as! Int),
-                modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
-                rating: (currentObject["rating"] as? String)!,
-                resourceURI: (currentObject["resourceURI"] as? String)!,
-                title: (currentObject["title"] as? String)!,
-                type: (currentObject["type"] as? String)!)
+                                 thumbnail: thumbnail,
+                                 mainText: (currentObject["title"] as? String)!,
+                                 descriptionText: (currentObject["description"] as? String) ?? "",
+                                 descriptionSerie: (currentObject["description"] as? String) ?? "",
+                                 startYear: Int64(currentObject["startYear"] as! Int),
+                                 endYear: Int64(currentObject["endYear"] as! Int),
+                                 modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
+                                 rating: (currentObject["rating"] as? String)!,
+                                 resourceURI: (currentObject["resourceURI"] as? String)!,
+                                 title: (currentObject["title"] as? String)!,
+                                 type: (currentObject["type"] as? String)!)
             
             DownloadManager.downloadImage(newSerie)
             series.append(newSerie)

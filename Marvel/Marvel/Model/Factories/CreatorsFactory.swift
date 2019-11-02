@@ -6,7 +6,6 @@
 //  Copyright © 2016 Javi Castillo Risco. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import CoreData
 
@@ -20,7 +19,7 @@ class CreatorsFactory {
      
      - returns: Creator with the data of the register
      */
-    static func creatorWithManagedObject(_ object:NSManagedObject)->Creator {
+    static func creatorWithManagedObject(_ object: NSManagedObject) -> Creator {
         let creator = Creator(id: Int64((object.value(forKey: "id") as! Int)),
                               thumbnail: (object.value(forKey: "thumbnail") as? String)!,
                               mainText: (object.value(forKey: "fullName") as? String)!,
@@ -42,11 +41,11 @@ class CreatorsFactory {
      
      - returns: list of creators
      */
-    static func getCreatorsWithObjects(_ objects:[NSManagedObject])->[Creator] {
+    static func getCreatorsWithObjects(_ objects: [NSManagedObject]) -> [Creator] {
         var creators = [Creator]()
         
         for object in objects {
-            let newCreator = creatorWithManagedObject(object as NSManagedObject)
+            let newCreator = creatorWithManagedObject(object)
             creators.append(newCreator)
         }
         
@@ -60,14 +59,14 @@ class CreatorsFactory {
      
      - returns: Register to store with the data of the creator
      */
-    static func managedObjectWithCreator(_ creator:Creator)->NSManagedObject {
+    static func managedObjectWithCreator(_ creator: Creator) -> NSManagedObject {
         
         //We need the managedContext
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         //We get the entity for type Character
-        let entity =  NSEntityDescription.entity(forEntityName: "Creator", in:managedContext)
+        let entity =  NSEntityDescription.entity(forEntityName: "Creator", in: managedContext)
         
         let object = NSManagedObject(entity: entity!, insertInto: managedContext)
         
@@ -92,27 +91,31 @@ class CreatorsFactory {
      
      - returns: array of cretors
      */
-    static func getCreatorsWithArrayDictionaries(_ objects:[[String: Any]])->[Creator] {
+    static func getCreatorsWithArrayDictionaries(_ objects: [[String: Any]]) -> [Creator] {
         var creators = [Creator]()
         
         for currentObject in objects {
-            let path = (currentObject["thumbnail"] as! [String : String])["path"]! as String
-            let extensionImage = (currentObject["thumbnail"] as! [String : String])["extension"]! as String
+            var thumbnail: String?
+            if let thumbnailItem = currentObject["thumbnail"] as? [String: String],
+                let path = thumbnailItem["path"],
+                let extensionImage = thumbnailItem["extension"] {
+                thumbnail = "\(path).\(extensionImage)"
+            }
             var modifiedDate = Date()
             if(currentObject["modified"] != nil) {
                 modifiedDate = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
             }
             let newCreator = Creator(id: Int64(currentObject["id"] as! Int),
-                                     thumbnail: "\(path).\(extensionImage)",
-                mainText: (currentObject["fullName"] as? String)!,
-                descriptionText: (currentObject["fullName"] as? String)!,
-                firstName: (currentObject["firstName"] as? String)!,
-                fullName: (currentObject["fullName"] as? String)!,
-                lastName: (currentObject["lastName"] as? String)!,
-                middleName: (currentObject["middleName"] as? String)!,
-                modified: modifiedDate,
-                resourceURI: (currentObject["resourceURI"] as? String)!,
-                suffix: (currentObject["suffix"] as? String)!)
+                                     thumbnail: thumbnail,
+                                     mainText: (currentObject["fullName"] as? String)!,
+                                     descriptionText: (currentObject["fullName"] as? String)!,
+                                     firstName: (currentObject["firstName"] as? String)!,
+                                     fullName: (currentObject["fullName"] as? String)!,
+                                     lastName: (currentObject["lastName"] as? String)!,
+                                     middleName: (currentObject["middleName"] as? String)!,
+                                     modified: modifiedDate,
+                                     resourceURI: (currentObject["resourceURI"] as? String)!,
+                                     suffix: (currentObject["suffix"] as? String)!)
             DownloadManager.downloadImage(newCreator)
             
             creators.append(newCreator)
