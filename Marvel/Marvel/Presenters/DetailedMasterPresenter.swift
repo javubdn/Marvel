@@ -10,6 +10,8 @@ import Foundation
 
 protocol DetailedMasterPresenter {
     func loadData()
+    func updateData()
+    func viewDisappear()
 }
 
 protocol DetailedMasterPresenterOutput {

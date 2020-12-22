@@ -17,7 +17,7 @@ class Creator:ItemMarvel {
     
 	let firstName: String
 	let fullName: String
-	let lastName: String
+	let lastName: String?
 	let middleName: String
 	let modified: Date
 	let resourceURI: String
@@ -29,7 +29,7 @@ class Creator:ItemMarvel {
          descriptionText: String,
          firstName: String,
          fullName: String,
-         lastName: String,
+         lastName: String?,
          middleName: String,
          modified: Date,
          resourceURI: String,

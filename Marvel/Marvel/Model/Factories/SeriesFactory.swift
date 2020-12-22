@@ -64,8 +64,7 @@ class SeriesFactory {
     static func managedObjectWithSerie(_ serie: Serie) -> NSManagedObject {
         
         //We need the managedContext
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
+        let managedContext = StorageManager.sharedInstance.managedObjectContext
         
         //We get the entity for type Character
         let entity =  NSEntityDescription.entity(forEntityName: "Serie", in:managedContext)
@@ -117,7 +116,6 @@ class SeriesFactory {
                                  title: (currentObject["title"] as? String)!,
                                  type: (currentObject["type"] as? String)!)
             
-            DownloadManager.downloadImage(newSerie)
             series.append(newSerie)
         }
         

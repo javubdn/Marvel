@@ -27,18 +27,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9E01E955-B7FE-4DD2-8156-16141418FEBB"
+            uuid = "CD00FAF5-908A-41EA-8B1C-787D40537D73"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Marvel/Controllers/ItemDetailViewController.swift"
-            timestampString = "577470972.0350159"
+            filePath = "Marvel/Model/Factories/StoriesFactory.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1"
-            endingLineNumber = "1"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "getStoriesWithArrayDictionaries(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -20,6 +20,15 @@ class DetailedMasterPresenterImpl: DetailedMasterPresenter {
     func loadData() {
         interactor.loadData()
     }
+
+    func updateData() {
+        interactor.updateData()
+    }
+
+    func viewDisappear() {
+        interactor.stopTasks()
+    }
+
 }
 
 extension DetailedMasterPresenterImpl: DetailedMasterInteractorOutput {

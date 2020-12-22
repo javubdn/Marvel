@@ -17,7 +17,7 @@ class CharactersFactory {
      - parameter object: Register we use to create the character
      - returns: Character with the data of the register
      */
-    static func characterWithManagedObject(_ object:NSManagedObject) -> Character {
+    static func characterWithManagedObject(_ object: NSManagedObject) -> Character {
         let character = Character(id: Int64((object.value(forKey: "id") as! Int)),
                                   thumbnail: (object.value(forKey: "thumbnail") as? String)!,
                                   mainText: (object.value(forKey: "name") as? String)!,
@@ -35,7 +35,7 @@ class CharactersFactory {
      - returns: list of characters
      */
     static func getCharactersWithObjects(_ objects: [NSManagedObject]) -> [Character] {
-        var characters:[Character] = []
+        var characters: [Character] = []
         
         for object in objects {
             let newCharacter = characterWithManagedObject(object as NSManagedObject)
@@ -53,11 +53,10 @@ class CharactersFactory {
     static func managedObjectWithCharacter(_ character: Character) -> NSManagedObject {
         
         //We need the managedContext
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
+        let managedContext = StorageManager.sharedInstance.managedObjectContext
         
         //We get the entity for type Character
-        let entity =  NSEntityDescription.entity(forEntityName: "Character", in:managedContext)
+        let entity =  NSEntityDescription.entity(forEntityName: "Character", in: managedContext)
         
         let object = NSManagedObject(entity: entity!, insertInto: managedContext)
         
@@ -96,7 +95,6 @@ class CharactersFactory {
                                          modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
                                          resourceURI: (currentObject["resourceURI"] as? String)!)
             
-            DownloadManager.downloadImage(newCharacter)
             characters.append(newCharacter)
         }
         

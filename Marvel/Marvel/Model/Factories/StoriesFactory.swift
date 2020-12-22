@@ -45,7 +45,7 @@ class StoriesFactory {
      - returns: list of stories
      */
     static func getStoriesWithObjects(_ objects:[NSManagedObject]) -> [Story] {
-        var stories:[Story] = []
+        var stories: [Story] = []
         
         for object in objects {
             let newStory = storyWithManagedObject(object as NSManagedObject)
@@ -65,8 +65,7 @@ class StoriesFactory {
     static func managedObjectWithStory(_ story: Story) -> NSManagedObject {
         
         //We need the managedContext
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
+        let managedContext = StorageManager.sharedInstance.managedObjectContext
         
         //We get the entity for type Character
         let entity =  NSEntityDescription.entity(forEntityName: "Story", in:managedContext)
@@ -102,17 +101,22 @@ class StoriesFactory {
                 let extensionImage = thumbnailItem["extension"] {
                 thumbnail = "\(path).\(extensionImage)"
             }
+
+            var nameOI = ""
+            if let originalIssue = currentObject["originalIssue"] as? [String: String],
+               let name = originalIssue["name"] {
+                nameOI = name
+            }
             
             let newStory = Story(id: Int64(currentObject["id"] as! Int),
                                  thumbnail: thumbnail,
-                mainText: (currentObject["title"] as? String)!,
-                descriptionText: currentObject["description"] as? String ?? "",
-                descriptionStory: currentObject["description"] as? String ?? "",
-                modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
-                resourceURI: (currentObject["resourceURI"] as? String)!,
-                title: (currentObject["title"] as? String)!,
-                type: (currentObject["type"] as? String)!)
-            DownloadManager.downloadImage(newStory)
+                                 mainText: nameOI,
+                                 descriptionText: currentObject["title"] as? String ?? "",
+                                 descriptionStory: currentObject["title"] as? String ?? "",
+                                 modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
+                                 resourceURI: (currentObject["resourceURI"] as? String)!,
+                                 title: nameOI,
+                                 type: (currentObject["type"] as? String)!)
             stories.append(newStory)
         }
         

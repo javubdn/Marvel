@@ -29,23 +29,21 @@ class DetailedMasterViewController: UITableViewController {
         resultSearchController.searchBar.backgroundColor = UIColor.clear
         self.itemsTableView.tableHeaderView = resultSearchController.searchBar
         definesPresentationContext = true
-        
-        //We prepare the notifications of the view
-        NotificationCenter.default.addObserver(self, selector: #selector(imageDownloaded(_:)), name:NSNotification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateTable(_:)), name:NSNotification.Name(rawValue: Constants.NOTIFICATION_UPDATE_DATA), object: nil)
-        
+
+        presenter.loadData()
 	}
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter.loadData()
+        //We prepare the notifications of the view
+        NotificationCenter.default.addObserver(self, selector: #selector(imageDownloaded(_:)), name:NSNotification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: nil)
+        presenter.updateData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 		
-		//We stop the downloads, if there is anything
-		DownloadManager.sharedInstance.stopTasks()
+        presenter.viewDisappear()
 		
         //We delete the notifications
         NotificationCenter.default.removeObserver(self)
@@ -69,42 +67,6 @@ class DetailedMasterViewController: UITableViewController {
         return resultSearchController.isActive && !searchBarIsEmpty()
     }
     
-    // MARK: - Notifications
-    
-    /// This method updates the table with the data obtained in the request to Marvel's Api and it stores this data in the database
-    ///
-    /// - Parameter notification: notification
-    @objc func updateTable(_ notification: Notification) {
-		
-		//We get the items from the notification
-        guard let chunkResults = notification.object as? [[String: Any]] else {
-            return
-        }
-
-        var itemsDownloaded: [ItemMarvel]
-		//We store the items
-        switch self.category {
-        case .characters:
-            itemsDownloaded = CharactersFactory.getCharactersWithArrayDictionaries(chunkResults)
-        case .comics:
-            itemsDownloaded = ComicsFactory.getComicsWithArrayDictionaries(chunkResults)
-        case .creators:
-            itemsDownloaded = CreatorsFactory.getCreatorsWithArrayDictionaries(chunkResults)
-        case .events:
-            itemsDownloaded = EventsFactory.getEventsWithArrayDictionaries(chunkResults)
-        case .series:
-            itemsDownloaded = SeriesFactory.getSeriesWithArrayDictionaries(chunkResults)
-        case .stories:
-            itemsDownloaded = StoriesFactory.getStoriesWithArrayDictionaries(chunkResults)
-        case .none:
-            return
-        }
-        StorageManager.sharedInstance.saveListItems(itemsDownloaded, category: self.category)
-        items += itemsDownloaded
-        itemsTableView.reloadData()
-        
-    }
-    
     /// This method is called when we have a new image. We must, in this case, update the table
     ///
     /// - Parameter notification: notification
@@ -112,16 +74,22 @@ class DetailedMasterViewController: UITableViewController {
         guard let item = notification.object as? ItemMarvel else {
             return
         }
-        
-        if self.resultSearchController.isActive {
-            if let rowNumber = filteredItems.index(where: {$0 === item}) {
-                let indexPath = IndexPath(row: rowNumber, section: 0)
-                tableView.reloadRows(at: [indexPath], with: .none)
-            }
-        } else {
-            if let rowNumber = items.index(where: {$0 === item}) {
-                let indexPath = IndexPath(row: rowNumber, section: 0)
-                tableView.reloadRows(at: [indexPath], with: .none)
+
+        DispatchQueue.main.async {
+            if self.resultSearchController.isActive {
+                if let rowNumber = self.filteredItems.index(where: {$0 === item}) {
+                    if rowNumber < self.tableView.numberOfRows(inSection: 0) {
+                        let indexPath = IndexPath(row: rowNumber, section: 0)
+                        self.tableView.reloadRows(at: [indexPath], with: .none)
+                    }
+                }
+            } else {
+                if let rowNumber = self.items.index(where: {$0 === item}) {
+                    if rowNumber < self.tableView.numberOfRows(inSection: 0) {
+                        let indexPath = IndexPath(row: rowNumber, section: 0)
+                        self.tableView.reloadRows(at: [indexPath], with: .none)
+                    }
+                }
             }
         }
         
@@ -181,11 +149,15 @@ class DetailedMasterViewController: UITableViewController {
     
 }
 
+//MARK: - Extensions
+
 extension DetailedMasterViewController: DetailedMasterPresenterOutput {
 
     func updateItems(_ items: [ItemMarvel]) {
-        self.items.removeAll()
-        self.items += items
+        self.items = items
+        DispatchQueue.main.async {
+            self.itemsTableView.reloadData()
+        }
     }
 
 }

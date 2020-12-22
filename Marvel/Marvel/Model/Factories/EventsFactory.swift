@@ -61,8 +61,7 @@ class EventsFactory {
     static func managedObjectWithEvent(_ event:Event)->NSManagedObject {
         
         //We need the managedContext
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
+        let managedContext = StorageManager.sharedInstance.managedObjectContext
         
         //We get the entity for type Character
         let entity =  NSEntityDescription.entity(forEntityName: "Event", in:managedContext)
@@ -117,7 +116,6 @@ class EventsFactory {
                                  resourceURI: (currentObject["resourceURI"] as? String)!,
                                  start: newEventStart,
                                  title: (currentObject["title"] as? String)!)
-            DownloadManager.downloadImage(newEvent)
             events.append(newEvent)
         }
         

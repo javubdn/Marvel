@@ -61,8 +61,7 @@ class ComicsFactory {
     static func managedObjectWithComic(_ comic: Comic) -> NSManagedObject {
         
         //We need the managedContext
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
+        let managedContext = StorageManager.sharedInstance.managedObjectContext
         
         //We get the entity for type Character
         let entity =  NSEntityDescription.entity(forEntityName: "Comic", in:managedContext)
@@ -115,15 +114,13 @@ class ComicsFactory {
                                  format: (currentObject["format"] as? String)!,
                                  isbn: (currentObject["isbn"] as? String)!,
                                  issn: (currentObject["issn"] as? String)!,
-                                 issueNumber: Int64(currentObject["issueNumber"] as! Int),
+                                 issueNumber: Int64(currentObject["issueNumber"] as? Int ?? 0),
                                  modified: Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS"),
                                  pageCount: Int64(currentObject["pageCount"] as! Int),
                                  resourceURI: (currentObject["resourceURI"] as? String)!,
                                  title: (currentObject["title"] as? String)!,
                                  upc: (currentObject["upc"] as? String)!,
                                  variantDescription: (currentObject["variantDescription"] as? String)!)
-            
-            DownloadManager.downloadImage(newComic)
             
             comics.append(newComic)
         }

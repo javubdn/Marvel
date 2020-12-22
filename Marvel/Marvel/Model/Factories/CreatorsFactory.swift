@@ -20,13 +20,14 @@ class CreatorsFactory {
      - returns: Creator with the data of the register
      */
     static func creatorWithManagedObject(_ object: NSManagedObject) -> Creator {
+        
         let creator = Creator(id: Int64((object.value(forKey: "id") as! Int)),
                               thumbnail: (object.value(forKey: "thumbnail") as? String)!,
                               mainText: (object.value(forKey: "fullName") as? String)!,
                               descriptionText: (object.value(forKey: "fullName") as? String)!,
                               firstName: (object.value(forKey: "firstName") as? String)!,
                               fullName: (object.value(forKey: "fullName") as? String)!,
-                              lastName: (object.value(forKey: "lastName") as? String)!,
+                              lastName: (object.value(forKey: "lastName") as? String),
                               middleName: (object.value(forKey: "middleName") as? String)!,
                               modified: (object.value(forKey: "modified") as? Date)!,
                               resourceURI: (object.value(forKey: "resourceURI") as? String)!,
@@ -62,8 +63,7 @@ class CreatorsFactory {
     static func managedObjectWithCreator(_ creator: Creator) -> NSManagedObject {
         
         //We need the managedContext
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
+        let managedContext = StorageManager.sharedInstance.managedObjectContext
         
         //We get the entity for type Character
         let entity =  NSEntityDescription.entity(forEntityName: "Creator", in: managedContext)
@@ -105,19 +105,21 @@ class CreatorsFactory {
             if(currentObject["modified"] != nil) {
                 modifiedDate = Constants.convertDateFormater((currentObject["modified"] as? String)!, format: "yyyy-MM-dd'T'HH:mm:ss-SSSS")
             }
+            var lastName: String?
+            if let lastNameItem = currentObject["lastName"] as? String {
+                lastName = lastNameItem
+            }
             let newCreator = Creator(id: Int64(currentObject["id"] as! Int),
                                      thumbnail: thumbnail,
                                      mainText: (currentObject["fullName"] as? String)!,
                                      descriptionText: (currentObject["fullName"] as? String)!,
                                      firstName: (currentObject["firstName"] as? String)!,
                                      fullName: (currentObject["fullName"] as? String)!,
-                                     lastName: (currentObject["lastName"] as? String)!,
+                                     lastName: lastName,
                                      middleName: (currentObject["middleName"] as? String)!,
                                      modified: modifiedDate,
                                      resourceURI: (currentObject["resourceURI"] as? String)!,
                                      suffix: (currentObject["suffix"] as? String)!)
-            DownloadManager.downloadImage(newCreator)
-            
             creators.append(newCreator)
         }
         

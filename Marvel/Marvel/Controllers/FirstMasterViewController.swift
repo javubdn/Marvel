@@ -41,7 +41,9 @@ class FirstMasterViewController: UITableViewController {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let viewController = segue.destination as! DetailedMasterViewController
                 viewController.category = Constants.TypeData.getValue(indexPath.row)
-                let detailedMasterInteractor = DetailedMasterInteractorImpl(category: Constants.TypeData.getValue(indexPath.row))
+                let downloadManager = DownloadManagerImpl()
+                let detailedMasterInteractor = DetailedMasterInteractorImpl(downloadManager: downloadManager, category: Constants.TypeData.getValue(indexPath.row))
+                downloadManager.delegate = detailedMasterInteractor
                 let detailedMasterPresenter = DetailedMasterPresenterImpl(interactor: detailedMasterInteractor, delegate: viewController)
                 viewController.presenter = detailedMasterPresenter
                 detailedMasterInteractor.delegate = detailedMasterPresenter

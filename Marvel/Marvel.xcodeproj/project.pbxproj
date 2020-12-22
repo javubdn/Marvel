@@ -26,9 +26,10 @@
 		BCB210801C7F597800F864F8 /* EventsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB2107F1C7F597800F864F8 /* EventsFactory.swift */; };
 		BCB210821C7F5A1B00F864F8 /* SeriesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB210811C7F5A1B00F864F8 /* SeriesFactory.swift */; };
 		BCB210841C7F5AE800F864F8 /* StoriesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB210831C7F5AE800F864F8 /* StoriesFactory.swift */; };
+		BCB91257258D1D16009D44BA /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB91256258D1D16009D44BA /* DownloadManager.swift */; };
 		BCD1D725236DA6FE004E69D8 /* DetailedMasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1D723236DA6FE004E69D8 /* DetailedMasterViewController.swift */; };
 		BCD1D726236DA6FE004E69D8 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1D724236DA6FE004E69D8 /* ItemDetailViewController.swift */; };
-		BCD1D729236DA70F004E69D8 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1D727236DA70F004E69D8 /* DownloadManager.swift */; };
+		BCD1D729236DA70F004E69D8 /* DownloadManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1D727236DA70F004E69D8 /* DownloadManagerImpl.swift */; };
 		BCD1D72A236DA70F004E69D8 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1D728236DA70F004E69D8 /* StorageManager.swift */; };
 		BCD1D72C236DA749004E69D8 /* Documentation.txt in Resources */ = {isa = PBXBuildFile; fileRef = BCD1D72B236DA749004E69D8 /* Documentation.txt */; };
 		BCD1D72F236DA792004E69D8 /* DetailedMasterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1D72E236DA792004E69D8 /* DetailedMasterPresenter.swift */; };
@@ -93,9 +94,10 @@
 		BCB2107F1C7F597800F864F8 /* EventsFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventsFactory.swift; path = Model/Factories/EventsFactory.swift; sourceTree = "<group>"; };
 		BCB210811C7F5A1B00F864F8 /* SeriesFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SeriesFactory.swift; path = Model/Factories/SeriesFactory.swift; sourceTree = "<group>"; };
 		BCB210831C7F5AE800F864F8 /* StoriesFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoriesFactory.swift; path = Model/Factories/StoriesFactory.swift; sourceTree = "<group>"; };
+		BCB91256258D1D16009D44BA /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		BCD1D723236DA6FE004E69D8 /* DetailedMasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedMasterViewController.swift; sourceTree = "<group>"; };
 		BCD1D724236DA6FE004E69D8 /* ItemDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
-		BCD1D727236DA70F004E69D8 /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		BCD1D727236DA70F004E69D8 /* DownloadManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManagerImpl.swift; sourceTree = "<group>"; };
 		BCD1D728236DA70F004E69D8 /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		BCD1D72B236DA749004E69D8 /* Documentation.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Documentation.txt; sourceTree = "<group>"; };
 		BCD1D72E236DA792004E69D8 /* DetailedMasterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedMasterPresenter.swift; sourceTree = "<group>"; };
@@ -189,7 +191,8 @@
 		BC6D07001C78ECA4005D2E2A /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				BCD1D727236DA70F004E69D8 /* DownloadManager.swift */,
+				BCB91256258D1D16009D44BA /* DownloadManager.swift */,
+				BCD1D727236DA70F004E69D8 /* DownloadManagerImpl.swift */,
 				BCD1D728236DA70F004E69D8 /* StorageManager.swift */,
 			);
 			path = Managers;
@@ -370,6 +373,7 @@
 				TargetAttributes = {
 					BCDA90F51C78CDC8001AF2F1 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = K7JYSQBF7B;
 						LastSwiftMigration = 0810;
 					};
 					BCDA910B1C78CDC8001AF2F1 = {
@@ -440,7 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				593C343D1C7B6AE400F1BF20 /* Character.swift in Sources */,
-				BCD1D729236DA70F004E69D8 /* DownloadManager.swift in Sources */,
+				BCD1D729236DA70F004E69D8 /* DownloadManagerImpl.swift in Sources */,
 				BCDA90FC1C78CDC8001AF2F1 /* FirstMasterViewController.swift in Sources */,
 				BCD1D731236DA7BF004E69D8 /* DetailedMasterPresenterImpl.swift in Sources */,
 				BCB2107C1C7F57C500F864F8 /* ComicsFactory.swift in Sources */,
@@ -454,6 +458,7 @@
 				BCD1D734236DAB93004E69D8 /* DetailedMasterInteractor.swift in Sources */,
 				BCB210841C7F5AE800F864F8 /* StoriesFactory.swift in Sources */,
 				BCD1D736236DABA0004E69D8 /* DetailedMasterInteractorImpl.swift in Sources */,
+				BCB91257258D1D16009D44BA /* DownloadManager.swift in Sources */,
 				BCD1D726236DA6FE004E69D8 /* ItemDetailViewController.swift in Sources */,
 				BC94F5791CA6A85F0033D36E /* ItemMarvel.swift in Sources */,
 				BCD1D72F236DA792004E69D8 /* DetailedMasterPresenter.swift in Sources */,
@@ -605,6 +610,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = K7JYSQBF7B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Marvel/Frameworks",
@@ -623,6 +629,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = K7JYSQBF7B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Marvel/Frameworks",
@@ -645,7 +652,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jcr.MarvelTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Marvel.app/Marvel";
 			};
 			name = Debug;
@@ -658,7 +665,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jcr.MarvelTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Marvel.app/Marvel";
 			};
 			name = Release;
@@ -670,7 +677,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jcr.MarvelUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = Marvel;
 				USES_XCTRUNNER = YES;
 			};
@@ -683,7 +690,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jcr.MarvelUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = Marvel;
 				USES_XCTRUNNER = YES;
 			};

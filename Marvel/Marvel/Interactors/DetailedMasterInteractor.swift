@@ -9,8 +9,9 @@
 import Foundation
 
 protocol DetailedMasterInteractor {
-    var category: Constants.TypeData {get set}
     func loadData()
+    func updateData()
+    func stopTasks()
 }
 
 protocol DetailedMasterInteractorOutput {
