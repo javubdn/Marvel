@@ -16,4 +16,5 @@ protocol DetailedMasterInteractor {
 
 protocol DetailedMasterInteractorOutput {
     func updateItems(_ items: [ItemMarvel])
+    func imageDownloaded(_ item: ItemMarvel)
 }

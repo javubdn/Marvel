@@ -61,7 +61,11 @@ extension DetailedMasterInteractorImpl {
 
 extension DetailedMasterInteractorImpl: DownloadManagerDelegate {
 
-    func infoDownloaded(info: [String : Any]) {
+    func imageDownloaded(_ item: ItemMarvel) {
+        delegate.imageDownloaded(item)
+    }
+
+    func infoDownloaded(info: [String: Any]) {
         if let total = info["total"] as? CLong, numberItems != total {
             numberItems = total
             StorageManager.sharedInstance.updateNumberItems(category, numItems: numberItems)

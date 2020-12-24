@@ -16,4 +16,5 @@ protocol DetailedMasterPresenter {
 
 protocol DetailedMasterPresenterOutput {
     func updateItems(_ items: [ItemMarvel])
+    func imageDownloaded(_ item: ItemMarvel)
 }

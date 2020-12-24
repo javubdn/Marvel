@@ -12,6 +12,7 @@ import CryptoSwift
 
 protocol DownloadManagerDelegate {
     func infoDownloaded(info: [String: Any])
+    func imageDownloaded(_ item: ItemMarvel)
 }
 
 class DownloadManagerImpl: DownloadManager {
@@ -147,8 +148,8 @@ class DownloadManagerImpl: DownloadManager {
             let url = URL(string: thumbnail) else {
                 item.imageDownloaded = true
                 item.imageThumbnail = UIImage(named: "ItemNotAvailable")
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: item)
-                return
+            delegate?.imageDownloaded(item)
+            return
         }
         
         URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
@@ -159,13 +160,13 @@ class DownloadManagerImpl: DownloadManager {
                     if let errorCode = error as NSError?, errorCode.code != self.DOWNLOAD_CANCELLED_CODE {
                         item.imageDownloaded = true
                         item.imageThumbnail = UIImage(named: "ItemNotAvailable")
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: item)
+                        self.delegate?.imageDownloaded(item)
                     }
                     return
                 }
                 item.imageThumbnail = image
                 item.imageDownloaded = true
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: item)
+                self.delegate?.imageDownloaded(item)
             }
         }).resume()
     }

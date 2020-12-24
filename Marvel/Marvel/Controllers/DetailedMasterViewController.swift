@@ -35,18 +35,12 @@ class DetailedMasterViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //We prepare the notifications of the view
-        NotificationCenter.default.addObserver(self, selector: #selector(imageDownloaded(_:)), name:NSNotification.Name(rawValue: Constants.NOTIFICATION_IMAGE_DOWNLOADED), object: nil)
         presenter.updateData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-		
         presenter.viewDisappear()
-		
-        //We delete the notifications
-        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Private methods
@@ -65,34 +59,6 @@ class DetailedMasterViewController: UITableViewController {
     
     func isFiltering() -> Bool {
         return resultSearchController.isActive && !searchBarIsEmpty()
-    }
-    
-    /// This method is called when we have a new image. We must, in this case, update the table
-    ///
-    /// - Parameter notification: notification
-    @objc func imageDownloaded(_ notification: Notification) {
-        guard let item = notification.object as? ItemMarvel else {
-            return
-        }
-
-        DispatchQueue.main.async {
-            if self.resultSearchController.isActive {
-                if let rowNumber = self.filteredItems.index(where: {$0 === item}) {
-                    if rowNumber < self.tableView.numberOfRows(inSection: 0) {
-                        let indexPath = IndexPath(row: rowNumber, section: 0)
-                        self.tableView.reloadRows(at: [indexPath], with: .none)
-                    }
-                }
-            } else {
-                if let rowNumber = self.items.index(where: {$0 === item}) {
-                    if rowNumber < self.tableView.numberOfRows(inSection: 0) {
-                        let indexPath = IndexPath(row: rowNumber, section: 0)
-                        self.tableView.reloadRows(at: [indexPath], with: .none)
-                    }
-                }
-            }
-        }
-        
     }
     
     // MARK: - Table View
@@ -152,6 +118,26 @@ class DetailedMasterViewController: UITableViewController {
 //MARK: - Extensions
 
 extension DetailedMasterViewController: DetailedMasterPresenterOutput {
+
+    func imageDownloaded(_ item: ItemMarvel) {
+        DispatchQueue.main.async {
+            if self.resultSearchController.isActive {
+                if let rowNumber = self.filteredItems.index(where: {$0 === item}) {
+                    if rowNumber < self.tableView.numberOfRows(inSection: 0) {
+                        let indexPath = IndexPath(row: rowNumber, section: 0)
+                        self.tableView.reloadRows(at: [indexPath], with: .none)
+                    }
+                }
+            } else {
+                if let rowNumber = self.items.index(where: {$0 === item}) {
+                    if rowNumber < self.tableView.numberOfRows(inSection: 0) {
+                        let indexPath = IndexPath(row: rowNumber, section: 0)
+                        self.tableView.reloadRows(at: [indexPath], with: .none)
+                    }
+                }
+            }
+        }
+    }
 
     func updateItems(_ items: [ItemMarvel]) {
         self.items = items

@@ -32,7 +32,11 @@ class DetailedMasterPresenterImpl: DetailedMasterPresenter {
 }
 
 extension DetailedMasterPresenterImpl: DetailedMasterInteractorOutput {
-    
+
+    func imageDownloaded(_ item: ItemMarvel) {
+        delegate.imageDownloaded(item)
+    }
+
     func updateItems(_ items: [ItemMarvel]) {
         delegate.updateItems(items)
     }
