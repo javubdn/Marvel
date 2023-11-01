@@ -50,7 +50,6 @@
          </TestableReference>
       </Testables>
       <MacroExpansion>
-         <BuildableReference
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
