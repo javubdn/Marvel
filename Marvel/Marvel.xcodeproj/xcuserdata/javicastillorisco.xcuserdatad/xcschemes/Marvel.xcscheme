@@ -51,7 +51,6 @@
       </Testables>
       <MacroExpansion>
          <BuildableReference
-            BuildableName = "Marvel.app"
             BlueprintName = "Marvel"
             ReferencedContainer = "container:Marvel.xcodeproj">
          </BuildableReference>
