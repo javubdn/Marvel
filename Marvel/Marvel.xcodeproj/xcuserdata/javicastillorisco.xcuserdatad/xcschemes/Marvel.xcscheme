@@ -51,7 +51,6 @@
       </Testables>
       <MacroExpansion>
          <BuildableReference
-            ReferencedContainer = "container:Marvel.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
