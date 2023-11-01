@@ -81,7 +81,6 @@
             ReferencedContainer = "container:Marvel.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
