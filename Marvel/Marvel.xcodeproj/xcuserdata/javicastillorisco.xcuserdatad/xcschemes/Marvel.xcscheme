@@ -29,6 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCDA90F51C78CDC8001AF2F1"
+            BuildableName = "Marvel.app"
       <Testables>
          <TestableReference
             skipped = "NO">
