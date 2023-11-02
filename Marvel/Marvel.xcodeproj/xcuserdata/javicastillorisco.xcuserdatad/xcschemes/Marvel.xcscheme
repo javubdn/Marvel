@@ -49,7 +49,6 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
