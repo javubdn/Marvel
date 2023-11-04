@@ -35,6 +35,7 @@
             BlueprintName = "Marvel"
             ReferencedContainer = "container:Marvel.xcodeproj">
          </BuildableReference>
+      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO">
