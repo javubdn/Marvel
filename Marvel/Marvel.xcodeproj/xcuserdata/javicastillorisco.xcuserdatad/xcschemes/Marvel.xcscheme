@@ -31,6 +31,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCDA90F51C78CDC8001AF2F1"
             BuildableName = "Marvel.app"
+            BlueprintName = "Marvel"
+         </BuildableReference>
       <Testables>
          <TestableReference
             skipped = "NO">
