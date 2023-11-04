@@ -15,7 +15,6 @@
 		593C34431C7B6EBF00F1BF20 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593C34421C7B6EBF00F1BF20 /* Event.swift */; };
 		593C34471C7B704600F1BF20 /* Serie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593C34461C7B704600F1BF20 /* Serie.swift */; };
 		593C34491C7B70F500F1BF20 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593C34481C7B70F500F1BF20 /* Story.swift */; };
-		BC6AC6B22261B5C50013D0F1 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */; };
 		BC6AC6B32261BB280013D0F1 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */; };
 		BC6AC6B42261BB280013D0F1 /* CryptoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC94F5791CA6A85F0033D36E /* ItemMarvel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC94F5781CA6A85F0033D36E /* ItemMarvel.swift */; };
