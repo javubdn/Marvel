@@ -82,7 +82,6 @@
 		593C34421C7B6EBF00F1BF20 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Event.swift; path = Model/Entities/Event.swift; sourceTree = "<group>"; };
 		593C34461C7B704600F1BF20 /* Serie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Serie.swift; path = Model/Entities/Serie.swift; sourceTree = "<group>"; };
 		593C34481C7B70F500F1BF20 /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Story.swift; path = Model/Entities/Story.swift; sourceTree = "<group>"; };
-		BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Marvel/Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		BC94F5781CA6A85F0033D36E /* ItemMarvel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemMarvel.swift; path = Model/Entities/ItemMarvel.swift; sourceTree = "<group>"; };
 		BCAAE2361C7A116300B327DB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Utils/Constants.swift; sourceTree = "<group>"; };
 		BCB210791C7F567200F864F8 /* CharactersFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CharactersFactory.swift; path = Model/Factories/CharactersFactory.swift; sourceTree = "<group>"; };
