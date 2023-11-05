@@ -40,6 +40,7 @@
 		BCDA91061C78CDC8001AF2F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCDA91041C78CDC8001AF2F1 /* LaunchScreen.storyboard */; };
 		BCDA91111C78CDC8001AF2F1 /* MarvelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA91101C78CDC8001AF2F1 /* MarvelTests.swift */; };
 		BCDA911C1C78CDC8001AF2F1 /* MarvelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA911B1C78CDC8001AF2F1 /* MarvelUITests.swift */; };
+		BCF2092F2AF2E04600371A0D /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BCF2092E2AF2E04600371A0D /* CryptoSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
