@@ -315,6 +315,7 @@
 			dependencies = (
 			);
 			name = Marvel;
+			packageProductDependencies = (
 				BCF2092E2AF2E04600371A0D /* CryptoSwift */,
 			productName = Marvel;
 			productReference = BCDA90F61C78CDC8001AF2F1 /* Marvel.app */;
