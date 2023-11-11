@@ -395,6 +395,7 @@
 				Base,
 			);
 			mainGroup = BCDA90ED1C78CDC8001AF2F1;
+			packageReferences = (
 				BCF2092D2AF2E04600371A0D /* XCRemoteSwiftPackageReference "CryptoSwift" */,
 			productRefGroup = BCDA90F71C78CDC8001AF2F1 /* Products */;
 			projectDirPath = "";
