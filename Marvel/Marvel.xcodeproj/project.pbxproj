@@ -168,7 +168,6 @@
 		BC6AC6B02261B5C50013D0F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BC6AC6B12261B5C50013D0F1 /* CryptoSwift.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
