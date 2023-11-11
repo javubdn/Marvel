@@ -617,7 +617,6 @@
 					"$(PROJECT_DIR)/Marvel/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Marvel/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jcr.Marvel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
