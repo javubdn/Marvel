@@ -641,6 +641,7 @@
 				INFOPLIST_FILE = Marvel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 					"$(inherited)",
+					"@executable_path/Frameworks",
 				PRODUCT_BUNDLE_IDENTIFIER = com.jcr.Marvel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
