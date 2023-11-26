@@ -707,6 +707,7 @@
 				INFOPLIST_FILE = MarvelUITests/Info.plist;
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				PRODUCT_BUNDLE_IDENTIFIER = com.jcr.MarvelUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
