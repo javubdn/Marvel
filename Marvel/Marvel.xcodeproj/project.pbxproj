@@ -768,6 +768,7 @@
 				minimumVersion = 1.8.0;
 			};
 		};
+/* End XCRemoteSwiftPackageReference section */
 /* Begin XCVersionGroup section */
 		593C34131C7B214400F1BF20 /* Marvel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
