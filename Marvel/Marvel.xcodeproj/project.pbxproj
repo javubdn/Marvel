@@ -759,6 +759,7 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
 		BCF2092D2AF2E04600371A0D /* XCRemoteSwiftPackageReference "CryptoSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/krzyzanowskim/CryptoSwift";
