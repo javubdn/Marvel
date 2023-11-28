@@ -772,6 +772,7 @@
 
 			isa = XCSwiftPackageProductDependency;
 			package = BCF2092D2AF2E04600371A0D /* XCRemoteSwiftPackageReference "CryptoSwift" */;
+			productName = CryptoSwift;
 /* Begin XCVersionGroup section */
 		593C34131C7B214400F1BF20 /* Marvel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
