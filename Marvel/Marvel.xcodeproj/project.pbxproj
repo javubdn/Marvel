@@ -770,6 +770,7 @@
 		};
 /* End XCRemoteSwiftPackageReference section */
 
+		BCF2092E2AF2E04600371A0D /* CryptoSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BCF2092D2AF2E04600371A0D /* XCRemoteSwiftPackageReference "CryptoSwift" */;
 			productName = CryptoSwift;
