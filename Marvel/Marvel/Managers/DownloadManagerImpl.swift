@@ -107,7 +107,6 @@ class DownloadManagerImpl: DownloadManager {
         let task = URLSession.shared.dataTask(with: currentUrl, completionHandler: { [self] data, response, error in
             if error == nil {
                 guard let httpUrlResponse = response as? HTTPURLResponse else {
-                    return
                 }
 				let statusCode = httpUrlResponse.statusCode
 				switch statusCode {
