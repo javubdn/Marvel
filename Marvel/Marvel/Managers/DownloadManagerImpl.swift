@@ -56,7 +56,6 @@ class DownloadManagerImpl: DownloadManager {
         let timeStamp = Int(Date().timeIntervalSinceReferenceDate)
         let hashBase = "\(timeStamp)\(privateAPIKey)\(publicAPIKey)"
         let hash = hashBase.md5()
-        
         var query = ""                                      //This query contains the data needed for the request to Marvel API
         query += "ts=\(timeStamp)"                          //We add the timestamp
         query += "&hash=\(hash)"                            //We add the md5 hash for the validation of the user
