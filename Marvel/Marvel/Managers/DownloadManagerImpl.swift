@@ -109,7 +109,6 @@ class DownloadManagerImpl: DownloadManager {
 				let statusCode = httpUrlResponse.statusCode
 				switch statusCode {
                 case LIMIT_RATE_EXCEDED_CODE:
-                    //TODO: We should give a message to the user indicating that the maximum of requests has been achieved
 					return;
 				default:
 					break;
