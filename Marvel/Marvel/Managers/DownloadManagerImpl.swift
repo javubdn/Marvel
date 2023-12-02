@@ -108,7 +108,6 @@ class DownloadManagerImpl: DownloadManager {
             if error == nil {
 				switch statusCode {
 				default:
-					break;
 				}
 				do {
                     guard let data = data,
