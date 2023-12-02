@@ -108,7 +108,6 @@ class DownloadManagerImpl: DownloadManager {
             if error == nil {
 				switch statusCode {
                 case LIMIT_RATE_EXCEDED_CODE:
-					return;
 				default:
 					break;
 				}
