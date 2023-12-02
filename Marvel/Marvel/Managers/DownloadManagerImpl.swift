@@ -107,7 +107,6 @@ class DownloadManagerImpl: DownloadManager {
         let task = URLSession.shared.dataTask(with: currentUrl, completionHandler: { [self] data, response, error in
             if error == nil {
 				switch statusCode {
-                case LIMIT_RATE_EXCEDED_CODE:
 				default:
 					break;
 				}
