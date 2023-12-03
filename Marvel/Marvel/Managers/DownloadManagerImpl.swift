@@ -108,7 +108,6 @@ class DownloadManagerImpl: DownloadManager {
             if error == nil {
 				do {
                     guard let data = data,
-                        let info = json["data"] as? [String: Any] else {
                     }
                     delegate?.infoDownloaded(info: info)
                 } catch let parseError {
