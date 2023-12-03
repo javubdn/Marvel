@@ -107,7 +107,6 @@ class DownloadManagerImpl: DownloadManager {
         let task = URLSession.shared.dataTask(with: currentUrl, completionHandler: { [self] data, response, error in
             if error == nil {
 				do {
-                    guard let data = data,
                     }
                     delegate?.infoDownloaded(info: info)
                 } catch let parseError {
