@@ -108,7 +108,6 @@ class DownloadManagerImpl: DownloadManager {
             if error == nil {
 				do {
                 } catch let parseError {
-                    print(parseError)
                 }
             }
         })
