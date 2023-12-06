@@ -106,6 +106,7 @@ class DownloadManagerImpl: DownloadManager {
         //Once we have the url with all the data we need, we make the request
         let task = URLSession.shared.dataTask(with: currentUrl, completionHandler: { [self] data, response, error in
             guard error == nil else { return }
+            guard let httpUrlResponse = response as? HTTPURLResponse else { return }
                 }
             }
         })
