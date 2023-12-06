@@ -107,6 +107,7 @@ class DownloadManagerImpl: DownloadManager {
         let task = URLSession.shared.dataTask(with: currentUrl, completionHandler: { [self] data, response, error in
             guard error == nil else { return }
             guard let httpUrlResponse = response as? HTTPURLResponse else { return }
+                //TODO: We should give a message to the user indicating that the maximum of requests has been achieved
                 }
             }
         })
