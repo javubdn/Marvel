@@ -110,6 +110,7 @@ class DownloadManagerImpl: DownloadManager {
             guard httpUrlResponse.statusCode != LIMIT_RATE_EXCEDED_CODE else {
                 //TODO: We should give a message to the user indicating that the maximum of requests has been achieved
                 return
+            }
                 }
             }
         })
