@@ -119,6 +119,7 @@ class DownloadManagerImpl: DownloadManager {
                         return
                 }
                 delegate?.infoDownloaded(info: info)
+            } catch let parseError {
             }
         })
         task.resume()
