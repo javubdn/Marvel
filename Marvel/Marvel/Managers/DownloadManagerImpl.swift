@@ -111,6 +111,7 @@ class DownloadManagerImpl: DownloadManager {
                 //TODO: We should give a message to the user indicating that the maximum of requests has been achieved
                 return
             }
+                guard let data = data,
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary,
                 }
             }
