@@ -117,6 +117,7 @@ class DownloadManagerImpl: DownloadManager {
                         print("Error could not parse JSON")
                         return
                 }
+                delegate?.infoDownloaded(info: info)
             }
         })
         task.resume()
