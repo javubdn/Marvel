@@ -120,6 +120,7 @@ class DownloadManagerImpl: DownloadManager {
                 }
                 delegate?.infoDownloaded(info: info)
             } catch let parseError {
+                print(parseError)
             }
         })
         task.resume()
