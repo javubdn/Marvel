@@ -115,6 +115,7 @@ class DownloadManagerImpl: DownloadManager {
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary,
                     let info = json["data"] as? [String: Any] else {
                         print("Error could not parse JSON")
+                        return
                 }
             }
         })
