@@ -113,6 +113,7 @@ class DownloadManagerImpl: DownloadManager {
             }
                 guard let data = data,
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary,
+                    let info = json["data"] as? [String: Any] else {
                 }
             }
         })
